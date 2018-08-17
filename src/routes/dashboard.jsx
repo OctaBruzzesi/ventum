@@ -7,6 +7,7 @@ import BubbleChart from "@material-ui/icons/BubbleChart";
 import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
+import Pool from "@material-ui/icons/Pool";
 // core components/views
 import DashboardPage from "views/Dashboard/Dashboard.jsx";
 import UserProfile from "views/UserProfile/UserProfile.jsx";
@@ -72,6 +73,13 @@ const dashboardRoutes = [
     sidebarName: "Upgrade To PRO",
     navbarName: "Upgrade To PRO",
     icon: Unarchive,
+    component: UpgradeToPro
+  },
+  {
+    path: "/agua",
+    sidebarName: "Agua",
+    navbarName: "Agua",
+    icon: Pool,
     component: UpgradeToPro
   },
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
