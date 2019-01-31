@@ -1,4 +1,5 @@
-import firebase from 'firebase/app';
+import app from 'firebase/app';
+import 'firebase/auth';
 
 const config = {
   apiKey: "AIzaSyCKX749HJrCDvpNvG2kiTFpgt5mDpt4_QY",
@@ -9,12 +10,25 @@ const config = {
   messagingSenderId: "664625376954"
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(config);
+class Firebase {
+  constructor() {
+    app.initializeApp(config);
+
+    this.auth = app.auth();
+  }
+
+  doCreateUserWithEmailAndPassword = (email, password) =>
+    this.auth.createUserWithEmailAndPassword(email, password);
+  
+  doSignInWithEmailAndPassword = (email, password) =>
+    this.auth.signInWithEmailAndPassword(email, password);
+  
+  doSignOut = () => this.auth.signOut();
+
+  doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
+
+  doPasswordUpdate = password =>
+    this.auth.currentUser.updatePassword(password);
 }
 
-const auth = firebase.auth();
-
-export {
-  auth,
-};
+export default Firebase;

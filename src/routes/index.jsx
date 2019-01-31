@@ -1,4 +1,4 @@
-import Login from '../containers/Login/Login';
+import Login from '../views/Auth/Login';
 import Dashboard from 'layouts/Dashboard/Dashboard';
 
 const isLogedIn = localStorage.getItem("login");
