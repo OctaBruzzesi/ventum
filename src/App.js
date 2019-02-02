@@ -1,23 +1,22 @@
 import React, { Component } from "react";
-import indexRoutes from "routes/index.jsx";
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
+import Routes from "routes/index.jsx";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch } from "react-router-dom";
+import reducer from './redux/reducer';
 
-const hist = createBrowserHistory();
+const createStoreWithMiddleware = applyMiddleware(thunkMiddleware)(createStore);
+
+export const store = createStoreWithMiddleware(reducer);
 
 class App extends Component {
   render() {
-    console.log(indexRoutes);
     return (
-      <Router history={hist}>
-        <Switch>
-          {indexRoutes.map((props, key) => {
-            return (
-              <Route path={props.path} component={props.component} key={key} />
-            );
-          })}
-        </Switch>
-      </Router>
+      <Provider store={store}>
+        <Routes />
+      </Provider>
     );
   }
 }
