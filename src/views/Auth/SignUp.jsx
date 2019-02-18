@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import withStyles from "@material-ui/core/styles/withStyles";
 import { login } from '../../redux/auth/authActions';
-import Paper from '@material-ui/core/Paper';
 
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -19,16 +17,9 @@ import CardFooter from "components/Card/CardFooter";
 
 import loginStyle from "assets/jss/material-dashboard-react/layouts/loginStyle";
 
-class Login extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props);
-  }
-
-  login() {
-    this.props.login('octa.bruzzesi@gmail.com', 'octa123');
-    // .then(e => console.log(e))
-    // .catch(e => console.log(e));
-    // this.props.history.push('/dashboard');
   }
 
   render() {
@@ -65,20 +56,9 @@ class Login extends Component {
                   </GridContainer>
                 </CardBody>
                 <CardFooter>
-                  <GridContainer spacing={24}>
-                    <GridItem xs={6} sm={6} md={6}>
-                      <Paper className={classes.paper}>
-                      <Button color="primary" onClick={this.login.bind(this)}>
-                        Ingresar
-                      </Button>
-                      </Paper>
-                    </GridItem>
-                    <GridItem xs={6} sm={6} md={6}>
-                      <Paper className={classes.paper}>
-                        <Link to="/signUp">Registrarse</Link>
-                      </Paper>
-                    </GridItem>
-                  </GridContainer>
+                  <Button color="primary" onClick={this.login.bind(this)}>
+                    Ingresar
+                  </Button>
                 </CardFooter>
               </Card>
             </GridItem>
@@ -89,16 +69,15 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
+SignUp.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  login: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (email, pass) => dispatch(login(email, pass))
+    signUp: () => dispatch(login())
   }
 }
 
-export default connect(null, mapDispatchToProps)(withStyles(loginStyle)(Login));
+export default connect(null, mapDispatchToProps)(withStyles(loginStyle)(SignUp));

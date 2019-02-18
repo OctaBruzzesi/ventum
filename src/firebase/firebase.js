@@ -31,4 +31,10 @@ class Firebase {
     this.auth.currentUser.updatePassword(password);
 }
 
+app.initializeApp(config);
+
+const firebaseAuth = app.auth();
+
+export { app, firebaseAuth };
+
 export default Firebase;
