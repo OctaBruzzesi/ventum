@@ -65,18 +65,14 @@ class Login extends Component {
                   </GridContainer>
                 </CardBody>
                 <CardFooter>
-                  <GridContainer spacing={24}>
-                    <GridItem xs={6} sm={6} md={6}>
-                      <Paper className={classes.paper}>
+                  <GridContainer>
+                    <GridItem xs={6}>
                       <Button color="primary" onClick={this.login.bind(this)}>
                         Ingresar
                       </Button>
-                      </Paper>
                     </GridItem>
-                    <GridItem xs={6} sm={6} md={6}>
-                      <Paper className={classes.paper}>
-                        <Link to="/signUp">Registrarse</Link>
-                      </Paper>
+                    <GridItem xs={6}>
+                      <Link to="/signUp"></Link>
                     </GridItem>
                   </GridContainer>
                 </CardFooter>
