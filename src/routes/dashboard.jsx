@@ -27,60 +27,46 @@ const dashboardRoutes = [
     component: DashboardPage
   },
   {
-    path: "/user",
-    sidebarName: "User Profile",
-    navbarName: "Profile",
-    icon: Person,
-    component: UserProfile
-  },
-  {
-    path: "/table",
-    sidebarName: "Table List",
-    navbarName: "Table List",
-    icon: "content_paste",
-    component: TableList
-  },
-  {
-    path: "/typography",
-    sidebarName: "Typography",
-    navbarName: "Typography",
-    icon: LibraryBooks,
-    component: Typography
-  },
-  {
-    path: "/icons",
-    sidebarName: "Icons",
-    navbarName: "Icons",
-    icon: BubbleChart,
-    component: Icons
-  },
-  {
-    path: "/maps",
-    sidebarName: "Maps",
-    navbarName: "Map",
-    icon: LocationOn,
-    component: Maps
-  },
-  {
-    path: "/notifications",
-    sidebarName: "Notifications",
-    navbarName: "Notifications",
-    icon: Notifications,
-    component: NotificationsPage
-  },
-  {
-    path: "/upgrade-to-pro",
-    sidebarName: "Upgrade To PRO",
-    navbarName: "Upgrade To PRO",
-    icon: Unarchive,
-    component: UpgradeToPro
-  },
-  {
     path: "/agua",
     sidebarName: "Agua",
     navbarName: "Agua",
     icon: Pool,
-    component: UpgradeToPro
+    component: TableList
+  },
+  {
+    path: "/environment",
+    sidebarName: "Impacto Ambiental",
+    navbarName: "Impacto Ambiental",
+    icon: "content_paste",
+    component: TableList
+  },
+  {
+    path: "/soil",
+    sidebarName: "Tierra y Suelo",
+    navbarName: "Tierra y Suelo",
+    icon: BubbleChart,
+    component: TableList
+  },
+  {
+    path: "/biodiversity",
+    sidebarName: "Biodiversidad",
+    navbarName: "Biodiversidad",
+    icon: LocationOn,
+    component: Maps
+  },
+  {
+    path: "/climate",
+    sidebarName: "Clima",
+    navbarName: "Clima",
+    icon: Notifications,
+    component: Maps
+  },
+  {
+    path: "/production",
+    sidebarName: "Producción y Consumo Sustentable",
+    navbarName: "Producción y Consumo Sustentable",
+    icon: Unarchive,
+    component: TableList
   },
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];
