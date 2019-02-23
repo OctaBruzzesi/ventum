@@ -56,82 +56,6 @@ class Dashboard extends React.Component {
     return (
       <div>
         <GridContainer>
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="warning" stats icon>
-                <CardIcon color="warning">
-                  <Icon>content_copy</Icon>
-                </CardIcon>
-                <p className={classes.cardCategory}>Used Space</p>
-                <h3 className={classes.cardTitle}>
-                  49/50 <small>GB</small>
-                </h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <Danger>
-                    <Warning />
-                  </Danger>
-                  <a href="#pablo" onClick={e => e.preventDefault()}>
-                    Get more space
-                  </a>
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="success" stats icon>
-                <CardIcon color="success">
-                  <Store />
-                </CardIcon>
-                <p className={classes.cardCategory}>Revenue</p>
-                <h3 className={classes.cardTitle}>$34,245</h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <DateRange />
-                  Last 24 Hours
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="danger" stats icon>
-                <CardIcon color="danger">
-                  <Icon>info_outline</Icon>
-                </CardIcon>
-                <p className={classes.cardCategory}>Fixed Issues</p>
-                <h3 className={classes.cardTitle}>75</h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <LocalOffer />
-                  Tracked from Github
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="info" stats icon>
-                <CardIcon color="info">
-                  <Accessibility />
-                </CardIcon>
-                <p className={classes.cardCategory}>Followers</p>
-                <h3 className={classes.cardTitle}>+245</h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div className={classes.stats}>
-                  <Update />
-                  Just Updated
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-        </GridContainer>
-        <GridContainer>
           <GridItem xs={12} sm={12} md={4}>
             <Card chart>
               <CardHeader color="success">
@@ -144,17 +68,17 @@ class Dashboard extends React.Component {
                 />
               </CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Daily Sales</h4>
+                <h4 className={classes.cardTitle}>Contaminación de Aguas</h4>
                 <p className={classes.cardCategory}>
                   <span className={classes.successText}>
                     <ArrowUpward className={classes.upArrowCardCategory} /> 55%
                   </span>{" "}
-                  increase in today sales.
+                  productos contaminantes
                 </p>
               </CardBody>
               <CardFooter chart>
                 <div className={classes.stats}>
-                  <AccessTime /> updated 4 minutes ago
+                  <AccessTime /> actualizado hace 4 minutos
                 </div>
               </CardFooter>
             </Card>
@@ -172,14 +96,14 @@ class Dashboard extends React.Component {
                 />
               </CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Email Subscriptions</h4>
+                <h4 className={classes.cardTitle}>CO2 en el aire</h4>
                 <p className={classes.cardCategory}>
-                  Last Campaign Performance
+                  De datos muestreados en el 2018
                 </p>
               </CardBody>
               <CardFooter chart>
                 <div className={classes.stats}>
-                  <AccessTime /> campaign sent 2 days ago
+                  <AccessTime /> actualizado hace 2 días
                 </div>
               </CardFooter>
             </Card>
@@ -196,78 +120,37 @@ class Dashboard extends React.Component {
                 />
               </CardHeader>
               <CardBody>
-                <h4 className={classes.cardTitle}>Completed Tasks</h4>
+                <h4 className={classes.cardTitle}>Temperatura anual</h4>
                 <p className={classes.cardCategory}>
-                  Last Campaign Performance
+                  Del 2018
                 </p>
               </CardBody>
               <CardFooter chart>
                 <div className={classes.stats}>
-                  <AccessTime /> campaign sent 2 days ago
+                  <AccessTime /> actualizado hace 5 min
                 </div>
               </CardFooter>
             </Card>
           </GridItem>
         </GridContainer>
         <GridContainer>
-          <GridItem xs={12} sm={12} md={6}>
-            <CustomTabs
-              title="Tasks:"
-              headerColor="primary"
-              tabs={[
-                {
-                  tabName: "Bugs",
-                  tabIcon: BugReport,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[0, 3]}
-                      tasksIndexes={[0, 1, 2, 3]}
-                      tasks={bugs}
-                    />
-                  )
-                },
-                {
-                  tabName: "Website",
-                  tabIcon: Code,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[0]}
-                      tasksIndexes={[0, 1]}
-                      tasks={website}
-                    />
-                  )
-                },
-                {
-                  tabName: "Server",
-                  tabIcon: Cloud,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[1]}
-                      tasksIndexes={[0, 1, 2]}
-                      tasks={server}
-                    />
-                  )
-                }
-              ]}
-            />
-          </GridItem>
-          <GridItem xs={12} sm={12} md={6}>
+          <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="warning">
-                <h4 className={classes.cardTitleWhite}>Employees Stats</h4>
+                <h4 className={classes.cardTitleWhite}>Datos subidos</h4>
                 <p className={classes.cardCategoryWhite}>
-                  New employees on 15th September, 2016
+                  Por Usuarios
                 </p>
               </CardHeader>
               <CardBody>
                 <Table
                   tableHeaderColor="warning"
-                  tableHead={["ID", "Name", "Salary", "Country"]}
+                  tableHead={["ID", "Nombre", "Rol", "Zona", "Fecha"]}
                   tableData={[
-                    ["1", "Dakota Rice", "$36,738", "Niger"],
-                    ["2", "Minerva Hooper", "$23,789", "Curaçao"],
-                    ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
-                    ["4", "Philip Chaney", "$38,735", "Korea, South"]
+                    ["1", "Juan Perez", "Agua", "Mendoza", "11/02/19 15:00 hs"],
+                    ["2", "Minerva Hooper", "Suelo", "Misiones", "15/02/19 16:00 hs"],
+                    ["3", "Sage Rodriguez", "Bosques", "Chaco", "18/02/19 15:00 hs"],
+                    ["4", "Philip Chaney", "Producción y consumo sustentable", "Santa Fe", "19/02/19 11:00 hs"]
                   ]}
                 />
               </CardBody>
