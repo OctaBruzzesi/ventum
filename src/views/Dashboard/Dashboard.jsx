@@ -1,40 +1,30 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 // react plugin for creating charts
-import ChartistGraph from "react-chartist";
+import ChartistGraph from 'react-chartist';
 // @material-ui/core
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from '@material-ui/core/styles/withStyles';
 // @material-ui/icons
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
-import AccessTime from "@material-ui/icons/AccessTime";
+import ArrowUpward from '@material-ui/icons/ArrowUpward';
+import AccessTime from '@material-ui/icons/AccessTime';
 // core components
-import GridItem from "components/Grid/GridItem.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
-import Table from "components/Table/Table.jsx";
-import Card from "components/Card/Card.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
-import CardBody from "components/Card/CardBody.jsx";
-import CardFooter from "components/Card/CardFooter.jsx";
+import GridItem from 'components/Grid/GridItem';
+import GridContainer from 'components/Grid/GridContainer';
+import Table from 'components/Table/Table';
+import Card from 'components/Card/Card';
+import CardHeader from 'components/Card/CardHeader';
+import CardBody from 'components/Card/CardBody';
+import CardFooter from 'components/Card/CardFooter';
 
 import {
   dailySalesChart,
   emailsSubscriptionChart,
-  completedTasksChart
-} from "variables/charts";
+  completedTasksChart,
+} from 'variables/charts';
 
-import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
+import dashboardStyle from 'assets/jss/material-dashboard-react/views/dashboardStyle';
 
-class Dashboard extends React.Component {
-  state = {
-    value: 0
-  };
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
-
-  handleChangeIndex = index => {
-    this.setState({ value: index });
-  };
+class Dashboard extends PureComponent {
   render() {
     const { classes } = this.props;
     return (
@@ -55,14 +45,19 @@ class Dashboard extends React.Component {
                 <h4 className={classes.cardTitle}>Contaminación de Aguas</h4>
                 <p className={classes.cardCategory}>
                   <span className={classes.successText}>
-                    <ArrowUpward className={classes.upArrowCardCategory} /> 55%
-                  </span>{" "}
+                    <ArrowUpward className={classes.upArrowCardCategory} />
+                    {' '}
+                    55%
+                  </span>
+                  {' '}
                   productos contaminantes
                 </p>
               </CardBody>
               <CardFooter chart>
                 <div className={classes.stats}>
-                  <AccessTime /> actualizado hace 4 minutos
+                  <AccessTime />
+                  {' '}
+                  actualizado hace 4 minutos
                 </div>
               </CardFooter>
             </Card>
@@ -87,7 +82,9 @@ class Dashboard extends React.Component {
               </CardBody>
               <CardFooter chart>
                 <div className={classes.stats}>
-                  <AccessTime /> actualizado hace 2 días
+                  <AccessTime />
+                  {' '}
+                  actualizado hace 2 días
                 </div>
               </CardFooter>
             </Card>
@@ -111,7 +108,9 @@ class Dashboard extends React.Component {
               </CardBody>
               <CardFooter chart>
                 <div className={classes.stats}>
-                  <AccessTime /> actualizado hace 5 min
+                  <AccessTime />
+                  {' '}
+                  actualizado hace 5 min
                 </div>
               </CardFooter>
             </Card>
@@ -129,12 +128,12 @@ class Dashboard extends React.Component {
               <CardBody>
                 <Table
                   tableHeaderColor="warning"
-                  tableHead={["ID", "Nombre", "Rol", "Zona", "Fecha"]}
+                  tableHead={['ID', 'Nombre', 'Rol', 'Zona', 'Fecha']}
                   tableData={[
-                    ["1", "Juan Perez", "Agua", "Mendoza", "11/02/19 15:00 hs"],
-                    ["2", "Minerva Hooper", "Suelo", "Misiones", "15/02/19 16:00 hs"],
-                    ["3", "Sage Rodriguez", "Bosques", "Chaco", "18/02/19 15:00 hs"],
-                    ["4", "Philip Chaney", "Producción y consumo sustentable", "Santa Fe", "19/02/19 11:00 hs"]
+                    ['1', 'Juan Perez', 'Agua', 'Mendoza', '11/02/19 15:00 hs'],
+                    ['2', 'Minerva Hooper', 'Suelo', 'Misiones', '15/02/19 16:00 hs'],
+                    ['3', 'Sage Rodriguez', 'Bosques', 'Chaco', '18/02/19 15:00 hs'],
+                    ['4', 'Philip Chaney', 'Producción y consumo sustentable', 'Santa Fe', '19/02/19 11:00 hs'],
                   ]}
                 />
               </CardBody>
@@ -147,7 +146,7 @@ class Dashboard extends React.Component {
 }
 
 Dashboard.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(dashboardStyle)(Dashboard);

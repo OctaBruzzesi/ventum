@@ -12,6 +12,16 @@ module.exports = {
       jsx: true,
     },
   },
+  rules: {
+    'import/no-unresolved': [
+      'error',
+      {
+        ignore: ['src/', 'variables/', 'assets/', 'components/'],
+      },
+    ],
+    'react/forbid-prop-types': 0,
+    'linebreak-style': 0,
+  },
   plugins: ['react'],
-  extends: ['google'],
+  extends: ['airbnb'],
 };
