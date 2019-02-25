@@ -1,16 +1,19 @@
-import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL } from '../types';
+import { AUTH_START, AUTH_SUCCESS, AUTH_ERROR } from '../types';
 import { firebaseAuth } from '../../firebase/firebase';
 import { loadAuth } from '../../utils/storage';
 
 export const login = (email, pass) => (dispatch) => {
+  dispatch(authStart());
+
   firebaseAuth.signInWithEmailAndPassword(email, pass)
   .then(data => {
     localStorage.setItem('auth', 'auth');
     dispatch(authSuccess('auth'));
   })
-  .catch(e =>
-    console.log(e)
-  )
+  .catch(e => {
+    dispatch(authError('Error'))
+    console.log(e);
+  })
 }
 
 export const getAuthFromStorage = () => (dispatch) => {
@@ -20,6 +23,19 @@ export const getAuthFromStorage = () => (dispatch) => {
     dispatch(authSuccess(authData));
   }
 }
+
+const authStart = () => {
+  return {
+    type: AUTH_START
+  }
+};
+
+const authError = (error) => {
+  return {
+    type: AUTH_ERROR,
+    payload: error
+  }
+};
 
 const authSuccess = (payload) => {
   return {

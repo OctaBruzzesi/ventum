@@ -1,12 +1,11 @@
 import {
   AUTH_START,
   AUTH_SUCCESS,
-  AUTH_FAIL,
+  AUTH_ERROR,
   AUTH_LOGOUT
 } from '../types';
 
 const initialState = {
-  started: false,
   loading: false,
   authData: {},
   error: ''
@@ -20,23 +19,20 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case AUTH_START:
       return {
-        started: true,
         loading: true,
         authData: {},
         error: ''
       };
     case AUTH_SUCCESS:
       return {
-        started: true,
         loading: false,
         authData: {
           token: action.payload
         },
         error: ''
       };
-    case AUTH_FAIL:
+    case AUTH_ERROR:
       return {
-        started: true,
         loading: false,
         authData: {},
         error: action.payload

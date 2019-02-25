@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import withStyles from "@material-ui/core/styles/withStyles";
+import { getAuth } from 'redux/auth/authReducer';
 import { login } from '../../redux/auth/authActions';
-import Paper from '@material-ui/core/Paper';
 
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
+import Progress from 'components/Progress/Progress.jsx';
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader";
 import CardBody from "components/Card/CardBody.jsx";
@@ -22,13 +23,39 @@ import loginStyle from "assets/jss/material-dashboard-react/layouts/loginStyle";
 class Login extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      loading: false,
+      user: '',
+      password: ''
+    }
+
+    this.login = this.login.bind(this);
   }
 
   login() {
-    this.props.login('octa.bruzzesi@gmail.com', 'octa123');
-    // .then(e => console.log(e))
-    // .catch(e => console.log(e));
-    // this.props.history.push('/dashboard');
+    const { user, password } = this.state;
+    this.setState({ loading: true });
+    this.props.login(user, password);
+  }
+
+  onChangeText(event, value) {
+    this.setState({ [value]: event.target.value });
+  }
+
+  renderButton() {
+    const { auth } = this.props;
+
+    if (auth.loading) {
+      return (
+        <Progress />
+      );
+    }
+    return (
+      <Button color="primary" onClick={this.login}>
+        Ingresar
+      </Button>
+    )
   }
 
   render() {
@@ -48,8 +75,12 @@ class Login extends Component {
                       <CustomInput
                         labelText="Usuario"
                         id="username"
+                        value={this.state.user}
                         formControlProps={{
                           fullWidth: true
+                        }}
+                        inputProps={{
+                          onChange: event => this.onChangeText(event, 'user')
                         }}
                       />
                     </GridItem>
@@ -57,8 +88,13 @@ class Login extends Component {
                       <CustomInput
                         labelText="Contraseña"
                         id="password"
+                        value={this.state.password}
                         formControlProps={{
                           fullWidth: true
+                        }}
+                        inputProps={{
+                          onChange: event => this.onChangeText(event, 'password'),
+                          type: 'password'
                         }}
                       />
                     </GridItem>
@@ -67,9 +103,7 @@ class Login extends Component {
                 <CardFooter>
                   <GridContainer>
                     <GridItem xs={6}>
-                      <Button color="primary" onClick={this.login.bind(this)}>
-                        Ingresar
-                      </Button>
+                      {this.renderButton()}
                     </GridItem>
                     <GridItem xs={6}>
                       <Link to="/signUp"></Link>
@@ -88,7 +122,14 @@ class Login extends Component {
 Login.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
   login: PropTypes.func.isRequired
+}
+
+const mapStateToProps = (state) => {
+  return {
+    auth: getAuth(state)
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -97,4 +138,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(withStyles(loginStyle)(Login));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(loginStyle)(Login));
