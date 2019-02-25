@@ -10,15 +10,6 @@ import { getAuthFromStorage } from '../redux/auth/authActions';
 
 const hist = createBrowserHistory();
 
-const isLogedIn = localStorage.getItem("login");
-
-const indexRoutes = [
-  isLogedIn ?
-    { path: '/', component: Dashboard }
-    :
-    { path: '/', component: Login }
-];
-
 class Routes extends Component {
   state = {
     authData: {}

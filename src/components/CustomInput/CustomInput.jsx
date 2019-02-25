@@ -18,7 +18,6 @@ function CustomInput({ ...props }) {
     formControlProps,
     labelText,
     id,
-    onChange,
     labelProps,
     inputProps,
     error,
