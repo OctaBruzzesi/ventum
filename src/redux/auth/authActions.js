@@ -2,19 +2,19 @@ import { AUTH_START, AUTH_SUCCESS, AUTH_ERROR } from '../types';
 import { firebaseAuth } from '../../firebase/firebase';
 import { loadAuth } from '../../utils/storage';
 
-export const login = (email, pass) => (dispatch) => {
-  dispatch(authStart());
+const authStart = () => ({
+  type: AUTH_START,
+});
 
-  firebaseAuth.signInWithEmailAndPassword(email, pass)
-  .then(data => {
-    localStorage.setItem('auth', 'auth');
-    dispatch(authSuccess('auth'));
-  })
-  .catch(e => {
-    dispatch(authError('Error'))
-    console.log(e);
-  })
-}
+const authError = error => ({
+  type: AUTH_ERROR,
+  payload: error,
+});
+
+const authSuccess = payload => ({
+  type: AUTH_SUCCESS,
+  payload,
+});
 
 export const getAuthFromStorage = () => (dispatch) => {
   const authData = loadAuth();
@@ -22,24 +22,31 @@ export const getAuthFromStorage = () => (dispatch) => {
   if (authData) {
     dispatch(authSuccess(authData));
   }
-}
-
-const authStart = () => {
-  return {
-    type: AUTH_START
-  }
 };
 
-const authError = (error) => {
-  return {
-    type: AUTH_ERROR,
-    payload: error
-  }
-};
 
-const authSuccess = (payload) => {
-  return {
-    type: AUTH_SUCCESS,
-    payload
-  }
+export const login = (email, pass) => (dispatch) => {
+  dispatch(authStart());
+
+  firebaseAuth.signInWithEmailAndPassword(email, pass)
+    .then((data) => {
+      localStorage.setItem('auth', 'auth');
+      dispatch(authSuccess('auth'));
+    })
+    .catch((e) => {
+      const codeError = e.code;
+      let errorDetail = '';
+
+      switch (codeError) {
+        case 'auth/invalid-email':
+          errorDetail = 'El usuario y/ó contraseña ingresados son incorrectos';
+          break;
+
+        default:
+          errorDetail = 'Error genérico';
+          break;
+      }
+
+      dispatch(authError(errorDetail));
+    });
 };
