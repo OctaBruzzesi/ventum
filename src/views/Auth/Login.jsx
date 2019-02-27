@@ -1,46 +1,45 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import withStyles from "@material-ui/core/styles/withStyles";
+import withStyles from '@material-ui/core/styles/withStyles';
+import InputLabel from '@material-ui/core/InputLabel';
 import { getAuth } from 'redux/auth/authReducer';
+
+import GridItem from 'components/Grid/GridItem';
+import GridContainer from 'components/Grid/GridContainer';
+import CustomInput from 'components/CustomInput/CustomInput';
+import Button from 'components/CustomButtons/Button';
+import Progress from 'components/Progress/Progress';
+import Card from 'components/Card/Card';
+import CardHeader from 'components/Card/CardHeader';
+import CardBody from 'components/Card/CardBody';
+import CardFooter from 'components/Card/CardFooter';
+
+import loginStyle from 'assets/jss/material-dashboard-react/layouts/loginStyle';
 import { login } from '../../redux/auth/authActions';
-
-import GridItem from "components/Grid/GridItem.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
-import CustomInput from "components/CustomInput/CustomInput.jsx";
-import Button from "components/CustomButtons/Button.jsx";
-import Progress from 'components/Progress/Progress.jsx';
-import Card from "components/Card/Card.jsx";
-import CardHeader from "components/Card/CardHeader";
-import CardBody from "components/Card/CardBody.jsx";
-import CardFooter from "components/Card/CardFooter";
-
-
-import loginStyle from "assets/jss/material-dashboard-react/layouts/loginStyle";
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      loading: false,
       user: '',
-      password: ''
-    }
+      password: '',
+    };
 
     this.login = this.login.bind(this);
   }
 
-  login() {
-    const { user, password } = this.state;
-    this.setState({ loading: true });
-    this.props.login(user, password);
-  }
-
   onChangeText(event, value) {
     this.setState({ [value]: event.target.value });
+  }
+
+  login() {
+    const { user, password } = this.state;
+
+    this.props.login(user, password);
   }
 
   renderButton() {
@@ -55,7 +54,7 @@ class Login extends Component {
       <Button color="primary" onClick={this.login}>
         Ingresar
       </Button>
-    )
+    );
   }
 
   render() {
@@ -77,10 +76,10 @@ class Login extends Component {
                         id="username"
                         value={this.state.user}
                         formControlProps={{
-                          fullWidth: true
+                          fullWidth: true,
                         }}
                         inputProps={{
-                          onChange: event => this.onChangeText(event, 'user')
+                          onChange: event => this.onChangeText(event, 'user'),
                         }}
                       />
                     </GridItem>
@@ -90,13 +89,16 @@ class Login extends Component {
                         id="password"
                         value={this.state.password}
                         formControlProps={{
-                          fullWidth: true
+                          fullWidth: true,
                         }}
                         inputProps={{
                           onChange: event => this.onChangeText(event, 'password'),
-                          type: 'password'
+                          type: 'password',
                         }}
                       />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={12}>
+                    <InputLabel error>{this.props.auth.error}</InputLabel>                        
                     </GridItem>
                   </GridContainer>
                 </CardBody>
@@ -106,7 +108,7 @@ class Login extends Component {
                       {this.renderButton()}
                     </GridItem>
                     <GridItem xs={6}>
-                      <Link to="/signUp"></Link>
+                      <Link to="/signUp" />
                     </GridItem>
                   </GridContainer>
                 </CardFooter>
@@ -115,7 +117,7 @@ class Login extends Component {
           </GridContainer>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -123,19 +125,15 @@ Login.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  login: PropTypes.func.isRequired
-}
+  login: PropTypes.func.isRequired,
+};
 
-const mapStateToProps = (state) => {
-  return {
-    auth: getAuth(state)
-  }
-}
+const mapStateToProps = state => ({
+  auth: getAuth(state),
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    login: (email, pass) => dispatch(login(email, pass))
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  login: (email, pass) => dispatch(login(email, pass)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(loginStyle)(Login));
