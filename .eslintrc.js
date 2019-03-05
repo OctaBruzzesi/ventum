@@ -16,7 +16,7 @@ module.exports = {
     'import/no-unresolved': [
       'error',
       {
-        ignore: ['src/', 'variables/', 'assets/', 'components/'],
+        ignore: ['src/', 'variables/', 'assets/', 'redux/', 'views/', 'components/'],
       },
     ],
     'react/forbid-prop-types': 0,

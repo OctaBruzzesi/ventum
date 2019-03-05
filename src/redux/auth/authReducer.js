@@ -2,16 +2,16 @@ import {
   AUTH_START,
   AUTH_SUCCESS,
   AUTH_ERROR,
-  AUTH_LOGOUT
+  AUTH_LOGOUT,
 } from '../types';
 
 const initialState = {
   loading: false,
   authData: {},
-  error: ''
+  error: '',
 };
 
-const getAuth = (state) => state.auth;
+const getAuth = state => state.auth;
 
 export { getAuth };
 
@@ -21,25 +21,25 @@ export default (state = initialState, action) => {
       return {
         loading: true,
         authData: {},
-        error: ''
+        error: '',
       };
     case AUTH_SUCCESS:
       return {
         loading: false,
         authData: {
-          token: action.payload
+          token: action.payload,
         },
-        error: ''
+        error: '',
       };
     case AUTH_ERROR:
       return {
         loading: false,
         authData: {},
-        error: action.payload
+        error: action.payload,
       };
     case AUTH_LOGOUT:
       return {
-        initialState
+        initialState,
       };
     default:
       return state;
