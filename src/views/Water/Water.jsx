@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -11,6 +12,7 @@ import Table from 'components/Table/Table';
 import Card from 'components/Card/Card';
 import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
+import Button from 'components/CustomButtons/Button';
 
 import { getWater } from 'redux/water/waterReducer';
 import { fetchWater } from 'redux/water/waterActions';
@@ -60,10 +62,15 @@ class Water extends Component {
   }
 
   render() {
-    console.log(this.props);
-    const { water, classes } = this.props;
+    const { classes } = this.props;
     return (
       <GridContainer>
+        <GridItem xs={12} sm={9} md={9} />
+        <GridItem xs={12} sm={3} md={3}>
+          <Link to="/water/new">
+            <Button color="primary">Nuevo Registro</Button>
+          </Link>
+        </GridItem>
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="primary">
@@ -100,5 +107,6 @@ export default compose(
 )(Water);
 
 Water.propTypes = {
+  water: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };

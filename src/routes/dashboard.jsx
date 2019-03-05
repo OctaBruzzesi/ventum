@@ -17,6 +17,7 @@ const dashboardRoutes = [
     path: '/dashboard',
     sidebarName: 'Dashboard',
     navbarName: 'Material Dashboard',
+    visible: true,
     icon: Dashboard,
     component: DashboardPage,
   },
@@ -24,13 +25,20 @@ const dashboardRoutes = [
     path: '/water',
     sidebarName: 'Agua',
     navbarName: 'Agua',
+    visible: true,
     icon: Pool,
     component: Water,
+  },
+  {
+    path: '/water/new',
+    visible: false,
+    component: TableList,
   },
   {
     path: '/environment',
     sidebarName: 'Impacto Ambiental',
     navbarName: 'Impacto Ambiental',
+    visible: true,
     icon: 'content_paste',
     component: TableList,
   },
@@ -38,6 +46,7 @@ const dashboardRoutes = [
     path: '/soil',
     sidebarName: 'Tierra y Suelo',
     navbarName: 'Tierra y Suelo',
+    visible: true,
     icon: BubbleChart,
     component: TableList,
   },
@@ -45,6 +54,7 @@ const dashboardRoutes = [
     path: '/biodiversity',
     sidebarName: 'Biodiversidad',
     navbarName: 'Biodiversidad',
+    visible: true,
     icon: LocationOn,
     component: Maps,
   },
@@ -52,6 +62,7 @@ const dashboardRoutes = [
     path: '/climate',
     sidebarName: 'Clima',
     navbarName: 'Clima',
+    visible: true,
     icon: Notifications,
     component: Maps,
   },
@@ -59,10 +70,13 @@ const dashboardRoutes = [
     path: '/production',
     sidebarName: 'Producción y Consumo Sustentable',
     navbarName: 'Producción y Consumo Sustentable',
+    visible: true,
     icon: Unarchive,
     component: TableList,
   },
-  { redirect: true, path: '/', to: '/dashboard', navbarName: 'Redirect' }
+  {
+ redirect: true, path: '/', to: '/dashboard', navbarName: 'Redirect' 
+},
 ];
 
 export default dashboardRoutes;
