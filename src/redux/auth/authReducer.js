@@ -8,7 +8,7 @@ import {
 const initialState = {
   loading: false,
   authData: {},
-  error: ''
+  error: '',
 };
 
 const getAuth = (state) => state.auth;
@@ -39,7 +39,7 @@ export default (state = initialState, action) => {
       };
     case AUTH_LOGOUT:
       return {
-        initialState
+        initialState,
       };
     default:
       return state;
