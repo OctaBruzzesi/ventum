@@ -1,4 +1,6 @@
-import { AUTH_START, AUTH_SUCCESS, AUTH_ERROR } from '../types';
+import {
+  AUTH_START, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT,
+} from '../types';
 import { firebaseAuth } from '../../firebase/firebase';
 import { loadAuth } from '../../utils/storage';
 
@@ -9,6 +11,10 @@ const authStart = () => ({
 const authError = error => ({
   type: AUTH_ERROR,
   payload: error,
+});
+
+const authLogout = () => ({
+  type: AUTH_LOGOUT,
 });
 
 const authSuccess = payload => ({
@@ -24,9 +30,9 @@ export const getAuthFromStorage = () => (dispatch) => {
   }
 };
 
-export const signOff = () => (dispatch) => {
-  firebaseAuth.doSignOut();
-  dispatch('Cerro sesion');
+export const signOut = () => (dispatch) => {
+  // firebaseAuth.doSignOut();
+  dispatch(authLogout());
   // return dispatch => {
   //   localStorage.removeItem('auth');
   // }

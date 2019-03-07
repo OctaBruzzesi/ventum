@@ -1,59 +1,58 @@
-import React from "react";
+import React from 'react';
 
-import PropTypes from 'prop-types'; //AGREGUE YO
-import { connect } from 'react-redux'; //AGREGUE YO
-import classNames from "classnames";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import classNames from 'classnames';
 // @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
-import { signOff } from '../../redux/auth/authActions'; //AGREGUE YO
+import withStyles from '@material-ui/core/styles/withStyles';
 
 
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Hidden from "@material-ui/core/Hidden";
-import Poppers from "@material-ui/core/Popper";
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Hidden from '@material-ui/core/Hidden';
+import Poppers from '@material-ui/core/Popper';
 // @material-ui/icons
-import Person from "@material-ui/icons/Person";
-import Notifications from "@material-ui/icons/Notifications";
-import Dashboard from "@material-ui/icons/Dashboard";
-import Search from "@material-ui/icons/Search";
+import Person from '@material-ui/icons/Person';
+import Notifications from '@material-ui/icons/Notifications';
+import Dashboard from '@material-ui/icons/Dashboard';
+import Search from '@material-ui/icons/Search';
 // core components
-import CustomInput from "components/CustomInput/CustomInput.jsx";
-import Button from "components/CustomButtons/Button.jsx";
-import headerLinksStyle from "assets/jss/material-dashboard-react/components/headerLinksStyle";
-import { componentFromProp } from "recompose";
+import CustomInput from 'components/CustomInput/CustomInput';
+import Button from 'components/CustomButtons/Button';
+import headerLinksStyle from 'assets/jss/material-dashboard-react/components/headerLinksStyle';
+import { componentFromProp } from 'recompose';
+import { signOut } from '../../redux/auth/authActions';
 
 class HeaderLinks extends React.Component {
-  state = {
-    open: false,
-    openConfigurationPanel: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      open: false,
+      openConfigurationPanel: false,
+    };
+
+    this.signOut = this.signOut.bind(this);
+  }
 
   handleToggle = () => {
     this.setState(state => ({
       open: !state.open,
-      openConfigurationPanel: false
+      openConfigurationPanel: false,
     }));
   };
 
   openConfigurationPanel = () => {
     this.setState(state => ({
       open: false,
-      openConfigurationPanel: !state.openConfigurationPanel
+      openConfigurationPanel: !state.openConfigurationPanel,
     }));
   }
 
-  // signOff = () => {
-  //   console.log('Sign off');
-  //   this.setState({
-  //     openConfigurationPanel: !this.state.openConfigurationPanel,
-  //   });
-  // }
-
-  handleClose = event => {
+  handleClose = (event) => {
     if (this.anchorEl.contains(event.target)) {
       return;
     }
@@ -64,6 +63,14 @@ class HeaderLinks extends React.Component {
     });
   };
 
+  signOut() {
+    const { openConfigurationPanel } = this.state;
+    this.setState({
+      openConfigurationPanel: !openConfigurationPanel,
+    });
+    this.props.signOut();
+  }
+
   render() {
     const { classes } = this.props;
     const { open, openConfigurationPanel } = this.state;
@@ -72,13 +79,13 @@ class HeaderLinks extends React.Component {
         <div className={classes.searchWrapper}>
           <CustomInput
             formControlProps={{
-              className: classes.margin + " " + classes.search
+              className: `${classes.margin} ${classes.search}`,
             }}
             inputProps={{
-              placeholder: "Search",
+              placeholder: 'Search',
               inputProps: {
-                "aria-label": "Search"
-              }
+                'aria-label': 'Search',
+              },
             }}
           />
           <Button color="white" aria-label="edit" justIcon round>
@@ -86,7 +93,7 @@ class HeaderLinks extends React.Component {
           </Button>
         </div>
         <Button
-          color={window.innerWidth > 959 ? "transparent" : "white"}
+          color={window.innerWidth > 959 ? 'transparent' : 'white'}
           justIcon={window.innerWidth > 959}
           simple={!(window.innerWidth > 959)}
           aria-label="Dashboard"
@@ -102,13 +109,13 @@ class HeaderLinks extends React.Component {
         {/* NOTIFICACIONES */}
         <div className={classes.manager}>
           <Button
-            buttonRef={node => {
+            buttonRef={(node) => {
               this.anchorEl = node;
             }}
-            color={window.innerWidth > 959 ? "transparent" : "white"}
+            color={window.innerWidth > 959 ? 'transparent' : 'white'}
             justIcon={window.innerWidth > 959}
             simple={!(window.innerWidth > 959)}
-            aria-owns={open ? "menu-list-grow" : null}
+            aria-owns={open ? 'menu-list-grow' : null}
             aria-haspopup="true"
             onClick={this.handleToggle}
             className={classes.buttonLink}
@@ -127,9 +134,9 @@ class HeaderLinks extends React.Component {
             transition
             disablePortal
             className={
-              classNames({ [classes.popperClose]: !open }) +
-              " " +
-              classes.pooperNav
+              `${classNames({ [classes.popperClose]: !open })
+              } ${
+                classes.pooperNav}`
             }
           >
             {({ TransitionProps, placement }) => (
@@ -138,7 +145,7 @@ class HeaderLinks extends React.Component {
                 id="menu-list-grow"
                 style={{
                   transformOrigin:
-                    placement === "bottom" ? "center top" : "center bottom"
+                    placement === 'bottom' ? 'center top' : 'center bottom',
                 }}
               >
                 <Paper>
@@ -198,13 +205,13 @@ class HeaderLinks extends React.Component {
         {/* PANEL CONFIGURACIONES */}
         <div className={classes.manager}>
           <Button
-            buttonRef={node => {
+            buttonRef={(node) => {
               this.anchorEl = node;
             }}
-            color={window.innerWidth > 959 ? "transparent" : "white"}
+            color={window.innerWidth > 959 ? 'transparent' : 'white'}
             justIcon={window.innerWidth > 959}
             simple={!(window.innerWidth > 959)}
-            aria-owns={open ? "menu-list-grow" : null}
+            aria-owns={open ? 'menu-list-grow' : null}
             aria-haspopup="true"
             onClick={this.openConfigurationPanel}
             className={classes.buttonLink}
@@ -222,9 +229,9 @@ class HeaderLinks extends React.Component {
             transition
             disablePortal
             className={
-              classNames({ [classes.popperClose]: !openConfigurationPanel }) +
-              " " +
-              classes.pooperNav
+              `${classNames({ [classes.popperClose]: !openConfigurationPanel })
+              } ${
+                classes.pooperNav}`
             }
           >
             {({ TransitionProps, placement }) => (
@@ -233,14 +240,14 @@ class HeaderLinks extends React.Component {
                 id="menu-list-grow"
                 style={{
                   transformOrigin:
-                    placement === "bottom" ? "center top" : "center bottom"
+                    placement === 'bottom' ? 'center top' : 'center bottom',
                 }}
               >
                 <Paper>
                   <ClickAwayListener onClickAway={this.handleClose}>
                     <MenuList role="menu">
                       <MenuItem
-                        onClick={this.signOff.bind(this)}
+                        onClick={this.signOut}
                         className={classes.dropdownItem}
                       >
                         Cerrar sesión
@@ -260,13 +267,11 @@ class HeaderLinks extends React.Component {
 
 HeaderLinks.propTypes = {
   classes: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-}
+  history: PropTypes.object,
+};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    HeaderLinks: () => dispatch(signOff())
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  signOut: () => dispatch(signOut()),
+});
 
 export default connect(null, mapDispatchToProps)(withStyles(headerLinksStyle)(HeaderLinks));
