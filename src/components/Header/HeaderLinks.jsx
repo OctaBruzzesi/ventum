@@ -1,7 +1,13 @@
 import React from "react";
+
+import PropTypes from 'prop-types'; //AGREGUE YO
+import { connect } from 'react-redux'; //AGREGUE YO
 import classNames from "classnames";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import { signOff } from '../../redux/auth/authActions'; //AGREGUE YO
+
+
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import Grow from "@material-ui/core/Grow";
@@ -17,28 +23,50 @@ import Search from "@material-ui/icons/Search";
 // core components
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
-
 import headerLinksStyle from "assets/jss/material-dashboard-react/components/headerLinksStyle";
+import { componentFromProp } from "recompose";
 
 class HeaderLinks extends React.Component {
   state = {
-    open: false
+    open: false,
+    openConfigurationPanel: false,
   };
+
   handleToggle = () => {
-    this.setState(state => ({ open: !state.open }));
+    this.setState(state => ({
+      open: !state.open,
+      openConfigurationPanel: false
+    }));
   };
+
+  openConfigurationPanel = () => {
+    this.setState(state => ({
+      open: false,
+      openConfigurationPanel: !state.openConfigurationPanel
+    }));
+  }
+
+  // signOff = () => {
+  //   console.log('Sign off');
+  //   this.setState({
+  //     openConfigurationPanel: !this.state.openConfigurationPanel,
+  //   });
+  // }
 
   handleClose = event => {
     if (this.anchorEl.contains(event.target)) {
       return;
     }
 
-    this.setState({ open: false });
+    this.setState({
+      open: false,
+      openConfigurationPanel: false,
+    });
   };
 
   render() {
     const { classes } = this.props;
-    const { open } = this.state;
+    const { open, openConfigurationPanel } = this.state;
     return (
       <div>
         <div className={classes.searchWrapper}>
@@ -69,6 +97,9 @@ class HeaderLinks extends React.Component {
             <p className={classes.linkText}>Dashboard</p>
           </Hidden>
         </Button>
+
+
+        {/* NOTIFICACIONES */}
         <div className={classes.manager}>
           <Button
             buttonRef={node => {
@@ -150,7 +181,8 @@ class HeaderLinks extends React.Component {
             )}
           </Poppers>
         </div>
-        <Button
+
+        {/*        <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
           justIcon={window.innerWidth > 959}
           simple={!(window.innerWidth > 959)}
@@ -161,10 +193,80 @@ class HeaderLinks extends React.Component {
           <Hidden mdUp implementation="css">
             <p className={classes.linkText}>Profile</p>
           </Hidden>
-        </Button>
+        </Button> */}
+
+        {/* PANEL CONFIGURACIONES */}
+        <div className={classes.manager}>
+          <Button
+            buttonRef={node => {
+              this.anchorEl = node;
+            }}
+            color={window.innerWidth > 959 ? "transparent" : "white"}
+            justIcon={window.innerWidth > 959}
+            simple={!(window.innerWidth > 959)}
+            aria-owns={open ? "menu-list-grow" : null}
+            aria-haspopup="true"
+            onClick={this.openConfigurationPanel}
+            className={classes.buttonLink}
+          >
+            <Person className={classes.icons} />
+            <Hidden mdUp implementation="css">
+              <p onClick={this.handleClick} className={classes.linkText}>
+                Configuración
+              </p>
+            </Hidden>
+          </Button>
+          <Poppers
+            open={openConfigurationPanel}
+            anchorEl={this.anchorEl}
+            transition
+            disablePortal
+            className={
+              classNames({ [classes.popperClose]: !openConfigurationPanel }) +
+              " " +
+              classes.pooperNav
+            }
+          >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                id="menu-list-grow"
+                style={{
+                  transformOrigin:
+                    placement === "bottom" ? "center top" : "center bottom"
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={this.handleClose}>
+                    <MenuList role="menu">
+                      <MenuItem
+                        onClick={this.signOff.bind(this)}
+                        className={classes.dropdownItem}
+                      >
+                        Cerrar sesión
+                      </MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Poppers>
+        </div>
+
       </div>
     );
   }
 }
 
-export default withStyles(headerLinksStyle)(HeaderLinks);
+HeaderLinks.propTypes = {
+  classes: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    HeaderLinks: () => dispatch(signOff())
+  }
+}
+
+export default connect(null, mapDispatchToProps)(withStyles(headerLinksStyle)(HeaderLinks));

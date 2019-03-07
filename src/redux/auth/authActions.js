@@ -24,6 +24,13 @@ export const getAuthFromStorage = () => (dispatch) => {
   }
 };
 
+export const signOff = () => (dispatch) => {
+  firebaseAuth.doSignOut();
+  dispatch('Cerro sesion');
+  // return dispatch => {
+  //   localStorage.removeItem('auth');
+  // }
+};
 
 export const login = (email, pass) => (dispatch) => {
   dispatch(authStart());
