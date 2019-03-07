@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 import authReducer from './auth/authReducer';
-import { firebaseReducer } from 'react-redux-firebase';
+import waterReducer from './water/waterReducer';
 
 export default combineReducers({
   auth: authReducer,
-  firebase: firebaseReducer
+  water: waterReducer,
+  form: formReducer,
 });
