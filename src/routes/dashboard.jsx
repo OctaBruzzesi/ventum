@@ -1,3 +1,4 @@
+import React from 'react';
 // @material-ui/icons
 import Dashboard from '@material-ui/icons/Dashboard';
 // import ContentPaste from '@material-ui/icons/ContentPaste';
@@ -32,8 +33,11 @@ const dashboardRoutes = [
   },
   {
     path: '/water/new',
+    sidebarName: '',
+    navbarName: '',
+    icon: Pool,
     visible: false,
-    component: WaterNew,
+    component: props => <WaterNew {...props} />,
   },
   {
     path: '/environment',
@@ -76,8 +80,8 @@ const dashboardRoutes = [
     component: TableList,
   },
   {
- redirect: true, path: '/', to: '/dashboard', navbarName: 'Redirect' 
-},
+    redirect: true, path: '/', to: '/dashboard', navbarName: 'Redirect',
+  },
 ];
 
 export default dashboardRoutes;

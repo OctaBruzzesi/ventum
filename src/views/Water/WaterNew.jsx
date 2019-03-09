@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
+import withStyles from '@material-ui/core/styles/withStyles';
+import { compose } from 'recompose';
 
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
@@ -10,10 +12,6 @@ import { renderField } from 'components/Form';
 class WaterNew extends PureComponent {
   render() {
     const {
-      isSaveInProgress,
-      onFormSubmit,
-      handleSubmit,
-      stateOptions,
       history,
     } = this.props;
 
@@ -33,17 +31,12 @@ class WaterNew extends PureComponent {
         <GridContainer>
           <Button
             type="primary"
-            htmlType="submit"
-            style={{ marginRight: '15px' }}
-            loading={() => {}}
           >
             Ok
           </Button>
           <Button
             type="danger"
-            htmlType="button"
             onClick={history.goBack}
-            disabled={() => {}}
           >
             No guardar
           </Button>
@@ -53,16 +46,20 @@ class WaterNew extends PureComponent {
   }
 }
 
-// WaterNew.propTypes = {
-//   isSaveInProgress: PropTypes.bool.isRequired,
-//   onFormSubmit: PropTypes.func.isRequired,
-//   stateOptions: PropTypes.array.isRequired,
-// };
+WaterNew.propTypes = {
+  isSaveInProgress: PropTypes.bool,
+  onFormSubmit: PropTypes.func,
+  stateOptions: PropTypes.array,
+  history: PropTypes.object,
+};
 
-export default reduxForm({
-  form: 'WaterNew',
-  initialValues: {
-    state: 'NO_VALUE',
-    contactState: 'NO_VALUE',
-  },
-})(WaterNew);
+export default compose(
+  reduxForm({
+    form: 'WaterNew',
+    initialValues: {
+      state: 'NO_VALUE',
+      contactState: 'NO_VALUE',
+    },
+  }),
+  withStyles({}),
+)(WaterNew);
