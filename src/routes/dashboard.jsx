@@ -11,6 +11,7 @@ import DashboardPage from 'views/Dashboard/Dashboard';
 import TableList from 'views/TableList/TableList';
 import Maps from 'views/Maps/Maps';
 import Water from 'views/Water/Water';
+import WaterNew from 'views/Water/WaterNew';
 
 const dashboardRoutes = [
   {
@@ -32,7 +33,7 @@ const dashboardRoutes = [
   {
     path: '/water/new',
     visible: false,
-    component: TableList,
+    component: WaterNew,
   },
   {
     path: '/environment',
