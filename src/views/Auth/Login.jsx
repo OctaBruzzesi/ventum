@@ -7,6 +7,9 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import InputLabel from '@material-ui/core/InputLabel';
 import { getAuth } from 'redux/auth/authReducer';
 
+//CSS
+import '../../assets/css/login.css';
+
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
 import CustomInput from 'components/CustomInput/CustomInput';
@@ -26,7 +29,7 @@ class Login extends Component {
 
     this.state = {
       user: '',
-      password: '',
+      password: ''
     };
 
     this.login = this.login.bind(this);
@@ -40,6 +43,20 @@ class Login extends Component {
     const { user, password } = this.state;
 
     this.props.login(user, password);
+  }
+
+  goToSignUp() {
+    console.log('redirect');
+    //return <Redirect to=" " />
+  }
+
+  renderButtonSignUp(classes) {
+    return (
+      <Link to="/SignUp">Registrarse</Link>
+      // <Button onClick={this.goToSignUp} variant="outlined" className={classes.Button}>
+      //   ¿Aún no tiene cuenta registrada?
+      // </Button>
+    );
   }
 
   renderButton() {
@@ -108,6 +125,7 @@ class Login extends Component {
                       {this.renderButton()}
                     </GridItem>
                     <GridItem xs={6}>
+                      {this.renderButtonSignUp(classes)}
                       <Link to="/signUp" />
                     </GridItem>
                   </GridContainer>

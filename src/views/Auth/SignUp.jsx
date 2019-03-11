@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -31,7 +31,7 @@ class SignUp extends Component {
             <GridItem xs={12} sm={12} md={12}>
               <Card>
                 <CardHeader color="primary">
-                  <h4 className={classes.cardTitle}>Login</h4>
+                  <h4 className={classes.cardTitle}>REGISTRARSE</h4>
                 </CardHeader>
                 <CardBody>
                   <GridContainer>
@@ -57,7 +57,7 @@ class SignUp extends Component {
                 </CardBody>
                 <CardFooter>
                   <Button color="primary" onClick={this.login.bind(this)}>
-                    Ingresar
+                    Registrarse
                   </Button>
                 </CardFooter>
               </Card>
