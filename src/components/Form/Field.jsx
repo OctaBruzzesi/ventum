@@ -1,21 +1,37 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import TextField from '@material-ui/core/TextField';
 
-const renderField = ({
-  input, type, name, label, disabled, autocomplete, meta: { touched, error },
+const InputText = ({
+  input, type, name, label, disabled, meta: { touched, error },
 }) => (
   <TextField
     {...input}
-    size="large"
     name={name}
     disabled={disabled}
-    type={type}
-    label={label}
+    error={Boolean(touched && error)}
     fullWidth
-    autoComplete={autocomplete}
+    type={type}
+    helperText={touched ? error : ''}
+    label={label}
     className={(touched && error ? 'error' : '')}
   />
 );
 
-export { renderField };
+export { InputText };
+
+InputText.propTypes = {
+  input: PropTypes.object.isRequired,
+  name: PropTypes.string,
+  disabled: PropTypes.bool,
+  type: PropTypes.string,
+  label: PropTypes.string,
+};
+
+InputText.defaultProps = {
+  type: 'primary',
+  name: '',
+  label: '',
+  disabled: false,
+};

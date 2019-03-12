@@ -7,13 +7,10 @@ import { compose } from 'recompose';
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
 import Button from 'components/CustomButtons/Button';
-import { renderField } from 'components/Form';
+import { InputText } from 'components/Form';
+import { required, number, email } from '../../utils/validations';
 
 class WaterForm extends PureComponent {
-  submit = (values) => {
-    console.log(values);
-  }
-
   render() {
     const {
       handleSubmit,
@@ -26,7 +23,8 @@ class WaterForm extends PureComponent {
           <GridItem md={12}>
             <Field
               name="province"
-              component={renderField}
+              component={InputText}
+              validate={[required]}
               type="text"
               label="Provincia"
             />
@@ -34,7 +32,8 @@ class WaterForm extends PureComponent {
           <GridItem md={12}>
             <Field
               name="city"
-              component={renderField}
+              component={InputText}
+              validate={[required]}
               type="text"
               label="Ciudad"
             />
@@ -42,7 +41,8 @@ class WaterForm extends PureComponent {
           <GridItem md={12}>
             <Field
               name="date"
-              component={renderField}
+              component={InputText}
+              validate={[required]}
               type="text"
               label="Fecha de la muestra"
             />
@@ -50,15 +50,16 @@ class WaterForm extends PureComponent {
           <GridItem>
             <Field
               name="coliforms"
-              component={renderField}
-              type="text"
+              component={InputText}
+              type="number"
               label="N° de coliformes"
             />
           </GridItem>
           <GridItem md={12}>
             <Field
               name="notes"
-              component={renderField}
+              validate={[required]}
+              component={InputText}
               type="text"
               label="Notas"
             />
