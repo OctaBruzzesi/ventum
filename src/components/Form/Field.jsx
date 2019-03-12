@@ -1,17 +1,18 @@
 import React from 'react';
 
-import Input from '@material-ui/core/Input';
+import TextField from '@material-ui/core/TextField';
 
 const renderField = ({
-  input, type, name, placeholder, disabled, autocomplete, meta: { touched, error },
+  input, type, name, label, disabled, autocomplete, meta: { touched, error },
 }) => (
-  <Input
+  <TextField
     {...input}
     size="large"
     name={name}
     disabled={disabled}
     type={type}
-    placeholder={placeholder}
+    label={label}
+    fullWidth
     autoComplete={autocomplete}
     className={(touched && error ? 'error' : '')}
   />
