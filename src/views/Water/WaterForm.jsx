@@ -38,16 +38,16 @@ class WaterForm extends PureComponent {
               label="Ciudad"
             />
           </GridItem>
-          <GridItem md={12}>
+          <GridItem md={3}>
             <Field
               name="date"
               component={InputText}
               validate={[required]}
-              type="text"
+              type="datetime-local"
               label="Fecha de la muestra"
             />
           </GridItem>
-          <GridItem>
+          <GridItem md={12}>
             <Field
               name="coliforms"
               component={InputText}

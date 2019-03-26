@@ -13,7 +13,6 @@ const InputText = ({
     error={Boolean(touched && error)}
     fullWidth
     type={type}
-    helperText={touched ? error : ''}
     label={label}
     className={(touched && error ? 'error' : '')}
   />

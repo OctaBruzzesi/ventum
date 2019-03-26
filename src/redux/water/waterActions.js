@@ -3,7 +3,14 @@ import { getArrayFromCollection } from '../../helpers/firebaseHelper';
 import { WATER_FETCH } from '../types';
 
 export const addWater = newWater => async (dispatch) => {
-  water.push().set(newWater);
+  const { province, city } = newWater;
+  database.collection('water').doc().set({
+    ...newWater,
+    location: {
+      province,
+      city,
+    },
+  });
 };
 
 export const completeToDo = completeToDoId => async (dispatch) => {
