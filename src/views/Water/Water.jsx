@@ -56,8 +56,8 @@ class Water extends Component {
     const { water } = this.props;
     return water.data.map(item => [
       String(item.id),
-      item.location.nameProvince,
-      item.location.nameCity,
+      item.location.province,
+      item.location.city,
     ]);
   }
 
