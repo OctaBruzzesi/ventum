@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { compose } from 'recompose';
-import ButtonBase from '@material-ui/core/ButtonBase';
+import _ from 'underscore';
 
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
@@ -16,6 +16,31 @@ import { required, number, email } from '../../utils/validations';
 import provinces from '../../utils/provinces';
 
 class WaterForm extends PureComponent {
+  renderDynamicForm() {
+    const { dynamicForm } = this.props;
+
+    const dynamicFields = [];
+
+    _.mapObject(dynamicForm, (form, key) => {
+      console.log(form);
+      _.mapObject(form, (item, name) => {
+        console.log(item);
+        dynamicFields.push(
+          <GridItem key={name} md={3}>
+            <Field
+              name={name}
+              component={InputText}
+              validate={[required]}
+              type="number"
+              label={item.label}
+            />
+          </GridItem>,
+        );
+      });
+    });
+    return dynamicFields;
+  }
+
   render() {
     const {
       history,
@@ -56,6 +81,10 @@ class WaterForm extends PureComponent {
                   label="Fecha de la muestra"
                 />
               </GridItem>
+              <GridItem md={9} />
+
+              {this.renderDynamicForm()}
+
               <GridItem md={12}>
                 <Field
                   name="coliforms"
@@ -64,6 +93,7 @@ class WaterForm extends PureComponent {
                   label="N° de coliformes"
                 />
               </GridItem>
+
               <GridItem md={12}>
                 <Field
                   name="notes"
@@ -97,7 +127,13 @@ class WaterForm extends PureComponent {
 
 WaterForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  dynamicForm: PropTypes.object,
   onFormSubmit: PropTypes.func.isRequired,
+};
+
+WaterForm.defaultProps = {
+  dynamicForm: {},
 };
 
 export default compose(

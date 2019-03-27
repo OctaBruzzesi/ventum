@@ -4,3 +4,4 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 export const WATER_FETCH = 'WATER_FETCH';
 export const WATER_ERROR = 'WATER_ERROR';
+export const ADD_WATER_FORM = 'ADD_WATER_CONST';

@@ -1,6 +1,11 @@
 import { water, database } from '../../firebase/firebase';
-import { getArrayFromCollection } from '../../helpers/firebaseHelper';
-import { WATER_FETCH } from '../types';
+import { getArrayFromCollection, getObjectFromCollection } from '../../helpers/firebaseHelper';
+import { WATER_FETCH, ADD_WATER_FORM } from '../types';
+
+const addWaterForm = form => ({
+  type: ADD_WATER_FORM,
+  payload: form,
+});
 
 export const addWater = newWater => async (dispatch) => {
   const { province, city } = newWater;
@@ -11,6 +16,15 @@ export const addWater = newWater => async (dispatch) => {
       city,
     },
   });
+};
+
+export const fetchDynamicForm = () => async (dispatch) => {
+  database.collection('waterForm').get()
+    .then((data) => {
+      const formatedData = getObjectFromCollection(data);
+      dispatch(addWaterForm(formatedData));
+    })
+    .catch(e => console.log(e));
 };
 
 export const completeToDo = completeToDoId => async (dispatch) => {
