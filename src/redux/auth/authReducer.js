@@ -3,6 +3,7 @@ import {
   AUTH_SUCCESS,
   AUTH_ERROR,
   AUTH_LOGOUT,
+  REGISTER_SUCCESS,
 } from '../types';
 
 const initialState = {
@@ -31,6 +32,11 @@ export default (state = initialState, action) => {
         },
         error: '',
       };
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        registerSuccess: true,
+      }
     case AUTH_ERROR:
       return {
         loading: false,

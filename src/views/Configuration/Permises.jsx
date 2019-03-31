@@ -25,11 +25,11 @@ class SignUp extends Component {
     super(props);
 
     this.state = {
-      name: '',
-      lastName: '',
-      email: '',
-      password: '',
-      repeatedPassword: '',
+      name: 'prueba',
+      lastName: 'prueba',
+      email: 'prueba@prueba.com',
+      password: 'asd123',
+      repeatedPassword: 'asd123',
       error: '',
     };
 
