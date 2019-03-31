@@ -29,7 +29,7 @@ class Login extends Component {
 
     this.state = {
       user: '',
-      password: ''
+      password: '',
     };
 
     this.login = this.login.bind(this);
@@ -120,7 +120,10 @@ class Login extends Component {
                   </GridContainer>
                 </CardBody>
                 <CardFooter>
-                  <GridContainer>
+                  <GridContainer
+                    direction="row"
+                    justify="space-between"
+                    alignItems="center">
                     <GridItem xs={6}>
                       {this.renderButton()}
                     </GridItem>
