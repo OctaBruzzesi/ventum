@@ -37,13 +37,13 @@ class SignUp extends Component {
   }
 
   componentDidUpdate() {
-    const { history, auth, user } = this.props;
+    // const { history, auth, user } = this.props;
 
-    console.log('actualiz');
+    // console.log('actualiz');
 
-    if (user.userRegister) {
-      console.log('todo bien crack');
-    }
+    // if (user.userRegister) {
+    //   console.log('todo bien crack');
+    // }
   }
 
   onChangeText(event, value) {
