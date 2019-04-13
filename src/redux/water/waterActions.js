@@ -8,13 +8,8 @@ const addWaterForm = form => ({
 });
 
 export const addWater = newWater => async (dispatch) => {
-  const { province, city } = newWater;
   database.collection('water').doc().set({
     ...newWater,
-    location: {
-      province,
-      city,
-    },
   });
 };
 
