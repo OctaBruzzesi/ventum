@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-
 import WaterForm from './WaterForm';
 import { addWater } from '../../redux/water/waterActions';
 

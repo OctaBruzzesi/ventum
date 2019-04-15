@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {
   AUTH_START, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT, REGISTER_SUCCESS,
 } from '../types';
@@ -37,18 +38,18 @@ export const signOut = () => (dispatch) => {
 
 export const signUp = newUser => (dispatch) => {
   const {
-    email, password, name, lastName,
+    userName, email, password, name, lastName,
   } = newUser;
 
   firebaseAuth.createUserWithEmailAndPassword(email, password)
     .then(() => {
-      dispatch(addUser({
+      dispatch(addUser(userName.replace(' ', '_'), {
         admin: false,
         worker: false,
         email,
         name,
         lastName,
-        timeRegister: Date(),
+        timeRegister: moment().format('YYYY-MM-DDTHH:mm'),
       }));
     })
     .catch((e) => {

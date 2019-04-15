@@ -25,6 +25,7 @@ class SignUp extends Component {
     super(props);
 
     this.state = {
+      userName: '',
       name: '',
       lastName: '',
       email: '',
@@ -51,11 +52,12 @@ class SignUp extends Component {
   }
 
   validateFields() {
-    const { email, password, repeatedPassword, name, lastName } = this.state;
+    const { userName, email, password, repeatedPassword, name, lastName } = this.state;
 
     if (password === repeatedPassword) {
       // registro en Autenticacion
       this.props.signUp({
+        userName,
         email,
         password,
         name,
@@ -85,8 +87,22 @@ class SignUp extends Component {
                   <h4 className={classes.cardTitle}>REGISTRARSE</h4>
                 </CardHeader>
                 <CardBody>
-                  <GridContainer>
+                  <GridContainer>                    
+                  <GridItem xs={12} sm={12} md={12}>
+                      <CustomInput
+                        labelText="Nombre de Usuario"
+                        id="userName"
+                        formControlProps={{
+                          fullWidth: true,
+                        }}
+                        inputProps={{
+                          onChange: event => this.onChangeText(event, 'userName'),
+                        }}
+                      />
+                    </GridItem>
+                  </GridContainer>
 
+                  <GridContainer>
                     {/* NOMBRE */}
                     <GridItem xs={6} sm={6} md={6}>
                       <CustomInput
