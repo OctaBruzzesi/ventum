@@ -108,5 +108,6 @@ export default compose(
 
 Water.propTypes = {
   water: PropTypes.object.isRequired,
+  fetchWater: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
