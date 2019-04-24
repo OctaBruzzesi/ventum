@@ -1,11 +1,11 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
+import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
-
 
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
@@ -14,17 +14,19 @@ import Paper from '@material-ui/core/Paper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Hidden from '@material-ui/core/Hidden';
 import Poppers from '@material-ui/core/Popper';
+
 // @material-ui/icons
 import Person from '@material-ui/icons/Person';
 import Notifications from '@material-ui/icons/Notifications';
 import Dashboard from '@material-ui/icons/Dashboard';
 import Search from '@material-ui/icons/Search';
+
 // core components
 import CustomInput from 'components/CustomInput/CustomInput';
 import Button from 'components/CustomButtons/Button';
 import headerLinksStyle from 'assets/jss/material-dashboard-react/components/headerLinksStyle';
-import { componentFromProp } from 'recompose';
 import { signOut } from '../../redux/auth/authActions';
+import PermisesForm from '../../views/Configuration/PermisesForm';
 
 class HeaderLinks extends React.Component {
   constructor(props) {
@@ -33,9 +35,12 @@ class HeaderLinks extends React.Component {
     this.state = {
       open: false,
       openConfigurationPanel: false,
+      openPermises: false,
     };
 
     this.signOut = this.signOut.bind(this);
+    this.handleModalOpen = this.handleModalOpen.bind(this);
+    this.handleModalClose = this.handleModalClose.bind(this);
   }
 
   handleToggle = () => {
@@ -63,6 +68,18 @@ class HeaderLinks extends React.Component {
     });
   };
 
+  handleModalClose() {
+    this.setState({
+      openPermises: false,
+    });
+  }
+
+  handleModalOpen() {
+    this.setState({
+      openPermises: true,
+    });
+  }
+
   signOut() {
     const { openConfigurationPanel } = this.state;
     this.setState({
@@ -73,9 +90,14 @@ class HeaderLinks extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { open, openConfigurationPanel } = this.state;
+    const { open, openConfigurationPanel, openPermises } = this.state;
     return (
       <div>
+        <PermisesForm
+          openPermises={openPermises}
+          handleModalClose={this.handleModalClose}
+        />
+
         <div className={classes.searchWrapper}>
           <CustomInput
             formControlProps={{
@@ -189,19 +211,7 @@ class HeaderLinks extends React.Component {
           </Poppers>
         </div>
 
-        {/*        <Button
-          color={window.innerWidth > 959 ? "transparent" : "white"}
-          justIcon={window.innerWidth > 959}
-          simple={!(window.innerWidth > 959)}
-          aria-label="Person"
-          className={classes.buttonLink}
-        >
-          <Person className={classes.icons} />
-          <Hidden mdUp implementation="css">
-            <p className={classes.linkText}>Profile</p>
-          </Hidden>
-        </Button> */}
-
+       
         {/* PANEL CONFIGURACIONES */}
         <div className={classes.manager}>
           <Button
@@ -223,6 +233,7 @@ class HeaderLinks extends React.Component {
               </p>
             </Hidden>
           </Button>
+
           <Poppers
             open={openConfigurationPanel}
             anchorEl={this.anchorEl}
@@ -247,6 +258,12 @@ class HeaderLinks extends React.Component {
                   <ClickAwayListener onClickAway={this.handleClose}>
                     <MenuList role="menu">
                       <MenuItem
+                        onClick={this.handleModalOpen}
+                        className={classes.dropdownItem}
+                      >
+                        Configurar Permisos
+                      </MenuItem>
+                      <MenuItem
                         onClick={this.signOut}
                         className={classes.dropdownItem}
                       >
@@ -259,7 +276,6 @@ class HeaderLinks extends React.Component {
             )}
           </Poppers>
         </div>
-
       </div>
     );
   }
