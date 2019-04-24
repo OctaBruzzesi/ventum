@@ -4,4 +4,12 @@ const getArrayFromCollection = (collection) => {
   return collectionList;
 };
 
-export { getArrayFromCollection };
+const getObjectFromCollection = (data) => {
+  const formatedData = {};
+  data.forEach((document) => {
+    formatedData[document.id] = document.data();
+  });
+  return formatedData;
+};
+
+export { getArrayFromCollection, getObjectFromCollection };

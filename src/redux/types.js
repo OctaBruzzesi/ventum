@@ -8,6 +8,7 @@ export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 // WATER
 export const WATER_FETCH = 'WATER_FETCH';
 export const WATER_ERROR = 'WATER_ERROR';
+export const ADD_WATER_FORM = 'ADD_WATER_CONST';
 
 // USERS
 export const USER_FETCH = 'USER_FETCH';
