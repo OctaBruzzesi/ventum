@@ -25,12 +25,11 @@ class SignUp extends Component {
     super(props);
 
     this.state = {
-      userName: '',
-      name: '',
-      lastName: '',
-      email: '',
-      password: '',
-      repeatedPassword: '',
+      name: 'prueba',
+      lastName: 'prueba',
+      email: 'prueba@prueba.com',
+      password: 'asd123',
+      repeatedPassword: 'asd123',
       error: '',
     };
 
@@ -38,13 +37,13 @@ class SignUp extends Component {
   }
 
   componentDidUpdate() {
-    // const { history, auth, user } = this.props;
+    const { history, auth, user } = this.props;
 
-    // console.log('actualiz');
+    console.log('actualiz');
 
-    // if (user.userRegister) {
-    //   console.log('todo bien crack');
-    // }
+    if (user.userRegister) {
+      console.log('todo bien crack');
+    }
   }
 
   onChangeText(event, value) {
@@ -52,12 +51,11 @@ class SignUp extends Component {
   }
 
   validateFields() {
-    const { userName, email, password, repeatedPassword, name, lastName } = this.state;
+    const { email, password, repeatedPassword, name, lastName } = this.state;
 
     if (password === repeatedPassword) {
       // registro en Autenticacion
       this.props.signUp({
-        userName,
         email,
         password,
         name,
@@ -87,22 +85,8 @@ class SignUp extends Component {
                   <h4 className={classes.cardTitle}>REGISTRARSE</h4>
                 </CardHeader>
                 <CardBody>
-                  <GridContainer>                    
-                  <GridItem xs={12} sm={12} md={12}>
-                      <CustomInput
-                        labelText="Nombre de Usuario"
-                        id="userName"
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
-                        inputProps={{
-                          onChange: event => this.onChangeText(event, 'userName'),
-                        }}
-                      />
-                    </GridItem>
-                  </GridContainer>
-
                   <GridContainer>
+
                     {/* NOMBRE */}
                     <GridItem xs={6} sm={6} md={6}>
                       <CustomInput

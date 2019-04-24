@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
-
 import WaterForm from './WaterForm';
 import {
   addWater, addSection, addField, fetchDynamicForm,

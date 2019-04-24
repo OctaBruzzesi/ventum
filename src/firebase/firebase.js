@@ -35,11 +35,12 @@ app.initializeApp(config);
 const firebaseAuth = app.auth();
 const databaseRef = app.database().ref();
 const water = databaseRef.child('water');
+const user = databaseRef.child('users');
 
 const database = app.firestore();
 
 export {
-  app, firebaseAuth, water, database,
+  app, firebaseAuth, water, user, database,
 };
 
 export default Firebase;
