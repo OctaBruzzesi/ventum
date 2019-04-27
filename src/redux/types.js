@@ -10,6 +10,11 @@ export const WATER_FETCH = 'WATER_FETCH';
 export const WATER_ERROR = 'WATER_ERROR';
 export const ADD_WATER_FORM = 'ADD_WATER_CONST';
 
+// WATER
+export const ENVIRONMENT_FETCH = 'WATER_FETCH';
+export const ENVIRONMENT_ERROR = 'WATER_ERROR';
+export const ADD_ENVIRONMENT_FORM = 'ADD_WATER_CONST';
+
 // USERS
 export const USER_FETCH = 'USER_FETCH';
 export const USER_ERROR = 'USER_ERROR';

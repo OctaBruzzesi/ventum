@@ -13,6 +13,8 @@ import TableList from 'views/TableList/TableList';
 import Maps from 'views/Maps/Maps';
 import Water from 'views/Water/Water';
 import WaterNew from 'views/Water/WaterNew';
+import Environment from 'views/Environment/Environment';
+import EnvironmentNew from 'views/Environment/EnvironmentNew';
 
 const dashboardRoutes = [
   {
@@ -45,7 +47,15 @@ const dashboardRoutes = [
     navbarName: 'Impacto Ambiental',
     visible: true,
     icon: 'content_paste',
-    component: TableList,
+    component: Environment,
+  },
+  {
+    path: '/environment/new',
+    sidebarName: '',
+    navbarName: '',
+    icon: Pool,
+    visible: false,
+    component: props => <EnvironmentNew {...props} />,
   },
   {
     path: '/soil',
