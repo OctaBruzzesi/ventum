@@ -90,7 +90,7 @@ const WaterChart = ({ water, classes }) => {
               <GridItem md={3}>
                 <Select
                   items={water.form[selectedSection].fields.map(item => item.key)}
-                  label="Sección"
+                  label="Valor"
                   onChange={e => selectValue(e.target.value)}
                   value={selectedValue}
                 />
