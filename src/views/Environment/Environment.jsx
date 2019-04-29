@@ -14,10 +14,8 @@ import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
 import Button from 'components/CustomButtons/Button';
 
-import { getWater } from 'redux/water/waterReducer';
-import { fetchDynamicForm, fetchWater } from 'redux/water/waterActions';
-
-import WaterChart from './WaterChart';
+import { getEnvironment } from 'redux/environment/environmentReducer';
+import { fetchEnvironment } from 'redux/environment/environmentActions';
 
 const styles = {
   cardCategoryWhite: {
@@ -49,15 +47,14 @@ const styles = {
   },
 };
 
-class Water extends Component {
+class Environment extends Component {
   componentDidMount() {
-    this.props.fetchDynamicForm();
-    this.props.fetchWater();
+    this.props.fetchEnvironment();
   }
 
-  getWaterTable() {
-    const { water } = this.props;
-    return water.data.map(item => [
+  getEnvironmentTable() {
+    const { environment } = this.props;
+    return environment.data.map(item => [
       String(item.id),
       item.location.province,
       item.location.city,
@@ -65,15 +62,12 @@ class Water extends Component {
   }
 
   render() {
-    const { classes, history, water } = this.props;
+    const { classes } = this.props;
     return (
       <GridContainer>
-        <GridItem xs={12} sm={12} md={12}>
-          <WaterChart water={water} />
-        </GridItem>
         <GridItem xs={12} sm={9} md={9} />
         <GridItem xs={12} sm={3} md={3}>
-          <Link to="/water/new">
+          <Link to="/environment/new">
             <Button color="primary">Nuevo Registro</Button>
           </Link>
         </GridItem>
@@ -87,10 +81,9 @@ class Water extends Component {
             </CardHeader>
             <CardBody>
               <Table
-                onClick={item => history.push(`/water/${item[0]}`)}
                 tableHeaderColor="primary"
                 tableHead={['ID', 'Provincia', 'Ciudad']}
-                tableData={this.getWaterTable()}
+                tableData={this.getEnvironmentTable()}
               />
             </CardBody>
           </Card>
@@ -101,22 +94,20 @@ class Water extends Component {
 }
 
 const mapStateToProps = state => ({
-  water: getWater(state),
+  environment: getEnvironment(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchWater: () => dispatch(fetchWater()),
-  fetchDynamicForm: () => dispatch(fetchDynamicForm()),
+  fetchEnvironment: () => dispatch(fetchEnvironment()),
 });
 
 export default compose(
   withStyles(styles),
   connect(mapStateToProps, mapDispatchToProps),
-)(Water);
+)(Environment);
 
-Water.propTypes = {
-  water: PropTypes.object.isRequired,
-  fetchDynamicForm: PropTypes.func.isRequired,
-  fetchWater: PropTypes.func.isRequired,
+Environment.propTypes = {
+  environment: PropTypes.object.isRequired,
+  fetchEnvironment: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };

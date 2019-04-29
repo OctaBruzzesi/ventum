@@ -20,6 +20,7 @@ module.exports = {
       },
     ],
     'react/forbid-prop-types': 0,
+    'react/jsx-one-expression-per-line': 0,
     'linebreak-style': 0,
   },
   plugins: ['react'],
