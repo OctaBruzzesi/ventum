@@ -22,8 +22,8 @@ class Routes extends Component {
   }
 
   getAuthRoutes() {
-    const routes = authRoutes.map(item => <Route path={item.path} component={item.component} />);
-    routes.push(<Redirect from="/" to="/login" />);
+    const routes = authRoutes.map((item, key) => <Route path={item.path} component={item.component} key={key} />);
+    routes.push(<Redirect from="/" to="/login" key={"login"} />);
     return routes;
   }
 

@@ -62,7 +62,7 @@ class Water extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, history } = this.props;
     return (
       <GridContainer>
         <GridItem xs={12} sm={9} md={9} />
@@ -81,6 +81,7 @@ class Water extends Component {
             </CardHeader>
             <CardBody>
               <Table
+                onClick={item => history.push(`/water/${item[0]}`)}
                 tableHeaderColor="primary"
                 tableHead={['ID', 'Provincia', 'Ciudad']}
                 tableData={this.getWaterTable()}

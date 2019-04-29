@@ -57,7 +57,7 @@ export const fetchWater = () => async (dispatch) => {
   database.collection('water').get()
     .then((data) => {
       const collectionList = [];
-      data.forEach(document => collectionList.push(document.data()));
+      data.forEach(document => collectionList.push({ ...document.data(), id: document.id }));
       dispatch(waterSuccess(collectionList));
     });
 };
