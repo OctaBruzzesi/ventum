@@ -15,7 +15,9 @@ import CardBody from 'components/Card/CardBody';
 import Button from 'components/CustomButtons/Button';
 
 import { getWater } from 'redux/water/waterReducer';
-import { fetchWater } from 'redux/water/waterActions';
+import { fetchDynamicForm, fetchWater } from 'redux/water/waterActions';
+
+import WaterChart from './WaterChart';
 
 const styles = {
   cardCategoryWhite: {
@@ -49,6 +51,7 @@ const styles = {
 
 class Water extends Component {
   componentDidMount() {
+    this.props.fetchDynamicForm();
     this.props.fetchWater();
   }
 
@@ -62,9 +65,12 @@ class Water extends Component {
   }
 
   render() {
-    const { classes, history } = this.props;
+    const { classes, history, water } = this.props;
     return (
       <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+          <WaterChart water={water} />
+        </GridItem>
         <GridItem xs={12} sm={9} md={9} />
         <GridItem xs={12} sm={3} md={3}>
           <Link to="/water/new">
@@ -100,6 +106,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchWater: () => dispatch(fetchWater()),
+  fetchDynamicForm: () => dispatch(fetchDynamicForm()),
 });
 
 export default compose(
@@ -109,6 +116,7 @@ export default compose(
 
 Water.propTypes = {
   water: PropTypes.object.isRequired,
+  fetchDynamicForm: PropTypes.func.isRequired,
   fetchWater: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
