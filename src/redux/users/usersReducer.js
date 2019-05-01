@@ -23,6 +23,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         registerSuccess: true,
+        error: '',
       };
     case USER_ERROR:
       return {

@@ -12,10 +12,11 @@ export const userSuccess = () => ({
 export const userFetch = list => ({
   type: USER_FETCH,
   payload: list,
-})
+});
 
-export const userError = () => ({
+export const userError = error => ({
   type: USER_ERROR,
+  error,
 });
 
 export const addUser = (userName, newUser) => async (dispatch) => {
@@ -24,7 +25,7 @@ export const addUser = (userName, newUser) => async (dispatch) => {
       dispatch(userSuccess());
     })
     .catch((error) => {
-      dispatch(error);
+      dispatch(userError(error));
     });
 };
 

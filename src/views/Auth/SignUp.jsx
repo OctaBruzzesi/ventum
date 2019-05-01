@@ -25,26 +25,29 @@ class SignUp extends Component {
     super(props);
 
     this.state = {
-      userName: '',
-      name: '',
-      lastName: '',
-      email: '',
-      password: '',
-      repeatedPassword: '',
-      error: '',
+      userName: 'prueba',
+      name: 'pueba',
+      lastName: 'prueba',
+      email: 'prueba@prueba.com',
+      password: 'prueba',
+      repeatedPassword: 'prueba',
     };
 
     this.validateFields = this.validateFields.bind(this);
   }
 
   componentDidUpdate() {
-    // const { history, auth, user } = this.props;
+    const { user } = this.props;
 
-    // console.log('actualiz');
-
-    // if (user.userRegister) {
-    //   console.log('todo bien crack');
-    // }
+    if (user.userRegister) {
+      console.log('todo bien crack');
+    }
+    else if (user.userRegister === undefined){
+      console.log('esta indefinido');
+    }
+    else if (!user.userRegister){
+      console.log('falso');
+    }
   }
 
   onChangeText(event, value) {
@@ -87,8 +90,8 @@ class SignUp extends Component {
                   <h4 className={classes.cardTitle}>REGISTRARSE</h4>
                 </CardHeader>
                 <CardBody>
-                  <GridContainer>                    
-                  <GridItem xs={12} sm={12} md={12}>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={12}>
                       <CustomInput
                         labelText="Nombre de Usuario"
                         id="userName"
@@ -174,6 +177,7 @@ class SignUp extends Component {
 
                     <GridItem xs={12} sm={12} md={12}>
                       <InputLabel error>{ auth.error }</InputLabel>
+                      <InputLabel error>{ signUp.error }</InputLabel>
                     </GridItem>
                   </GridContainer>
                 </CardBody>
@@ -203,7 +207,6 @@ class SignUp extends Component {
 
 SignUp.propTypes = {
   classes: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   signUp: PropTypes.object.isRequired,
