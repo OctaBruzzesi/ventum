@@ -87,8 +87,8 @@ class SignUp extends Component {
                   <h4 className={classes.cardTitle}>REGISTRARSE</h4>
                 </CardHeader>
                 <CardBody>
-                  <GridContainer>                    
-                  <GridItem xs={12} sm={12} md={12}>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={12}>
                       <CustomInput
                         labelText="Nombre de Usuario"
                         id="userName"
