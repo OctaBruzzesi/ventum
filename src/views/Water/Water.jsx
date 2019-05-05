@@ -8,6 +8,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 // core components
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
+import CustomInput from 'components/CustomInput/CustomInput';
 import Table from 'components/Table/Table';
 import Card from 'components/Card/Card';
 import CardHeader from 'components/Card/CardHeader';
@@ -49,15 +50,42 @@ const styles = {
   },
 };
 
-class Water extends Component {
+class Water extends Component {  
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      filterProvince: '',
+      filterCity: '',
+      filterUser: '',
+    };
+
+    this.onChangeText = this.onChangeText.bind(this);
+  }
+
   componentDidMount() {
     this.props.fetchDynamicForm();
     this.props.fetchWater();
   }
 
+  onChangeText(event, value) {
+    this.setState({ [value]: event.target.value });
+  }
+
   getWaterTable() {
     const { water } = this.props;
-    return water.data.map(item => [
+    const { filterProvince, filterCity } = this.state;
+    let waterCollection = water.data;
+
+    if (filterProvince !== '') {
+      waterCollection = waterCollection.filter(item => item.location.province.toLowerCase().startsWith(filterProvince.toLowerCase()));
+    }
+
+    if (filterCity !== '') {
+      waterCollection = waterCollection.filter(item => item.location.city.toLowerCase().startsWith(filterCity.toLowerCase()));
+    }
+
+    return waterCollection.map(item => [
       String(item.id),
       item.location.province,
       item.location.city,
@@ -65,13 +93,40 @@ class Water extends Component {
   }
 
   render() {
+
     const { classes, history, water } = this.props;
+
     return (
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
           <WaterChart water={water} />
         </GridItem>
-        <GridItem xs={12} sm={9} md={9} />
+
+        <GridItem xs={12} sm={3} md={3}>
+          <CustomInput
+            labelText="Provincia"
+            id="filterProvince"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            inputProps={{
+              onChange: (event) => this.onChangeText(event, 'filterProvince'),
+            }}
+          />
+        </GridItem>
+        <GridItem xs={12} sm={3} md={3}>
+          <CustomInput
+            labelText="Ciudad"
+            id="filterCity"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            inputProps={{
+              onChange: (event) => this.onChangeText(event, 'filterCity'),
+            }}
+          />
+        </GridItem>
+        <GridItem xs={12} sm={3} md={3} />
         <GridItem xs={12} sm={3} md={3}>
           <Link to="/water/new">
             <Button color="primary">Nuevo Registro</Button>
