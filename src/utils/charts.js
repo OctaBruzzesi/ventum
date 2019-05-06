@@ -13,6 +13,13 @@ const monthsLabels = [
   'Dic',
 ];
 
+const chartText = {
+  newChart: 'NUEVA GRÁFICA',
+  deleteChart: 'ELIMINAR',
+  greenColor: 'success',
+  redColor: 'danger',
+};
+
 const animation = {
   draw: (data) => {
     if (data.type === 'point') {
@@ -43,4 +50,4 @@ const animation = {
   },
 };
 
-export { monthsLabels, animation };
+export { monthsLabels, animation, chartText };
