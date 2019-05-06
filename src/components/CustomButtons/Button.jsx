@@ -57,6 +57,9 @@ RegularButton.propTypes = {
     'white',
     'transparent',
   ]),
+  variant: PropTypes.oneOf([
+    'outlined',
+  ]),
   size: PropTypes.oneOf(['sm', 'lg']),
   simple: PropTypes.bool,
   round: PropTypes.bool,
