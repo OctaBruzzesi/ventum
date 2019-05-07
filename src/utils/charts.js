@@ -13,6 +13,20 @@ const monthsLabels = [
   'Dic',
 ];
 
+const trimestersLabels = [
+  '1°',
+  '2°',
+  '3°',
+  '4°',
+];
+
+const yearsLabels = [
+  '2016',
+  '2017',
+  '2018',
+  '2019',
+];
+
 const chartText = {
   newChart: 'NUEVA GRÁFICA',
   deleteChart: 'ELIMINAR',
@@ -50,4 +64,6 @@ const animation = {
   },
 };
 
-export { monthsLabels, animation, chartText };
+export {
+  monthsLabels, trimestersLabels, yearsLabels, animation, chartText,
+};
