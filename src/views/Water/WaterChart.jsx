@@ -15,12 +15,9 @@ import Button from 'components/CustomButtons/Button';
 import dashboardStyle from 'assets/jss/material-dashboard-react/views/dashboardStyle';
 
 import { getDynamicSections } from '../../utils/sections';
-import { monthsLabels, animation, chartText } from '../../utils/charts';
-
-// data: {
-//   labels: ["M", "T", "W", "T", "F", "S", "S"],
-//   series: [[12, 17, 7, 17, 23, 18, 38]]
-// }
+import {
+  monthsLabels, trimestersLabels, yearsLabels, animation, chartText,
+} from '../../utils/charts';
 
 const WaterChart = ({ water, classes }) => {
   const [selectedValue, selectValue] = useState('nitrato');
@@ -34,6 +31,55 @@ const WaterChart = ({ water, classes }) => {
 
   const [newChart2, updNewChart2] = useState(false);
   const [newChart3, updNewChart3] = useState(false);
+
+  const [selectedPeriod, selectPeriod] = useState('Meses');
+  const [selectedYear, selectYear] = useState('2019');
+
+  const getWaterValuesOrderedByYear = (values) => {
+    const formatedValues = [
+      0,
+      0,
+      0,
+      0,
+    ];
+
+    values.forEach((item) => {
+      const value = formatedValues[moment(item.date).year() - 2016]; // sorry
+      formatedValues[moment(item.date).year() - 2016] = value + Number(item.value);
+    });
+
+    return formatedValues;
+  };
+
+  const getWaterValuesOrderedByTrimester = (values) => {
+    const formatedValues = [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+    ];
+
+    values.forEach((item) => {
+      const yearValue = (moment(item.data).year() - 2016) * 4;
+      const trimesterValue = Math.floor(moment(item.data).month() / 3);
+      const value = formatedValues[yearValue + trimesterValue];
+      formatedValues[yearValue + trimesterValue] = value + Number(item.value);
+    });
+
+    return formatedValues;
+  };
 
   const getWaterValuesOrderedByMonth = (values) => {
     const formatedValues = [
@@ -53,7 +99,9 @@ const WaterChart = ({ water, classes }) => {
 
     values.forEach((item) => {
       const value = formatedValues[moment(item.date).month()];
-      formatedValues[moment(item.date).month()] = value + Number(item.value);
+      if (moment(item.date).year() === Number(selectedYear)) {
+        formatedValues[moment(item.date).month()] = value + Number(item.value);
+      }
     });
 
     return formatedValues;
@@ -61,16 +109,6 @@ const WaterChart = ({ water, classes }) => {
 
   const styleNewChart2 = !newChart2 ? { display: 'none' } : {};
   const styleNewChart3 = !newChart3 ? { display: 'none' } : {};
-
-  const buttonStyle2 = {
-    color: newChart2 ? chartText.redColor : chartText.greenColor,
-    text: newChart2 ? chartText.deleteChart : chartText.newChart,
-  };
-
-  const buttonStyle3 = {
-    color: newChart3 ? chartText.redColor : chartText.greenColor,
-    text: newChart3 ? chartText.deleteChart : chartText.newChart,
-  };
 
   const getData = (pSelectedSection, pSelectedValue) => {
     const waterDataValues = [];
@@ -83,20 +121,44 @@ const WaterChart = ({ water, classes }) => {
       }
     });
 
-    return getWaterValuesOrderedByMonth(waterDataValues);
+    switch (selectedPeriod) {
+      case 'Años':
+        return getWaterValuesOrderedByYear(waterDataValues);
+      case 'Trimestres':
+        return getWaterValuesOrderedByTrimester(waterDataValues);
+      case 'Meses':
+        return getWaterValuesOrderedByMonth(waterDataValues);
+      default:
+        getWaterValuesOrderedByMonth(waterDataValues)
+    }
+
+    
   };
 
   const handleButtonClick = () => {
     if (!newChart2) {
       updNewChart2(true);
-    } 
-    else {
+    } else {
       updNewChart3(true);
     }
   };
 
   const getChartData = () => {
-    const formatedData = { labels: monthsLabels, data: [] };
+    const formatedData = { labels: [], data: [] };
+
+    switch (selectedPeriod) {
+      case 'Años':
+        formatedData.labels = yearsLabels;
+        break;
+      case 'Trimestres':
+        formatedData.labels = trimestersLabels;
+        break;
+      case 'Meses':
+        formatedData.labels = monthsLabels;
+        break;
+      default:
+        formatedData.labels = monthsLabels;
+    }
 
     const series = [];
     series.push(getData(selectedSection, selectedValue));
@@ -119,12 +181,37 @@ const WaterChart = ({ water, classes }) => {
       ? (
         <Card chart>
           <CardHeader color="success">
-            <ChartistGraph
-              className="ct-chart"
-              data={getChartData()}
-              type="Line"
-              listener={animation}
-            />
+            <GridContainer>
+              <GridItem md={10}>
+                <ChartistGraph
+                  className="ct-chart"
+                  data={getChartData()}
+                  type="Line"
+                  listener={animation}
+                />
+              </GridItem>
+              <GridItem md={2}>
+                <Select
+                  items={['Años', 'Trimestres', 'Meses']}
+                  onChange={e => selectPeriod(e.target.value)}
+                  label="Periodo"
+                  color="white"
+                  value={selectedPeriod}
+                />
+                {
+                  selectedPeriod === 'Meses'
+                  && (
+                    <Select
+                      items={yearsLabels}
+                      onChange={e => selectYear(e.target.value)}
+                      label="Año"
+                      color="white"
+                      value={selectedYear}
+                    />
+                  )
+                }
+              </GridItem>
+            </GridContainer>
           </CardHeader>
           <CardBody>
             <GridContainer>
