@@ -3,6 +3,7 @@ import {
   AUTH_SUCCESS,
   AUTH_ERROR,
   AUTH_LOGOUT,
+  AUTH_SIGNUP_ERROR,
   REGISTER_SUCCESS,
 } from '../types';
 
@@ -43,6 +44,12 @@ export default (state = initialState, action) => {
         authData: {},
         error: action.payload,
       };
+    case AUTH_SIGNUP_ERROR:
+      return {
+        loading: false,
+        authData: {},
+        signUpError: action.payload,
+      }
     case AUTH_LOGOUT:
       return {
         initialState,

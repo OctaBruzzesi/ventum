@@ -45,17 +45,9 @@ class Login extends Component {
     this.props.login(user, password);
   }
 
-  goToSignUp() {
-    console.log('redirect');
-    //return <Redirect to=" " />
-  }
-
   renderButtonSignUp(classes) {
     return (
       <Link to="/SignUp">Registrarse</Link>
-      // <Button onClick={this.goToSignUp} variant="outlined" className={classes.Button}>
-      //   ¿Aún no tiene cuenta registrada?
-      // </Button>
     );
   }
 
@@ -124,10 +116,11 @@ class Login extends Component {
                     direction="row"
                     justify="space-between"
                     alignItems="center">
-                    <GridItem xs={6}>
+                    <GridItem xs={6} md={6}>
                       {this.renderButton()}
                     </GridItem>
-                    <GridItem xs={6}>
+                    <GridItem xs={3} md={3}/>
+                    <GridItem xs={3} md={3}>
                       {this.renderButtonSignUp(classes)}
                       <Link to="/signUp" />
                     </GridItem>

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import {
-  AUTH_START, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT, REGISTER_SUCCESS,
+  AUTH_START, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT, AUTH_SIGNUP_ERROR, REGISTER_SUCCESS,
 } from '../types';
 import { firebaseAuth, database } from '../../firebase/firebase';
 import { loadAuth } from '../../utils/storage';
@@ -12,6 +12,11 @@ const authStart = () => ({
 
 const authError = error => ({
   type: AUTH_ERROR,
+  payload: error,
+});
+
+const signUpError = error => ({
+  type: AUTH_SIGNUP_ERROR,
   payload: error,
 });
 
@@ -33,6 +38,7 @@ export const getAuthFromStorage = () => (dispatch) => {
 };
 
 export const signOut = () => (dispatch) => {
+  localStorage.removeItem('auth');
   dispatch(authLogout());
 };
 
@@ -78,7 +84,7 @@ export const signUp = newUser => (dispatch) => {
           break;
       }
 
-      dispatch(authError(errorDetail));
+      dispatch(signUpError(errorDetail));
     });
 };
 

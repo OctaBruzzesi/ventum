@@ -38,13 +38,13 @@ class SignUp extends Component {
   }
 
   componentDidUpdate() {
-    // const { history, auth, user } = this.props;
+    const { history, auth, user } = this.props;
 
     // console.log('actualiz');
 
-    // if (user.userRegister) {
-    //   console.log('todo bien crack');
-    // }
+    if (user.registerSuccess) {
+      history.goBack();
+    }
   }
 
   onChangeText(event, value) {
@@ -52,9 +52,13 @@ class SignUp extends Component {
   }
 
   validateFields() {
-    const { userName, email, password, repeatedPassword, name, lastName } = this.state;
+    const {
+      userName, email, password, repeatedPassword, name, lastName, 
+    } = this.state;
 
+    let band = false;
     if (password === repeatedPassword) {
+      band = true;
       // registro en Autenticacion
       this.props.signUp({
         userName,
@@ -63,9 +67,11 @@ class SignUp extends Component {
         name,
         lastName,
       });
-    } else {
-      this.setState({ error: 'Las contraseñas no coinciden.' });
     }
+
+    this.setState({
+      error: band ? '' : 'Las contraseñas no coinciden.',
+    });
   }
 
   renderButtonBackToLogin() {
@@ -76,6 +82,7 @@ class SignUp extends Component {
 
   render() {
     const { auth, classes } = this.props;
+    const { error } = this.state;
 
     return (
       <div className={classes.content}>
@@ -173,7 +180,10 @@ class SignUp extends Component {
 
 
                     <GridItem xs={12} sm={12} md={12}>
-                      <InputLabel error>{ auth.error }</InputLabel>
+                      <InputLabel error>{ auth.signUpError }</InputLabel>
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={12}>
+                      <InputLabel error>{ error }</InputLabel>
                     </GridItem>
                   </GridContainer>
                 </CardBody>
@@ -206,7 +216,7 @@ SignUp.propTypes = {
   history: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  signUp: PropTypes.object.isRequired,
+  signUp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
