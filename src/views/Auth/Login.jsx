@@ -23,6 +23,16 @@ import CardFooter from 'components/Card/CardFooter';
 import loginStyle from 'assets/jss/material-dashboard-react/layouts/loginStyle';
 import { login } from '../../redux/auth/authActions';
 
+// import { logoVentum } from '../../assets/img/logo/logoVentum.png';
+
+const styleImg = {
+  'height': '8em',
+};
+
+const styleBody = {
+  'background': 'white',
+};
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -66,12 +76,19 @@ class Login extends Component {
     );
   }
 
+
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.content}>
+      <div style={styleBody} className={classes.content}>
         <div className={classes.container}>
           <GridContainer>
+            <GridItem xs={3} md={3} lg={3} />
+            <GridItem xs={6} md={6} lg={6}>
+              <img style={styleImg} src={require('../../assets/img/logo/logoVentum.png')}></img>
+            </GridItem>
+          </GridContainer>
+          <GridContainer>            
             <GridItem xs={12} sm={12} md={12}>
               <Card>
                 <CardHeader color="primary">
@@ -118,9 +135,8 @@ class Login extends Component {
                     alignItems="center">
                     <GridItem xs={6} md={6}>
                       {this.renderButton()}
-                    </GridItem>
-                    <GridItem xs={3} md={3}/>
-                    <GridItem xs={3} md={3}>
+                    </GridItem>                    
+                    <GridItem xs={6} md={6} lg={6}>
                       {this.renderButtonSignUp(classes)}
                       <Link to="/signUp" />
                     </GridItem>
