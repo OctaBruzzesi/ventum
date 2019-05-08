@@ -177,6 +177,7 @@ const WaterChart = ({ water, classes }) => {
   };
 
   const getChartComponent = () => {
+    console.log(typeChart);
     return (
       <ChartistGraph
         className="ct-chart"
@@ -205,12 +206,6 @@ const WaterChart = ({ water, classes }) => {
             </GridContainer>
             <GridContainer>
               <GridItem md={10}>
-                {/* <ChartistGraph
-                  className="ct-chart"
-                  data={getChartData()}
-                  type={typeChart}
-                  listener={animation}
-                /> */}
                 {getChartComponent()}
               </GridItem>
               <GridItem md={2}>
