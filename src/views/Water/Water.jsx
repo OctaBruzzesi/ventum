@@ -6,6 +6,7 @@ import { compose } from 'recompose';
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
 // core components
+import moment from 'moment';
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
 import CustomInput from 'components/CustomInput/CustomInput';
@@ -72,23 +73,43 @@ class Water extends Component {
     this.setState({ [value]: event.target.value });
   }
 
+  getUser(item) {
+    if (item.user) {
+      return `${item.user.name} ${item.user.lastName}`;
+    }
+    return '';
+  }
+
   getWaterTable() {
     const { water } = this.props;
-    const { filterProvince, filterCity } = this.state;
+    const { filterUser, filterProvince, filterCity } = this.state;
     let waterCollection = water.data;
 
+    if (filterUser !== '') {
+      waterCollection = waterCollection.filter(
+        item => item.user && (item.user.name.toLowerCase().startsWith(filterUser.toLowerCase())
+          || item.user.lastName.toLowerCase().startsWith(filterUser.toLowerCase()))
+      );
+    }
+
     if (filterProvince !== '') {
-      waterCollection = waterCollection.filter(item => item.location.province.toLowerCase().startsWith(filterProvince.toLowerCase()));
+      waterCollection = waterCollection.filter(
+        item => item.location.province.toLowerCase().startsWith(filterProvince.toLowerCase())
+      );
     }
 
     if (filterCity !== '') {
-      waterCollection = waterCollection.filter(item => item.location.city.toLowerCase().startsWith(filterCity.toLowerCase()));
+      waterCollection = waterCollection.filter(
+        item => item.location.city.toLowerCase().startsWith(filterCity.toLowerCase())
+      );
     }
 
     return waterCollection.map(item => [
       String(item.id),
       item.location.province,
       item.location.city,
+      this.getUser(item),
+      moment(item.date).format('DD-MM-YYYY HH:mm'),
     ]);
   }
 
@@ -104,13 +125,25 @@ class Water extends Component {
 
         <GridItem xs={12} sm={3} md={3}>
           <CustomInput
+            labelText="Usuario"
+            id="filterUser"
+            formControlProps={{
+              fullWidth: true,
+            }}
+            inputProps={{
+              onChange: event => this.onChangeText(event, 'filterUser'),
+            }}
+          />
+        </GridItem>
+        <GridItem xs={12} sm={3} md={3}>
+          <CustomInput
             labelText="Provincia"
             id="filterProvince"
             formControlProps={{
               fullWidth: true,
             }}
             inputProps={{
-              onChange: (event) => this.onChangeText(event, 'filterProvince'),
+              onChange: event => this.onChangeText(event, 'filterProvince'),
             }}
           />
         </GridItem>
@@ -122,7 +155,7 @@ class Water extends Component {
               fullWidth: true,
             }}
             inputProps={{
-              onChange: (event) => this.onChangeText(event, 'filterCity'),
+              onChange: event => this.onChangeText(event, 'filterCity'),
             }}
           />
         </GridItem>
@@ -144,7 +177,7 @@ class Water extends Component {
               <Table
                 onClick={item => history.push(`/water/${item[0]}`)}
                 tableHeaderColor="primary"
-                tableHead={['ID', 'Provincia', 'Ciudad']}
+                tableHead={['ID', 'Provincia', 'Ciudad', 'Usuario', 'Fecha']}
                 tableData={this.getWaterTable()}
               />
             </CardBody>
