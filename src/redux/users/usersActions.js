@@ -1,20 +1,21 @@
-import { user, database } from '../../firebase/firebase';
-import { USER_REGISTER_SUCCESS, USER_FETCH, USER_ERROR } from '../types';
+import { database } from '../../firebase/firebase';
+import { USER_REGISTER_SUCCESS, USERS_FETCH, SET_CURRENT_USER, USER_ERROR } from '../types';
 
-export const completeToDo = completeToDoId => async () => {
-  user.child(completeToDoId).remove();
-};
-
-export const userSuccess = () => ({
+const userSuccess = () => ({
   type: USER_REGISTER_SUCCESS,
 });
 
-export const userFetch = list => ({
-  type: USER_FETCH,
+const fetchUsers = list => ({
+  type: USERS_FETCH,
   payload: list,
-})
+});
 
-export const userError = () => ({
+const setCurrentUser = user => ({
+  type: SET_CURRENT_USER,
+  payload: user,
+});
+
+const userError = () => ({
   type: USER_ERROR,
 });
 
@@ -33,15 +34,26 @@ export const getUsersID = () => async (dispatch) => {
     .then((data) => {
       const list = [];
       data.forEach(doc => list.push(doc.id));
-      dispatch(userFetch(list));
+      dispatch(fetchUsers(list));
     });
 };
 
-export const fetchUser = () => async (dispatch) => {
+export const setUserFromStorage = () => async (dispatch) => {
+  const user = localStorage.getItem('user');
+  dispatch(setCurrentUser(JSON.parse(user)));
+};
+
+export const fetchUser = email => async (dispatch) => {
   database.collection('users').get()
     .then((data) => {
-      const collectionList = [];
-      data.forEach(document => collectionList.push(document.data()));
-      dispatch(userSuccess(collectionList));
-    });
+      let user = {};
+      data.forEach((document) => {
+        if (document.data().email === email) {
+          user = document.data();
+        }
+      });
+      localStorage.setItem('user', JSON.stringify(user));
+      dispatch(setCurrentUser(user));
+    })
+    .catch(e => console.log(e));
 };

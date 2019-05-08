@@ -74,7 +74,7 @@ class PermisesForm extends PureComponent {
 
   handleUserSelect(event) {
     this.setState({
-      userName: event.target.value[0],
+      userName: event.target.value,
     });
   }
 
@@ -83,10 +83,10 @@ class PermisesForm extends PureComponent {
 
     if (userName === '' || permits === '') { 
       this.setState({ error: 'Debe elegir un usuario y un permiso.'});
-      return
+      return;
     }
 
-    this.setState({ error: ''});
+    this.setState({ error: '' });
 
     let newPermits = {
       admin: false,

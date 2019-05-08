@@ -1,11 +1,13 @@
 import {
-  USER_FETCH,
+  USERS_FETCH,
   USER_ERROR,
+  SET_CURRENT_USER,
   USER_REGISTER_SUCCESS,
 } from '../types';
 
 const initialState = {
   data: [],
+  user: {},
   registerSuccess: false,
   error: '',
 };
@@ -16,14 +18,20 @@ export { getUser };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case USER_FETCH:
+    case USERS_FETCH:
       return {
+        ...state,
         data: action.payload,
       };
     case USER_REGISTER_SUCCESS:
       return {
         ...state,
         registerSuccess: true,
+      };
+    case SET_CURRENT_USER:
+      return {
+        ...state,
+        user: action.payload,
       };
     case USER_ERROR:
       return {

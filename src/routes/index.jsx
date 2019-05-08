@@ -10,6 +10,7 @@ import Login from '../views/Auth/Login';
 import authRoutes from './auth';
 import { getAuth } from '../redux/auth/authReducer';
 import { getAuthFromStorage } from '../redux/auth/authActions';
+import { setUserFromStorage } from '../redux/users/usersActions';
 
 const hist = createBrowserHistory();
 
@@ -29,6 +30,13 @@ class Routes extends Component {
 
   render() {
     const { auth } = this.props;
+
+    let isLoggedIn = false;
+
+    if (auth.authData && auth.authData.token) {
+      isLoggedIn = true;
+      this.props.setUserFromStorage();
+    }
     return (
       <Router history={hist}>
         <Switch>
@@ -53,6 +61,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  setUserFromStorage: () => dispatch(setUserFromStorage()),
   getAuthFromStorage: () => dispatch(getAuthFromStorage()),
 });
 

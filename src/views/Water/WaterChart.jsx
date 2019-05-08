@@ -186,7 +186,7 @@ const WaterChart = ({ water, classes }) => {
                 <ChartistGraph
                   className="ct-chart"
                   data={getChartData()}
-                  type="Line"
+                  type="Bar"
                   listener={animation}
                 />
               </GridItem>

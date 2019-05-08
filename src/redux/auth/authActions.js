@@ -4,7 +4,7 @@ import {
 } from '../types';
 import { firebaseAuth, database } from '../../firebase/firebase';
 import { loadAuth } from '../../utils/storage';
-import { addUser } from '../users/usersActions';
+import { addUser, fetchUser } from '../users/usersActions';
 
 const authStart = () => ({
   type: AUTH_START,
@@ -94,6 +94,9 @@ export const login = (email, pass) => (dispatch) => {
   firebaseAuth.signInWithEmailAndPassword(email, pass)
     .then(() => {
       localStorage.setItem('auth', 'auth');
+
+      dispatch(fetchUser(email));
+
       dispatch(authSuccess('auth'));
     })
     .catch((e) => {
