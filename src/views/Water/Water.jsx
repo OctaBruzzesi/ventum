@@ -75,7 +75,7 @@ class Water extends Component {
     this.setState({ [value]: event.target.value });
   }
 
-  getUser(item) {
+  getUserName(item) {
     if (item.user) {
       return `${item.user.name} ${item.user.lastName}`;
     }
@@ -110,7 +110,7 @@ class Water extends Component {
       String(item.id),
       item.location.province,
       item.location.city,
-      this.getUser(item),
+      this.getUserName(item),
       moment(item.date).format('DD-MM-YYYY HH:mm'),
     ]);
   }
