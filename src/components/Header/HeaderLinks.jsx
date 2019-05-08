@@ -98,7 +98,7 @@ class HeaderLinks extends React.Component {
           handleModalClose={this.handleModalClose}
         />
 
-        <div className={classes.searchWrapper}>
+        {/* <div className={classes.searchWrapper}>
           <CustomInput
             formControlProps={{
               className: `${classes.margin} ${classes.search}`,
@@ -125,11 +125,11 @@ class HeaderLinks extends React.Component {
           <Hidden mdUp implementation="css">
             <p className={classes.linkText}>Dashboard</p>
           </Hidden>
-        </Button>
+        </Button> */}
 
 
         {/* NOTIFICACIONES */}
-        <div className={classes.manager}>
+        {/* <div className={classes.manager}>
           <Button
             buttonRef={(node) => {
               this.anchorEl = node;
@@ -209,7 +209,7 @@ class HeaderLinks extends React.Component {
               </Grow>
             )}
           </Poppers>
-        </div>
+        </div> */}
 
        
         {/* PANEL CONFIGURACIONES */}
