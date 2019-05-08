@@ -4,6 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import moment from 'moment';
 import _ from 'underscore';
 import ChartistGraph from 'react-chartist';
+import Star from '@material-ui/icons/Star';
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
 import Card from 'components/Card/Card';
@@ -19,7 +20,7 @@ import {
   monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes,
 } from '../../utils/charts';
 
-const WaterChart = ({ water, classes }) => {
+const WaterChart = ({ water, addFavourites, classes }) => {
   const [selectedValue, selectValue] = useState('nitrato');
   const [selectedSection, selectSection] = useState('artificalMinerals');
 
@@ -143,6 +144,16 @@ const WaterChart = ({ water, classes }) => {
     }
   };
 
+  const convertData = () => {
+    const data = getChartData();
+    const { series, ...other } = data;
+
+    const newSeries = {};
+    series.map((item, key) => newSeries[`data${key}`] = item);
+
+    return { ...newSeries, ...other };
+  }
+
   const getChartData = () => {
     const formatedData = { labels: [], data: [] };
 
@@ -212,6 +223,17 @@ const WaterChart = ({ water, classes }) => {
                   label="Tipo Gráfica"
                   color="white"
                   value={typeChart}
+                />
+              </GridItem>
+              <GridItem md={7} />
+              <GridItem md={1}>
+                <Star
+                  onClick={() => addFavourites({
+                    data: convertData(),
+                    value1: selectedValue,
+                    value2: selectedValue2,
+                    value3: selectedValue3,
+                  })}
                 />
               </GridItem>
             </GridContainer>
@@ -337,6 +359,7 @@ const WaterChart = ({ water, classes }) => {
 
 WaterChart.propTypes = {
   water: PropTypes.object.isRequired,
+  addFavourites: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
 

@@ -16,6 +16,8 @@ import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
 import Button from 'components/CustomButtons/Button';
 
+import { addFavourites } from  'redux/favourites/favouritesActions';
+import { getUser } from 'redux/users/usersReducer';
 import { getWater } from 'redux/water/waterReducer';
 import { fetchDynamicForm, fetchWater } from 'redux/water/waterActions';
 
@@ -113,6 +115,12 @@ class Water extends Component {
     ]);
   }
 
+  addFavourites = (values) => {
+    const { addFavourites, user } = this.props;
+    console.log(values);
+    addFavourites(values, user.user.email);
+  }
+
   render() {
 
     const { classes, history, water } = this.props;
@@ -120,7 +128,7 @@ class Water extends Component {
     return (
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
-          <WaterChart water={water} />
+          <WaterChart water={water} addFavourites={this.addFavourites} />
         </GridItem>
 
         <GridItem xs={12} sm={3} md={3}>
@@ -189,11 +197,13 @@ class Water extends Component {
 }
 
 const mapStateToProps = state => ({
+  user: getUser(state),
   water: getWater(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchWater: () => dispatch(fetchWater()),
+  addFavourites: (newFavourite, user) => dispatch(addFavourites(newFavourite, user)),
   fetchDynamicForm: () => dispatch(fetchDynamicForm()),
 });
 
