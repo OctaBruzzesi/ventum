@@ -7,9 +7,18 @@ const addWaterForm = form => ({
   payload: form,
 });
 
-export const addWater = newWater => async (dispatch) => {
+export const addWater = (newWater, user) => async (dispatch) => {
+  const {
+    name, lastName, email, role,
+  } = user;
   database.collection('water').doc().set({
     ...newWater,
+    user: {
+      name,
+      lastName,
+      role,
+      email,
+    },
   });
 };
 

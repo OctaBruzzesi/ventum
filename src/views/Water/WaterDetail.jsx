@@ -17,7 +17,7 @@ import CardFooter from 'components/Card/CardFooter';
 import Progress from 'components/Progress/Progress';
 
 import { getItem } from '../../firebase/helpers';
-import { getDynamicFields } from '../../utils/sections';
+import { getDynamicFields, getSectionName } from '../../utils/sections';
 
 const styles = {
   cardCategoryWhite: {
@@ -48,12 +48,15 @@ const WaterDetail = (props) => {
   }, []);
 
   const renderDynamicFields = () => {
-    const filterFields = ['id', 'location', 'date', 'notes'];
+    const filterFields = ['id', 'user', 'location', 'date', 'notes'];
     const dynamicFields = [];
 
     _.mapObject(water, (item, key) => {
       if (!_.contains(filterFields, key)) {
-        console.log(item);
+        dynamicFields.push(<h4>{getSectionName(key)}</h4>);
+        _.mapObject(item, (value, name) => dynamicFields.push(
+          <p>{getSectionName(name)}: {getSectionName(value)}</p>,
+        ));
       }
     });
     return dynamicFields;
@@ -88,9 +91,6 @@ const WaterDetail = (props) => {
                     </GridContainer>
                     {renderDynamicFields()}
                   </CardBody>
-                  <CardFooter>
-                    <Button color="primary">Update Profile</Button>
-                  </CardFooter>
                 </Fragment>
               )
               : <Progress />
@@ -100,8 +100,12 @@ const WaterDetail = (props) => {
         <GridItem xs={12} sm={12} md={4}>
           <Card profile>
             <CardBody profile>
-              <h6 className={classes.cardCategory}>Geólogo</h6>
-              <h4 className={classes.cardTitle}>Juan Perez</h4>
+              {water.user && (
+                <Fragment>
+                  <h6 className={classes.cardCategory}>{water.user.role}</h6>
+                  <h4 className={classes.cardTitle}>{`${water.user.name} ${water.user.lastName}`}</h4>
+                </Fragment>
+              )}
             </CardBody>
           </Card>
         </GridItem>

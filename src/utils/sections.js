@@ -19,4 +19,9 @@ const getDynamicSections = (data) => {
   return sections;
 };
 
-export { getDynamicFields, getDynamicSections };
+const getSectionName = (name) => {
+  const e = name.replace(/([A-Z])/g, ' $1');
+  return e.charAt(0).toUpperCase() + e.slice(1);
+};
+
+export { getDynamicFields, getSectionName, getDynamicSections };

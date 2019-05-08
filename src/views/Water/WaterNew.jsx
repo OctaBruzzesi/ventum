@@ -27,7 +27,8 @@ class WaterNew extends PureComponent {
   }
 
   handleCreate(values) {
-    this.props.addWater(values);
+    const { user } = this.props;
+    this.props.addWater(values, user.user);
   }
 
   render() {
@@ -50,14 +51,15 @@ const mapDispatchToProps = dispatch => ({
   fetchDynamicForm: () => dispatch(fetchDynamicForm()),
   addSection: (label, key) => dispatch(addSection(label, key)),
   addField: (section, label, key) => dispatch(addField(section, label, key)),
-  addWater: newWater => dispatch(addWater(newWater)),
+  addWater: (newWater, user) => dispatch(addWater(newWater, user)),
 });
 
-export default connect(state => ({ water: state.water }), mapDispatchToProps)(WaterNew);
+export default connect(state => ({ water: state.water, user: state.user }), mapDispatchToProps)(WaterNew);
 
 WaterNew.propTypes = {
   water: PropTypes.object.isRequired,
   addField: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
   fetchDynamicForm: PropTypes.func.isRequired,
   addWater: PropTypes.func.isRequired,
   addSection: PropTypes.func.isRequired,
