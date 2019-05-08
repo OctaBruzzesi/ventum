@@ -13,6 +13,11 @@ const monthsLabels = [
   'Dic',
 ];
 
+const averageTypes = {
+  promedio: 'Promedio',
+  sumatoria: 'Sumatoria'
+};
+
 const trimestersLabels = [
   '1° </br> 2016',
   '2°',
@@ -82,5 +87,5 @@ const animation = {
 };
 
 export {
-  monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes,
+  monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes, averageTypes
 };

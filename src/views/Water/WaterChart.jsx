@@ -17,7 +17,7 @@ import dashboardStyle from 'assets/jss/material-dashboard-react/views/dashboardS
 
 import { getDynamicSections } from '../../utils/sections';
 import {
-  monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes,
+  monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes, averageTypes
 } from '../../utils/charts';
 
 const WaterChart = ({ water, addFavourites, classes }) => {
@@ -36,6 +36,8 @@ const WaterChart = ({ water, addFavourites, classes }) => {
   const [selectedPeriod, selectPeriod] = useState('Meses');
   const [selectedYear, selectYear] = useState('2019');
 
+  const [calculationForm, setCalculationForm] = useState('Promedio');
+
   const [typeChart, setTypeChart] = useState(chartTypes.line);
 
   const getWaterValuesOrderedByYear = (values) => {
@@ -46,11 +48,40 @@ const WaterChart = ({ water, addFavourites, classes }) => {
       0,
     ];
 
-    values.forEach((item) => {
-      const value = formatedValues[moment(item.date).year() - 2016]; // sorry
-      formatedValues[moment(item.date).year() - 2016] = value + Number(item.value);
-    });
+    const counters = [
+      0,
+      0,
+      0,
+      0,
+    ];
 
+    if (calculationForm === averageTypes.sumatoria) {
+      values.forEach((item) => {
+        const index = moment(item.date).year() - 2016;
+        const value = formatedValues[index]; // sorry
+        formatedValues[index] = value + Number(item.value);      
+      });
+    }
+
+    else {
+      values.forEach((item) => {
+        const index = moment(item.date).year() - 2016
+        const value = formatedValues[index]; // sorry
+        formatedValues[index] = value + Number(item.value);
+        counters[index] = counters[index] + 1;
+      });
+
+      let cont = 0;
+      formatedValues.forEach((item) => {
+        const count = counters[cont];
+
+        if(count > 0) {
+          formatedValues[cont] = item / count;
+        }
+
+        cont++;
+      });
+    }
     return formatedValues;
   };
 
@@ -73,13 +104,55 @@ const WaterChart = ({ water, addFavourites, classes }) => {
       0,
       0,
     ];
+    
+    if(calculationForm === averageTypes.sumatoria) {
+      values.forEach((item) => {
+        const yearValue = (moment(item.data).year() - 2016) * 4;
+        const trimesterValue = Math.floor(moment(item.data).month() / 3);
+        const value = formatedValues[yearValue + trimesterValue];
+        formatedValues[yearValue + trimesterValue] = value + Number(item.value);
+      });
+    }
+    
+    else {
+      const counters = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,        
+      ];
 
-    values.forEach((item) => {
-      const yearValue = (moment(item.data).year() - 2016) * 4;
-      const trimesterValue = Math.floor(moment(item.data).month() / 3);
-      const value = formatedValues[yearValue + trimesterValue];
-      formatedValues[yearValue + trimesterValue] = value + Number(item.value);
-    });
+      values.forEach((item) => {
+        const yearValue = (moment(item.data).year() - 2016) * 4;
+        const trimesterValue = Math.floor(moment(item.data).month() / 3);
+        const value = formatedValues[yearValue + trimesterValue];
+        formatedValues[yearValue + trimesterValue] = value + Number(item.value);
+        counters[yearValue + trimesterValue] = counters[yearValue + trimesterValue] + 1;
+      });
+
+      let cont = 0;
+      formatedValues.forEach((item) => {
+        const count = counters[cont];
+
+        if(count > 0) {
+          formatedValues[cont] = item / count;
+        }
+
+        cont++;
+      });
+    }
 
     return formatedValues;
   };
@@ -100,12 +173,51 @@ const WaterChart = ({ water, addFavourites, classes }) => {
       0,
     ];
 
-    values.forEach((item) => {
-      const value = formatedValues[moment(item.date).month()];
-      if (moment(item.date).year() === Number(selectedYear)) {
-        formatedValues[moment(item.date).month()] = value + Number(item.value);
-      }
-    });
+    if (calculationForm === averageTypes.sumatoria) {
+      values.forEach((item) => {
+        const value = formatedValues[moment(item.date).month()];
+        if (moment(item.date).year() === Number(selectedYear)) {
+          formatedValues[moment(item.date).month()] = value + Number(item.value);
+        }
+      });
+    }
+
+    else {
+      const counters = [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+      ];
+
+      values.forEach((item) => {
+        const index = moment(item.date).month();
+        const value = formatedValues[index];
+        if (moment(item.date).year() === Number(selectedYear)) {
+          formatedValues[index] = value + Number(item.value);
+          counters[index] = counters[index] + 1;
+        }
+      });
+
+      let cont = 0;
+      formatedValues.forEach((item) => {
+        const count = counters[cont];
+
+        if(count > 0) {
+          formatedValues[cont] = item / count;
+        }
+
+        cont++;
+      });
+    }
 
     return formatedValues;
   };
@@ -188,12 +300,12 @@ const WaterChart = ({ water, addFavourites, classes }) => {
   };
 
   const getChartComponent = () => {
-    if (typeChart === 'Line') {
+    if (typeChart === chartTypes.line) {
       return (
         <ChartistGraph
           className="ct-chart"
           data={getChartData()}
-          type="Line"
+          type={chartTypes.line}
           listener={animation}
         />
       );
@@ -203,7 +315,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
         <ChartistGraph
           className="ct-chart"
           data={getChartData()}
-          type="Bar"
+          type={chartTypes.bar}
           listener={animation}
         />
       </div>
@@ -261,6 +373,16 @@ const WaterChart = ({ water, addFavourites, classes }) => {
                     />
                   )
                 }
+              </GridItem>
+              <GridItem md={10} />
+              <GridItem md={2}>
+                <Select
+                  items={[averageTypes.promedio, averageTypes.sumatoria]}
+                  onChange={e => setCalculationForm(e.target.value)}
+                  label="Cálculo"
+                  color="white"
+                  value={calculationForm}
+                />                
               </GridItem>
             </GridContainer>
           </CardHeader>
