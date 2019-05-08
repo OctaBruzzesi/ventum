@@ -27,6 +27,11 @@ const yearsLabels = [
   '2019',
 ];
 
+const chartTypes = {
+  line: 'Line',
+  bar: 'Bar',
+};
+
 const chartText = {
   newChart: 'NUEVA GRÁFICA',
   deleteChart: 'ELIMINAR',
@@ -65,5 +70,5 @@ const animation = {
 };
 
 export {
-  monthsLabels, trimestersLabels, yearsLabels, animation, chartText,
+  monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes,
 };

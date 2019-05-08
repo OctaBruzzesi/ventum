@@ -16,7 +16,7 @@ import dashboardStyle from 'assets/jss/material-dashboard-react/views/dashboardS
 
 import { getDynamicSections } from '../../utils/sections';
 import {
-  monthsLabels, trimestersLabels, yearsLabels, animation, chartText,
+  monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes,
 } from '../../utils/charts';
 
 const WaterChart = ({ water, classes }) => {
@@ -34,6 +34,8 @@ const WaterChart = ({ water, classes }) => {
 
   const [selectedPeriod, selectPeriod] = useState('Meses');
   const [selectedYear, selectYear] = useState('2019');
+
+  const [typeChart, setTypeChart] = useState(chartTypes.line);
 
   const getWaterValuesOrderedByYear = (values) => {
     const formatedValues = [
@@ -129,10 +131,8 @@ const WaterChart = ({ water, classes }) => {
       case 'Meses':
         return getWaterValuesOrderedByMonth(waterDataValues);
       default:
-        getWaterValuesOrderedByMonth(waterDataValues)
+        getWaterValuesOrderedByMonth(waterDataValues);
     }
-
-    
   };
 
   const handleButtonClick = () => {
@@ -176,19 +176,42 @@ const WaterChart = ({ water, classes }) => {
     return formatedData;
   };
 
+  const getChartComponent = () => {
+    return (
+      <ChartistGraph
+        className="ct-chart"
+        data={getChartData()}
+        type={typeChart}
+        listener={animation}
+      />
+    );
+  }
+
   return (
     !_.isEmpty(water) && !_.isEmpty(water.form)
       ? (
         <Card chart>
           <CardHeader color="success">
             <GridContainer>
+              <GridItem md={4}>
+                <Select
+                  items={[chartTypes.line, chartTypes.bar]}
+                  onChange={e => setTypeChart(e.target.value)}
+                  label="Tipo Gráfica"
+                  color="white"
+                  value={typeChart}
+                />
+              </GridItem>
+            </GridContainer>
+            <GridContainer>
               <GridItem md={10}>
-                <ChartistGraph
+                {/* <ChartistGraph
                   className="ct-chart"
                   data={getChartData()}
-                  type="Bar"
+                  type={typeChart}
                   listener={animation}
-                />
+                /> */}
+                {getChartComponent()}
               </GridItem>
               <GridItem md={2}>
                 <Select
