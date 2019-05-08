@@ -14,7 +14,19 @@ const monthsLabels = [
 ];
 
 const trimestersLabels = [
-  '1°',
+  '1° </br> 2016',
+  '2°',
+  '3°',
+  '4°',
+  '1° </br> 2017',
+  '2°',
+  '3°',
+  '4°',
+  '1° </br> 2018',
+  '2°',
+  '3°',
+  '4°',
+  '1° </br> 2019',
   '2°',
   '3°',
   '4°',
@@ -26,6 +38,11 @@ const yearsLabels = [
   '2018',
   '2019',
 ];
+
+const chartTypes = {
+  line: 'Line',
+  bar: 'Bar',
+};
 
 const chartText = {
   newChart: 'NUEVA GRÁFICA',
@@ -65,5 +82,5 @@ const animation = {
 };
 
 export {
-  monthsLabels, trimestersLabels, yearsLabels, animation, chartText,
+  monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes,
 };
