@@ -177,16 +177,27 @@ const WaterChart = ({ water, classes }) => {
   };
 
   const getChartComponent = () => {
-    console.log(typeChart);
+    if (typeChart === 'Line') {
+      return (
+        <ChartistGraph
+          className="ct-chart"
+          data={getChartData()}
+          type="Line"
+          listener={animation}
+        />
+      );
+    }
     return (
-      <ChartistGraph
-        className="ct-chart"
-        data={getChartData()}
-        type={typeChart}
-        listener={animation}
-      />
+      <div>
+        <ChartistGraph
+          className="ct-chart"
+          data={getChartData()}
+          type="Bar"
+          listener={animation}
+        />
+      </div>
     );
-  }
+  };
 
   return (
     !_.isEmpty(water) && !_.isEmpty(water.form)
