@@ -65,21 +65,21 @@ const WaterChart = ({ water, addFavourites, classes }) => {
 
     else {
       values.forEach((item) => {
-        const index = moment(item.date).year() - 2016
+        const index = moment(item.date).year() - 2016;
         const value = formatedValues[index]; // sorry
         formatedValues[index] = value + Number(item.value);
-        counters[index] = counters[index] + 1;
+        counters[index] += 1;
       });
 
       let cont = 0;
       formatedValues.forEach((item) => {
         const count = counters[cont];
 
-        if(count > 0) {
+        if (count > 0) {
           formatedValues[cont] = item / count;
         }
 
-        cont++;
+        cont += 1;
       });
     }
     return formatedValues;
@@ -104,8 +104,8 @@ const WaterChart = ({ water, addFavourites, classes }) => {
       0,
       0,
     ];
-    
-    if(calculationForm === averageTypes.sumatoria) {
+
+    if (calculationForm === averageTypes.sumatoria) {
       values.forEach((item) => {
         const yearValue = (moment(item.data).year() - 2016) * 4;
         const trimesterValue = Math.floor(moment(item.data).month() / 3);
@@ -113,7 +113,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
         formatedValues[yearValue + trimesterValue] = value + Number(item.value);
       });
     }
-    
+
     else {
       const counters = [
         0,
@@ -146,11 +146,11 @@ const WaterChart = ({ water, addFavourites, classes }) => {
       formatedValues.forEach((item) => {
         const count = counters[cont];
 
-        if(count > 0) {
+        if (count > 0) {
           formatedValues[cont] = item / count;
         }
 
-        cont++;
+        cont += 1;
       });
     }
 
@@ -203,7 +203,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
         const value = formatedValues[index];
         if (moment(item.date).year() === Number(selectedYear)) {
           formatedValues[index] = value + Number(item.value);
-          counters[index] = counters[index] + 1;
+          counters[index] += 1;
         }
       });
 
@@ -211,11 +211,11 @@ const WaterChart = ({ water, addFavourites, classes }) => {
       formatedValues.forEach((item) => {
         const count = counters[cont];
 
-        if(count > 0) {
+        if (count > 0) {
           formatedValues[cont] = item / count;
         }
 
-        cont++;
+        cont += 1;
       });
     }
 
@@ -224,6 +224,25 @@ const WaterChart = ({ water, addFavourites, classes }) => {
 
   const styleNewChart2 = !newChart2 ? { display: 'none' } : {};
   const styleNewChart3 = !newChart3 ? { display: 'none' } : {};
+
+  const styleChartDescription1 = {
+    color: 'white',
+    'font-weight': 'bold',
+  };
+
+  const styleChartDescription2 = {
+    color: 'red',
+    opacity: '0.7',
+    display: newChart2 || newChart3 ? '' : 'none',
+    'font-weight': 'bold',
+  };
+
+  const styleChartDescription3 = {
+    color: 'yellow',
+    opacity: '0.9',
+    display: newChart2 && newChart3 ? '' : 'none',
+    'font-weight': 'bold',
+  };
 
   const getData = (pSelectedSection, pSelectedValue) => {
     const waterDataValues = [];
@@ -264,7 +283,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
     series.map((item, key) => newSeries[`data${key}`] = item);
 
     return { ...newSeries, ...other };
-  }
+  };
 
   const getChartData = () => {
     const formatedData = { labels: [], data: [] };
@@ -297,6 +316,46 @@ const WaterChart = ({ water, addFavourites, classes }) => {
     formatedData.series = series;
 
     return formatedData;
+  };
+
+
+  const getChartTextDescription1 = () => {
+    const tipo = typeChart === chartTypes.line ? 'Línea 1 - ' : 'Barra 1 - ';
+
+    return `${tipo} Sección:  '${selectedSection}' y Valor:  '${selectedValue}'`;
+  };
+
+  const getChartTextDescription2 = () => {
+    const tipo = typeChart === chartTypes.line ? 'Línea 2 - ' : 'Barra 2 - ';
+    let section = '';
+    let valor = '';
+
+    if (newChart2) {
+      section = selectedSection2;
+      valor = selectedValue2;
+    } else if (!newChart2 && newChart3) {
+      section = selectedSection3;
+      valor = selectedValue3;
+    }
+
+    return `${tipo} Sección:  '${section}' y Valor:  '${valor}'`;
+  };
+
+  const getChartTextDescription3 = () => {
+    const tipo = typeChart === chartTypes.line ? 'Línea 3 - ' : 'Barra 3 - ';
+
+    return `${tipo} Sección:  '${selectedSection3}' y Valor:  '${selectedValue3}'`;
+  };
+
+  const getDescriptionCharts = () => {
+    return (
+      <div>
+        <p style={styleChartDescription1}>{getChartTextDescription1()}</p>
+        <p style={styleChartDescription2}>{getChartTextDescription2()}</p>
+        <p style={styleChartDescription3}>{getChartTextDescription3()}</p>
+      </div>
+
+    );
   };
 
   const getChartComponent = () => {
@@ -374,7 +433,10 @@ const WaterChart = ({ water, addFavourites, classes }) => {
                   )
                 }
               </GridItem>
-              <GridItem md={10} />
+              <GridItem md={6}>
+                {getDescriptionCharts()}       
+              </GridItem>
+              <GridItem md={4} />
               <GridItem md={2}>
                 <Select
                   items={[averageTypes.promedio, averageTypes.sumatoria]}
