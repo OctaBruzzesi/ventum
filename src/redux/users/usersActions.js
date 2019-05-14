@@ -34,6 +34,7 @@ export const getUsersID = () => async (dispatch) => {
     .then((data) => {
       const list = [];
       data.forEach(doc => list.push(doc.id));
+      console.log(list);
       dispatch(fetchUsers(list));
     });
 };

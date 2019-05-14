@@ -38,6 +38,8 @@ const styles = theme => ({
   },
 });
 
+let usersID = [];
+
 class PermisesForm extends PureComponent {
   constructor(props) {
     super(props);
@@ -55,7 +57,7 @@ class PermisesForm extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.getUsersID();
+    usersID = this.props.getUsersID();
   }
 
   getUsers() {
@@ -74,7 +76,7 @@ class PermisesForm extends PureComponent {
 
   handleUserSelect(event) {
     this.setState({
-      userName: event.target.value,
+      userName: event.target.value[0],
     });
   }
 
@@ -152,9 +154,11 @@ class PermisesForm extends PureComponent {
                   <Field
                     name="users"
                     component={Select}
-                    items={this.getUsers()}
+                    // items={this.getUser()}
+                    items={['nico','octa']}
                     label="Usuarios"
                     onChange={this.handleUserSelect}
+                    value={this.state.userName}
                   />
                 </GridItem>
               </GridContainer>
