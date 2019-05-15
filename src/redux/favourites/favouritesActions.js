@@ -1,3 +1,4 @@
+import { store } from '../../App';
 import { database } from '../../firebase/firebase';
 import { getArrayFromCollection, getObjectFromCollection } from '../../helpers/firebaseHelper';
 import { FETCH_FAVOURITES, ADD_FAVOURITES } from '../types';
@@ -19,21 +20,16 @@ export const addFavourites = (newFavourite, user) => async (dispatch) => {
     .then(() => addFavouritesSuccess());
 };
 
-export const fetchWater = user => async (dispatch) => {
+export const fetchFavourites = () => async (dispatch) => {
+  const { user } = store.getState().user;
   database.collection('favourites').get()
     .then((data) => {
       const collectionList = [];
       data.forEach((document) => {
-        if (document.id === user) {
+        if (document.data().user === user.email) {
           collectionList.push({ ...document.data(), id: document.id });
         }
       });
       dispatch(fetchFavouritesSuccess(collectionList));
     });
 };
-
-// {
-//   key: 'eee',
-//   label: 'eesss',
-//   type: 'number',
-// }

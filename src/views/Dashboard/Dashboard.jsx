@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
 // react plugin for creating charts
 import ChartistGraph from 'react-chartist';
 // @material-ui/core
@@ -24,14 +26,36 @@ import {
 
 import dashboardStyle from 'assets/jss/material-dashboard-react/views/dashboardStyle';
 
+import Chart from './Chart';
+
+import { getFavourites } from '../../redux/favourites/favouritesReducer';
+import { fetchFavourites } from '../../redux/favourites/favouritesActions';
+import { getWater } from 'redux/water/waterReducer';
+import { fetchWater } from 'redux/water/waterActions';
+
 class Dashboard extends PureComponent {
+  componentDidMount() {
+    this.props.fetchFavourites();
+    this.props.fetchWater();
+  }
+
   render() {
-    const { classes } = this.props;
+    const { favourites, water, classes } = this.props;
+    const sections = { water };
     return (
       <div>
         <GridContainer>
           <GridItem xs={12} sm={12} md={4}>
             <Card chart>
+              {
+                favourites.list.map(item =>
+                  <Chart
+                    data={item}
+                    key={item.id}
+                    sections={sections}
+                  />
+                )
+              }
               <CardHeader color="success">
                 <ChartistGraph
                   className="ct-chart"
@@ -146,7 +170,23 @@ class Dashboard extends PureComponent {
 }
 
 Dashboard.propTypes = {
+  fetchFavourites: PropTypes.func.isRequired,
+  favourites: PropTypes.object.isRequired,
+  water: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(dashboardStyle)(Dashboard);
+const mapStateToProps = state => ({
+  favourites: getFavourites(state),
+  water: getWater(state),
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchFavourites: () => dispatch(fetchFavourites()),
+  fetchWater: () => dispatch(fetchWater()),
+});
+
+export default compose(
+  withStyles(dashboardStyle),
+  connect(mapStateToProps, mapDispatchToProps),
+)(Dashboard);

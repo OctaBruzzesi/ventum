@@ -17,7 +17,7 @@ import dashboardStyle from 'assets/jss/material-dashboard-react/views/dashboardS
 
 import { getDynamicSections } from '../../utils/sections';
 import {
-  monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes, averageTypes
+  monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes, averageTypes,
 } from '../../utils/charts';
 
 const WaterChart = ({ water, addFavourites, classes }) => {
@@ -59,11 +59,9 @@ const WaterChart = ({ water, addFavourites, classes }) => {
       values.forEach((item) => {
         const index = moment(item.date).year() - 2016;
         const value = formatedValues[index]; // sorry
-        formatedValues[index] = value + Number(item.value);      
+        formatedValues[index] = value + Number(item.value);
       });
-    }
-
-    else {
+    } else {
       values.forEach((item) => {
         const index = moment(item.date).year() - 2016;
         const value = formatedValues[index]; // sorry
@@ -112,9 +110,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
         const value = formatedValues[yearValue + trimesterValue];
         formatedValues[yearValue + trimesterValue] = value + Number(item.value);
       });
-    }
-
-    else {
+    } else {
       const counters = [
         0,
         0,
@@ -131,7 +127,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
         0,
         0,
         0,
-        0,        
+        0,
       ];
 
       values.forEach((item) => {
@@ -180,9 +176,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
           formatedValues[moment(item.date).month()] = value + Number(item.value);
         }
       });
-    }
-
-    else {
+    } else {
       const counters = [
         0,
         0,
@@ -347,8 +341,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
     return `${tipo} Sección:  '${selectedSection3}' y Valor:  '${selectedValue3}'`;
   };
 
-  const getDescriptionCharts = () => {
-    return (
+  const getDescriptionCharts = () => (
       <div>
         <p style={styleChartDescription1}>{getChartTextDescription1()}</p>
         <p style={styleChartDescription2}>{getChartTextDescription2()}</p>
@@ -356,7 +349,6 @@ const WaterChart = ({ water, addFavourites, classes }) => {
       </div>
 
     );
-  };
 
   const getChartComponent = () => {
     if (typeChart === chartTypes.line) {
@@ -434,7 +426,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
                 }
               </GridItem>
               <GridItem md={6}>
-                {getDescriptionCharts()}       
+                {getDescriptionCharts()}
               </GridItem>
               <GridItem md={4} />
               <GridItem md={2}>
@@ -444,7 +436,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
                   label="Cálculo"
                   color="white"
                   value={calculationForm}
-                />                
+                />
               </GridItem>
             </GridContainer>
           </CardHeader>
