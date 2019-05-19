@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'underscore';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import WaterForm from './WaterForm';
 import {
   addSection, addField, fetchDynamicForm, editWater,
@@ -12,23 +10,10 @@ class WaterUpdate extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      id: null,
-      waterData: null,
-    };
-
     this.handleEdit = this.handleEdit.bind(this);
   }
-
   componentDidMount() {
     this.props.fetchDynamicForm();
-
-    const { id, waterData } = this.props.location.state;
-
-    this.setState({
-      id,
-      waterData,
-    });
   }
 
   addSection(label, key) {

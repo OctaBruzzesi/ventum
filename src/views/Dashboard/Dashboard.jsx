@@ -33,10 +33,9 @@ class Dashboard extends PureComponent {
         <GridContainer>
           {
             favourites.list.map(item => (
-              <GridItem xs={12} sm={12} md={6}>
+              <GridItem xs={12} sm={12} md={6} key={item.id}>
                 <Chart
                   data={item}
-                  key={item.id}
                   sections={sections}
                 />
               </GridItem>

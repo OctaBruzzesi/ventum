@@ -9,6 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Snackbar from '@material-ui/core/Snackbar';
 import { compose } from 'recompose';
 import _ from 'underscore';
 
@@ -53,6 +54,8 @@ const WaterForm = (props) => {
   const [sectionSelected, setSectionSelected] = useState('');
 
   const [modalFieldOpen, handleModalFieldOpen] = useState(false);
+
+  const [snackbar, setSnackbar] = useState(false);
 
   const addSection = () => {
     props.addSection(modalValues.sectionName, modalValues.sectionKey);
@@ -186,6 +189,10 @@ const WaterForm = (props) => {
             <GridItem className={classes.formItem}>
               <div className={classes.formItem}>
                 <Button
+                  onClick={() => {
+                    setSnackbar(true);
+                    setTimeout(() => history.goBack(), 1500);
+                  }}
                   type="submit"
                   color="primary"
                 >
@@ -201,6 +208,13 @@ const WaterForm = (props) => {
           </GridContainer>
         </form>
       </CardBody>
+
+      <Snackbar
+        message="Muestra guardada con éxito!"
+        open={snackbar}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar(false)}
+      />
 
       <Dialog
         open={modalOpen}

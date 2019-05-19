@@ -221,21 +221,21 @@ const WaterChart = ({ water, user, addFavourites, classes }) => {
 
   const styleChartDescription1 = {
     color: 'white',
-    'font-weight': 'bold',
+    fontWeight: 'bold',
   };
 
   const styleChartDescription2 = {
     color: 'red',
     opacity: '0.7',
     display: newChart2 || newChart3 ? '' : 'none',
-    'font-weight': 'bold',
+    fontWeight: 'bold',
   };
 
   const styleChartDescription3 = {
     color: 'yellow',
     opacity: '0.9',
     display: newChart2 && newChart3 ? '' : 'none',
-    'font-weight': 'bold',
+    fontWeight: 'bold',
   };
 
   const getData = (pSelectedSection, pSelectedValue) => {

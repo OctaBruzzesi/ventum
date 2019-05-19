@@ -22,7 +22,7 @@ const Select = ({
     <MaterialSelect
       displayEmpty
       onChange={onChange}
-      className={color === 'white' && classes.select}
+      className={color === 'white' && classes.select ? classes.select : ''}
       value={value}
       label={label}
       input={

@@ -16,7 +16,7 @@ import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
 import Button from 'components/CustomButtons/Button';
 
-import { addFavourites } from  'redux/favourites/favouritesActions';
+import { addFavourites } from 'redux/favourites/favouritesActions';
 import { getUser } from 'redux/users/usersReducer';
 import { getWater } from 'redux/water/waterReducer';
 import { fetchDynamicForm, fetchWater } from 'redux/water/waterActions';
@@ -108,6 +108,7 @@ class Water extends Component {
 
     return waterCollection.map(item => [
       String(item.id),
+      item.notes,
       item.location.province,
       item.location.city,
       this.getUserName(item),
@@ -117,12 +118,10 @@ class Water extends Component {
 
   addFavourites = (values) => {
     const { addFavourites, user } = this.props;
-    console.log(values);
     addFavourites(values, user.user.email);
   }
 
   render() {
-
     const { classes, user, history, water } = this.props;
 
     return (
@@ -185,7 +184,7 @@ class Water extends Component {
               <Table
                 onClick={item => history.push(`/water/${item[0]}`)}
                 tableHeaderColor="primary"
-                tableHead={['ID', 'Provincia', 'Ciudad', 'Usuario', 'Fecha']}
+                tableHead={['ID', 'Notas', 'Provincia', 'Ciudad', 'Usuario', 'Fecha']}
                 tableData={this.getWaterTable()}
               />
             </CardBody>
@@ -215,6 +214,8 @@ export default compose(
 Water.propTypes = {
   water: PropTypes.object.isRequired,
   fetchDynamicForm: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
   fetchWater: PropTypes.func.isRequired,
+  addFavourites: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
