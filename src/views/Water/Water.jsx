@@ -123,12 +123,12 @@ class Water extends Component {
 
   render() {
 
-    const { classes, history, water } = this.props;
+    const { classes, user, history, water } = this.props;
 
     return (
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
-          <WaterChart water={water} addFavourites={this.addFavourites} />
+          <WaterChart water={water} user={user} addFavourites={this.addFavourites} />
         </GridItem>
 
         <GridItem xs={12} sm={3} md={3}>

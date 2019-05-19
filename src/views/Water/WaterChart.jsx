@@ -20,7 +20,7 @@ import {
   monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes, averageTypes,
 } from '../../utils/charts';
 
-const WaterChart = ({ water, addFavourites, classes }) => {
+const WaterChart = ({ water, user, addFavourites, classes }) => {
   const [selectedValue, selectValue] = useState('nitrato');
   const [selectedSection, selectSection] = useState('artificalMinerals');
 
@@ -342,13 +342,33 @@ const WaterChart = ({ water, addFavourites, classes }) => {
   };
 
   const getDescriptionCharts = () => (
-      <div>
-        <p style={styleChartDescription1}>{getChartTextDescription1()}</p>
-        <p style={styleChartDescription2}>{getChartTextDescription2()}</p>
-        <p style={styleChartDescription3}>{getChartTextDescription3()}</p>
-      </div>
+    <div>
+      <p style={styleChartDescription1}>{getChartTextDescription1()}</p>
+      <p style={styleChartDescription2}>{getChartTextDescription2()}</p>
+      <p style={styleChartDescription3}>{getChartTextDescription3()}</p>
+    </div>
+  );
 
-    );
+  const handleAddFavourites = () => {
+    const values = [];
+
+    values.push({ section: 'water', selectedSection, value: selectedValue });
+    
+    if (newChart2) {
+      values.push({ section: 'water', selectedSection: selectedSection2, value: selectedValue2 });
+    }
+
+    if (newChart3) {
+      values.push({ section: 'water', selectedSection: selectedSection3, value: selectedValue3 });
+    }
+
+    addFavourites({
+      period: selectedPeriod,
+      user: user.email,
+      values,
+      year: selectedPeriod === 'Meses' ? selectedYear : '',
+    });
+  };
 
   const getChartComponent = () => {
     if (typeChart === chartTypes.line) {
@@ -391,12 +411,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
               <GridItem md={7} />
               <GridItem md={1}>
                 <Star
-                  onClick={() => addFavourites({
-                    data: convertData(),
-                    value1: selectedValue,
-                    value2: selectedValue2,
-                    value3: selectedValue3,
-                  })}
+                  onClick={() => handleAddFavourites()}
                 />
               </GridItem>
             </GridContainer>
