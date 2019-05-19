@@ -17,10 +17,10 @@ import dashboardStyle from 'assets/jss/material-dashboard-react/views/dashboardS
 
 import { getDynamicSections } from '../../utils/sections';
 import {
-  monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes, averageTypes
+  monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes, averageTypes,
 } from '../../utils/charts';
 
-const WaterChart = ({ water, addFavourites, classes }) => {
+const WaterChart = ({ water, user, addFavourites, classes }) => {
   const [selectedValue, selectValue] = useState('nitrato');
   const [selectedSection, selectSection] = useState('artificalMinerals');
 
@@ -59,11 +59,9 @@ const WaterChart = ({ water, addFavourites, classes }) => {
       values.forEach((item) => {
         const index = moment(item.date).year() - 2016;
         const value = formatedValues[index]; // sorry
-        formatedValues[index] = value + Number(item.value);      
+        formatedValues[index] = value + Number(item.value);
       });
-    }
-
-    else {
+    } else {
       values.forEach((item) => {
         const index = moment(item.date).year() - 2016;
         const value = formatedValues[index]; // sorry
@@ -112,9 +110,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
         const value = formatedValues[yearValue + trimesterValue];
         formatedValues[yearValue + trimesterValue] = value + Number(item.value);
       });
-    }
-
-    else {
+    } else {
       const counters = [
         0,
         0,
@@ -131,7 +127,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
         0,
         0,
         0,
-        0,        
+        0,
       ];
 
       values.forEach((item) => {
@@ -180,9 +176,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
           formatedValues[moment(item.date).month()] = value + Number(item.value);
         }
       });
-    }
-
-    else {
+    } else {
       const counters = [
         0,
         0,
@@ -347,15 +341,33 @@ const WaterChart = ({ water, addFavourites, classes }) => {
     return `${tipo} Sección:  '${selectedSection3}' y Valor:  '${selectedValue3}'`;
   };
 
-  const getDescriptionCharts = () => {
-    return (
-      <div>
-        <p style={styleChartDescription1}>{getChartTextDescription1()}</p>
-        <p style={styleChartDescription2}>{getChartTextDescription2()}</p>
-        <p style={styleChartDescription3}>{getChartTextDescription3()}</p>
-      </div>
+  const getDescriptionCharts = () => (
+    <div>
+      <p style={styleChartDescription1}>{getChartTextDescription1()}</p>
+      <p style={styleChartDescription2}>{getChartTextDescription2()}</p>
+      <p style={styleChartDescription3}>{getChartTextDescription3()}</p>
+    </div>
+  );
 
-    );
+  const handleAddFavourites = () => {
+    const values = [];
+
+    values.push({ section: 'water', selectedSection, value: selectedValue });
+    
+    if (newChart2) {
+      values.push({ section: 'water', selectedSection: selectedSection2, value: selectedValue2 });
+    }
+
+    if (newChart3) {
+      values.push({ section: 'water', selectedSection: selectedSection3, value: selectedValue3 });
+    }
+
+    addFavourites({
+      period: selectedPeriod,
+      user: user.email,
+      values,
+      year: selectedPeriod === 'Meses' ? selectedYear : '',
+    });
   };
 
   const getChartComponent = () => {
@@ -399,12 +411,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
               <GridItem md={7} />
               <GridItem md={1}>
                 <Star
-                  onClick={() => addFavourites({
-                    data: convertData(),
-                    value1: selectedValue,
-                    value2: selectedValue2,
-                    value3: selectedValue3,
-                  })}
+                  onClick={() => handleAddFavourites()}
                 />
               </GridItem>
             </GridContainer>
@@ -434,7 +441,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
                 }
               </GridItem>
               <GridItem md={6}>
-                {getDescriptionCharts()}       
+                {getDescriptionCharts()}
               </GridItem>
               <GridItem md={4} />
               <GridItem md={2}>
@@ -444,7 +451,7 @@ const WaterChart = ({ water, addFavourites, classes }) => {
                   label="Cálculo"
                   color="white"
                   value={calculationForm}
-                />                
+                />
               </GridItem>
             </GridContainer>
           </CardHeader>
