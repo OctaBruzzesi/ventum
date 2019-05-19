@@ -31,19 +31,17 @@ class Dashboard extends PureComponent {
     return (
       <div>
         <GridContainer>
-          <GridItem xs={12} sm={12} md={6}>
-            <Card chart>
-              {
-                favourites.list.map(item => (
-                  <Chart
-                    data={item}
-                    key={item.id}
-                    sections={sections}
-                  />
-                ))
-              }
-            </Card>
-          </GridItem>
+          {
+            favourites.list.map(item => (
+              <GridItem xs={12} sm={12} md={6}>
+                <Chart
+                  data={item}
+                  key={item.id}
+                  sections={sections}
+                />
+              </GridItem>
+            ))
+          }
         </GridContainer>
         <GridContainer>
           <GridItem xs={12} sm={12} md={12}>

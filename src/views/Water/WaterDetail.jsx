@@ -93,16 +93,16 @@ const WaterDetail = (props) => {
                         {water.notes}
                       </GridItem>
                       <GridItem xs={12} sm={12} md={4}>
-                        <Link 
+                        <Link
                           to={{
-                            pathname:'/water/update',
-                            state:{
-                              id: id,
-                              water: water,
-                            }
+                            pathname: '/water/update',
+                            state: {
+                              id,
+                              water,
+                            },
                           }}
                         >
-                          <Button color='success'>
+                          <Button color="success">
                             Editar Registro
                           </Button>
                         </Link>

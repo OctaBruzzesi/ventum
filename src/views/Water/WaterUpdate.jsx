@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import WaterForm from './WaterForm';
 import {
-  addSection, addField, fetchDynamicForm, editWater
+  addSection, addField, fetchDynamicForm, editWater,
 } from '../../redux/water/waterActions';
 
 class WaterUpdate extends PureComponent {
@@ -22,12 +22,12 @@ class WaterUpdate extends PureComponent {
 
   componentDidMount() {
     this.props.fetchDynamicForm();
-    
+
     const { id, waterData } = this.props.location.state;
 
     this.setState({
-      id: id,
-      waterData: waterData,
+      id,
+      waterData,
     });
   }
 
@@ -40,26 +40,27 @@ class WaterUpdate extends PureComponent {
   }
 
   handleEdit(values) {
-    const { user } = this.props;
-    const { id } = this.state;
+    const { user, location } = this.props;
 
-    this.props.editWater(id, values, user.user);
+    this.props.editWater(location.state.id, values, user.user);
   }
 
   render() {
-    const { water } = this.props;
-    const { waterData } = this.state;
+    const { water, location } = this.props;
 
     return (
-      <WaterForm
-        onFormSubmit={this.handleEdit}
-        addField={(section, label, key) => this.addField(section, label, key)}
-        addSection={(label, key) => this.addSection(label, key)}
-        initialValues={{
-          water: waterData,
-        }}
-        dynamicForm={water.form}
-      />
+      location.state.water ? (
+        <WaterForm
+          onFormSubmit={this.handleEdit}
+          addField={(section, label, key) => this.addField(section, label, key)}
+          addSection={(label, key) => this.addSection(label, key)}
+          initialValues={{
+            ...location.state.water,
+          }}
+          dynamicForm={water.form}
+        />
+      )
+        : null
     );
   }
 }
