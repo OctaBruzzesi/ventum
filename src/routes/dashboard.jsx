@@ -13,6 +13,7 @@ import TableList from 'views/TableList/TableList';
 import Maps from 'views/Maps/Maps';
 import Water from 'views/Water/Water';
 import WaterNew from 'views/Water/WaterNew';
+import WaterUpdate from 'views/Water/WaterUpdate';
 import WaterDetail from 'views/Water/WaterDetail';
 import Environment from 'views/Environment/Environment';
 import EnvironmentNew from 'views/Environment/EnvironmentNew';
@@ -41,6 +42,14 @@ const dashboardRoutes = [
     icon: Pool,
     visible: false,
     component: props => <WaterNew {...props} />,
+  },
+  {
+    path: '/water/update',
+    sidebarName: '',
+    navbarName: '',
+    icon: Pool,
+    visible: false,
+    component: props => <WaterUpdate {...props} />,
   },
   {
     path: '/water/:id',

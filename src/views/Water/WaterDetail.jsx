@@ -2,18 +2,18 @@ import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'underscore';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
+
 // @material-ui/core components
 import withStyles from '@material-ui/core/styles/withStyles';
-import InputLabel from '@material-ui/core/InputLabel';
+
 // core components
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
-import CustomInput from 'components/CustomInput/CustomInput';
 import Button from 'components/CustomButtons/Button';
 import Card from 'components/Card/Card';
 import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
-import CardFooter from 'components/Card/CardFooter';
 import Progress from 'components/Progress/Progress';
 
 import { getItem } from '../../firebase/helpers';
@@ -40,10 +40,14 @@ const styles = {
 
 const WaterDetail = (props) => {
   const { classes, match } = props;
+  const [id, setId] = useState('');
   const [water, setWater] = useState({});
+
+  const [inputDisabled, setDisable] = useState(true);
 
   useEffect(() => {
     const { id } = match.params;
+    setId(id);
     getItem('water', id).then(newWater => setWater(newWater));
   }, []);
 
@@ -86,7 +90,22 @@ const WaterDetail = (props) => {
                       </GridItem>
                       <GridItem xs={12} sm={12} md={3}>
                         <h4>Notas</h4>
-                        <p>{water.notes}</p>
+                        {water.notes}
+                      </GridItem>
+                      <GridItem xs={12} sm={12} md={4}>
+                        <Link 
+                          to={{
+                            pathname:'/water/update',
+                            state:{
+                              id: id,
+                              water: water,
+                            }
+                          }}
+                        >
+                          <Button color='success'>
+                            Editar Registro
+                          </Button>
+                        </Link>
                       </GridItem>
                     </GridContainer>
                     {renderDynamicFields()}

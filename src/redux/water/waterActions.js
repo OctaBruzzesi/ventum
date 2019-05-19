@@ -1,10 +1,14 @@
 import { water, database } from '../../firebase/firebase';
 import { getArrayFromCollection, getObjectFromCollection } from '../../helpers/firebaseHelper';
-import { WATER_FETCH, ADD_WATER_FORM } from '../types';
+import { WATER_FETCH, ADD_WATER_FORM, EDIT_WATER_SUCCESS } from '../types';
 
 const addWaterForm = form => ({
   type: ADD_WATER_FORM,
   payload: form,
+});
+
+const editSuccess = () => ({
+  type: EDIT_WATER_SUCCESS,
 });
 
 export const addWater = (newWater, user) => async (dispatch) => {
@@ -20,6 +24,29 @@ export const addWater = (newWater, user) => async (dispatch) => {
       email,
     },
   });
+};
+
+export const editWater = (id, newWater, user) => async (dispatch) => {
+  const {
+    name, lastName, email, role,
+  } = user;
+
+  database.collection('water/').doc(id)
+    .update({
+      ...newWater,
+      user: {
+        name,
+        lastName,
+        role,
+        email,
+      },
+    }).
+    then(() => {
+      dispatch(editSuccess());
+    })
+    .catch((error) => {
+      dispatch(error);
+    });
 };
 
 export const fetchDynamicForm = () => async (dispatch) => {
