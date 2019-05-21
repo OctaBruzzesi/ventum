@@ -1,16 +1,52 @@
 import { environment, database } from '../../firebase/firebase';
 import { getArrayFromCollection, getObjectFromCollection } from '../../helpers/firebaseHelper';
-import { ENVIRONMENT_FETCH, ADD_ENVIRONMENT_FORM } from '../types';
+import { ENVIRONMENT_FETCH, ADD_ENVIRONMENT_FORM, EDIT_ENVIRONMENT_SUCCESS } from '../types';
 
 const addEnvironmentForm = form => ({
   type: ADD_ENVIRONMENT_FORM,
   payload: form,
 });
 
-export const addEnvironment = newEnvironment => async (dispatch) => {
+const editSuccess = () => ({
+  type: EDIT_ENVIRONMENT_SUCCESS,
+});
+
+export const addEnvironment = (newEnvironment, user) => async (dispatch) => {
+  const {
+    name, lastName, email, role,
+  } = user;
   database.collection('environment').doc().set({
     ...newEnvironment,
+    user: {
+      name,
+      lastName,
+      role,
+      email,
+    },
   });
+};
+
+export const editEnvironment = (id, newEnvironment, user) => async (dispatch) => {
+  const {
+    name, lastName, email, role,
+  } = user;
+
+  database.collection('environment/').doc(id)
+    .update({
+      ...newEnvironment,
+      user: {
+        name,
+        lastName,
+        role,
+        email,
+      },
+    })
+    .then(() => {
+      dispatch(editSuccess());
+    })
+    .catch((error) => {
+      dispatch(error);
+    });
 };
 
 export const fetchDynamicForm = () => async (dispatch) => {
@@ -30,7 +66,6 @@ export const addSection = (label, key) => async (dispatch) => {
 };
 
 export const addField = (section, label, key) => async (dispatch) => {
-  console.log(section, label, key);
   database.collection('environmentForm').get()
     .then((data) => {
       const formatedData = getObjectFromCollection(data);
@@ -44,10 +79,6 @@ export const addField = (section, label, key) => async (dispatch) => {
     .catch(e => console.log(e));
 };
 
-export const completeToDo = completeToDoId => async (dispatch) => {
-  environment.child(completeToDoId).remove();
-};
-
 export const environmentSuccess = collection => ({
   type: ENVIRONMENT_FETCH,
   payload: collection,
@@ -57,7 +88,13 @@ export const fetchEnvironment = () => async (dispatch) => {
   database.collection('environment').get()
     .then((data) => {
       const collectionList = [];
-      data.forEach(document => collectionList.push(document.data()));
+      data.forEach(document => collectionList.push({ ...document.data(), id: document.id }));
       dispatch(environmentSuccess(collectionList));
     });
 };
+
+// {
+//   key: 'eee',
+//   label: 'eesss',
+//   type: 'number',
+// }

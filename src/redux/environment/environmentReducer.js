@@ -17,6 +17,7 @@ const getEnvironment = state => state.environment;
 export { getEnvironment };
 
 export default (state = initialState, action) => {
+  console.log(state, action);
   switch (action.type) {
     case ENVIRONMENT_FETCH:
       return {

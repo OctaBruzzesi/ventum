@@ -27,7 +27,8 @@ class EnvironmentNew extends PureComponent {
   }
 
   handleCreate(values) {
-    this.props.addEnvironment(values);
+    const { user } = this.props;
+    this.props.addEnvironment(values, user.user);
   }
 
   render() {
@@ -50,14 +51,15 @@ const mapDispatchToProps = dispatch => ({
   fetchDynamicForm: () => dispatch(fetchDynamicForm()),
   addSection: (label, key) => dispatch(addSection(label, key)),
   addField: (section, label, key) => dispatch(addField(section, label, key)),
-  addEnvironment: newEnvironment => dispatch(addEnvironment(newEnvironment)),
+  addEnvironment: (newEnvironment, user) => dispatch(addEnvironment(newEnvironment, user)),
 });
 
-export default connect(state => ({ environment: state.environment }), mapDispatchToProps)(EnvironmentNew);
+export default connect(state => ({ environment: state.environment, user: state.user }), mapDispatchToProps)(EnvironmentNew);
 
 EnvironmentNew.propTypes = {
   environment: PropTypes.object.isRequired,
   addField: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
   fetchDynamicForm: PropTypes.func.isRequired,
   addEnvironment: PropTypes.func.isRequired,
   addSection: PropTypes.func.isRequired,
