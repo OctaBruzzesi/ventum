@@ -33,6 +33,10 @@ const styleBody = {
   'background': 'white',
 };
 
+const styleGrid = {
+  'width': '98%',
+}
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -53,12 +57,6 @@ class Login extends Component {
     const { user, password } = this.state;
 
     this.props.login(user, password);
-  }
-
-  renderButtonSignUp(classes) {
-    return (
-      <Link to="/SignUp">Registrarse</Link>
-    );
   }
 
   renderButton() {
@@ -98,7 +96,7 @@ class Login extends Component {
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={12}>
                       <CustomInput
-                        labelText="Usuario"
+                        labelText="Email"
                         id="username"
                         value={this.state.user}
                         formControlProps={{
@@ -124,21 +122,28 @@ class Login extends Component {
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={12}>
-                    <InputLabel error>{this.props.auth.error}</InputLabel>                        
+                      <InputLabel error>{this.props.auth.error}</InputLabel>                        
                     </GridItem>
                   </GridContainer>
                 </CardBody>
                 <CardFooter>
                   <GridContainer
-                    direction="row"
-                    justify="space-between"
-                    alignItems="center">
-                    <GridItem xs={6} md={6}>
+                    justify="justify-between"
+                    style={styleGrid}
+                  >
+                    <GridItem xs={8} md={8} lg={8}>
                       {this.renderButton()}
-                    </GridItem>                    
-                    <GridItem xs={6} md={6} lg={6}>
-                      {this.renderButtonSignUp(classes)}
-                      <Link to="/signUp" />
+                    </GridItem>
+                    <GridItem xs={4} md={4} lg={4}>
+                      <Link to="/signUp">
+                        <Button
+                          color="success"
+                          simple={true}
+                          link={true}
+                        >
+                          ¿Todavía no tiene cuenta? Regístrese aquí
+                        </Button>
+                      </Link>
                     </GridItem>
                   </GridContainer>
                 </CardFooter>

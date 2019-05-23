@@ -20,6 +20,11 @@ import CardFooter from 'components/Card/CardFooter';
 import loginStyle from 'assets/jss/material-dashboard-react/layouts/loginStyle';
 import { signUp } from '../../redux/auth/authActions';
 
+const styleFooter = {
+  'margin-right': '2em',
+  'margin-left': '2em',
+}
+
 class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -188,19 +193,20 @@ class SignUp extends Component {
                   </GridContainer>
                 </CardBody>
 
-                <CardFooter>
-                  <GridItem xs={6}>
-                    {this.renderButtonBackToLogin(classes)}
-                    <Link to="/" />
-                  </GridItem>
-                  <GridItem xs={6}>
-                    <Button
-                      color="primary"
-                      onClick={this.validateFields}
-                    >
-                      Registrarse
-                    </Button>
-                  </GridItem>
+                <CardFooter style={styleFooter}>
+                  <GridContainer sm={12} xl={12} xs={12} md={12} lg={12}
+                    justify="space-between"
+                    alignItems="center"
+                  >
+                      {this.renderButtonBackToLogin(classes)}
+                      <Link to="/" />
+                      <Button
+                        color="primary"
+                        onClick={this.validateFields}
+                      >
+                        Registrarse
+                      </Button>
+                  </GridContainer>
                 </CardFooter>
               </Card>
             </GridItem>

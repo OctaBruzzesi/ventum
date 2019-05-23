@@ -38,6 +38,7 @@ function RegularButton({ ...props }) {
     [classes.justIcon]: justIcon,
     [className]: className,
   });
+  
   return (
     <Button {...rest} classes={muiClasses} className={btnClasses}>
       {children}
@@ -56,9 +57,6 @@ RegularButton.propTypes = {
     'rose',
     'white',
     'transparent',
-  ]),
-  variant: PropTypes.oneOf([
-    'outlined',
   ]),
   size: PropTypes.oneOf(['sm', 'lg']),
   simple: PropTypes.bool,
