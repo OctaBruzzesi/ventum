@@ -19,6 +19,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 
 import permises, { ADMIN, WORKER } from '../../utils/permises';
 import { getUser } from '../../redux/users/usersReducer';
+import { getPermits } from '../../redux/configuration/permitsReducer';
 import { setPermits } from '../../redux/configuration/permitsActions';
 import { getUsersID } from '../../redux/users/usersActions';
 
@@ -38,14 +39,16 @@ const styles = theme => ({
   },
 });
 
-let usersID = [];
+const gridStyle = {
+  'padding-top': '2em',
+};
 
 class PermisesForm extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      maxWidth: 'lg',
+      maxWidth: 'sm',
       permits: '',
       userName: '',
       error: '',
@@ -57,15 +60,15 @@ class PermisesForm extends PureComponent {
   }
 
   componentDidMount() {
-    usersID = this.props.getUsersID();
+    this.props.getUsersID();
   }
 
   getUsers() {
     const { user } = this.props;
-    
-    return user.data.map(item => [
+
+    return user.data.map(item => 
       String(item),
-    ]);
+    );
   }
 
   handlePermitsSelect(event) {
@@ -76,7 +79,7 @@ class PermisesForm extends PureComponent {
 
   handleUserSelect(event) {
     this.setState({
-      userName: event.target.value[0],
+      userName: event.target.value,
     });
   }
 
@@ -125,6 +128,7 @@ class PermisesForm extends PureComponent {
       onFormSubmit,
       handleModalClose,
       openPermises,
+      getUsersID,
     } = this.props;
 
     const { maxWidth } = this.state;
@@ -139,9 +143,8 @@ class PermisesForm extends PureComponent {
         <DialogContent>
           <DialogContentText>
             <form className={classes.form} onSubmit={handleSubmit(this.updateUserPermits)}>
-
               <GridContainer>
-                <GridItem md={6}>
+                <GridItem xs={6} sm={6} md={6}>
                   <Field
                     name="permises"
                     component={Select}
@@ -150,13 +153,12 @@ class PermisesForm extends PureComponent {
                     onChange={this.handlePermitsSelect}
                   />
                 </GridItem>
-                <GridItem md={6}>
+                <GridItem xs={6} sm={6} md={6}>
                   <Field
                     name="users"
                     component={Select}
-                    // items={this.getUser()}
-                    items={['nico','octa']}
-                    label="Usuarios"
+                    items={this.getUsers()}
+                    label="Usuario"
                     onChange={this.handleUserSelect}
                     value={this.state.userName}
                   />
@@ -167,7 +169,7 @@ class PermisesForm extends PureComponent {
                   <InputLabel error>{this.state.error}</InputLabel>
                 </GridItem>
               </GridContainer>
-              <GridContainer>
+              <GridContainer style={gridStyle}>
                 <GridItem md={6}>
                   <Button
                     type="submit"
@@ -185,6 +187,9 @@ class PermisesForm extends PureComponent {
                   </Button>
                 </GridItem>
               </GridContainer>
+
+              {/* {this.state.success} */}
+
             </form>
           </DialogContentText>
         </DialogContent>
@@ -198,14 +203,15 @@ PermisesForm.propTypes = {
   onFormSubmit: PropTypes.func.isRequired,
   handleModalClose: PropTypes.func.isRequired,
   openPermises: PropTypes.bool.isRequired,
-  setPermits: PropTypes.object.isRequired,
   getUser: PropTypes.object.isRequired,
   getUsersID: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  permits: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
   user: getUser(state),
+  permits: getPermits(state),
 });
 
 const mapDispatchToProps = dispatch => ({

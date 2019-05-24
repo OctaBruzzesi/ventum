@@ -234,11 +234,51 @@ const Chart = ({
     return formatedData;
   };
 
-  const getChartDescription = () => data.values.map(item => `
-  ${getSectionName(item.section)}
-    ${getSectionName(item.selectedSection)}
-    ${getSectionName(item.value)}
-  `);
+  // const getChartDescription = () => data.values.map(item => `
+  //   ${getSectionName(item.section)}
+  //   ${getSectionName(item.selectedSection)}
+  //   ${getSectionName(item.value)}
+  // `);
+  const colorsCharts = [
+    'white',
+    'red',
+    'yellow'
+  ];
+  
+  const getPrimarySection = () => {
+    const styleChart = {
+      'color': 'white',
+      'font-weight': 'bold',
+    } 
+
+    return(
+      <p style={styleChart}>
+        Sección Primaria: {getSectionName(data.values[0].section)}
+      </p>);
+  };
+
+  const getChartDescription = () => {
+    let cont = 0;
+
+    return (
+      <div>        
+        {data.values.map(item => {
+          const style = {
+            'color': `${colorsCharts[cont]}`,
+            'font-weight': 'bold',
+            'opacity': '0.9',
+          }
+          cont++;
+          return (
+            <p style={style}>
+              Sección: {getSectionName(item.selectedSection)} 
+              {' --- '}  
+              Valor: {getSectionName(item.value)}
+            </p>
+          );
+        })}
+      </div>
+    )};
 
   const getChartComponent = () => {
     const typeChart = 'line';
@@ -270,17 +310,17 @@ const Chart = ({
           <CardHeader color="success">
             <GridContainer>
               <GridItem md={12}>
+                {getPrimarySection()}
+              </GridItem>
+              <GridItem md={12}>
                 {getChartComponent()}
               </GridItem>
               <GridItem md={6}>
-                {/* {getDescriptionCharts()} */}
+              {getChartDescription()}
               </GridItem>
               <GridItem md={4} />
             </GridContainer>
-          </CardHeader>
-          <CardBody>
-            {getChartDescription()}
-          </CardBody>
+          </CardHeader>          
         </Card>
       ) : null
   );

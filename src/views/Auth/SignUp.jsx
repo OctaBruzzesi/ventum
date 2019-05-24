@@ -40,8 +40,6 @@ class SignUp extends Component {
   componentDidUpdate() {
     const { history, auth, user } = this.props;
 
-    // console.log('actualiz');
-
     if (user.registerSuccess) {
       history.goBack();
     }
