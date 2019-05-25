@@ -18,10 +18,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import InputLabel from '@material-ui/core/InputLabel';
 
 import permises, { ADMIN, WORKER } from '../../utils/permises';
-import { getUser } from '../../redux/users/usersReducer';
 import { getPermits } from '../../redux/configuration/permitsReducer';
 import { setPermits } from '../../redux/configuration/permitsActions';
 import { getUsersID } from '../../redux/users/usersActions';
+import { getUser } from '../../redux/users/usersReducer';
 
 const styles = theme => ({
   form: {
@@ -52,15 +52,37 @@ class PermisesForm extends PureComponent {
       permits: '',
       userName: '',
       error: '',
+      message: {
+        text: '',
+        color: '',
+      }
     };
 
     this.updateUserPermits = this.updateUserPermits.bind(this);
     this.handlePermitsSelect = this.handlePermitsSelect.bind(this);
     this.handleUserSelect = this.handleUserSelect.bind(this);
+    this.getPermitsMessage = this.getPermitsMessage.bind(this);
   }
 
   componentDidMount() {
     this.props.getUsersID();
+  }
+
+  getPermitsMessage() {
+    const { permits } = this.props;
+    const styleMessage = {
+      'color': 'green',
+    };
+
+    if (permits.permitsSuccess) {
+      return(
+        <p style={styleMessage}>{permits.message}</p>
+      );
+    }
+
+    return(
+      <InputLabel error>{permits.error}</InputLabel>
+    );
   }
 
   getUsers() {
@@ -131,7 +153,10 @@ class PermisesForm extends PureComponent {
       getUsersID,
     } = this.props;
 
-    const { maxWidth } = this.state;
+    const { maxWidth, message } = this.state;
+    const messageStyle = {
+      'color': `${message.color}`,
+    }
     return (
       <Dialog
         maxWidth={maxWidth}
@@ -164,11 +189,11 @@ class PermisesForm extends PureComponent {
                   />
                 </GridItem>
               </GridContainer>
+
               <GridContainer>
-                <GridItem xs={12} sm={12} md={12}>
-                  <InputLabel error>{this.state.error}</InputLabel>
-                </GridItem>
+                {this.getPermitsMessage()}
               </GridContainer>
+
               <GridContainer style={gridStyle}>
                 <GridItem md={6}>
                   <Button
@@ -187,9 +212,6 @@ class PermisesForm extends PureComponent {
                   </Button>
                 </GridItem>
               </GridContainer>
-
-              {/* {this.state.success} */}
-
             </form>
           </DialogContentText>
         </DialogContent>

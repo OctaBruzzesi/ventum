@@ -6,6 +6,7 @@ import environmentReducer from './environment/environmentReducer';
 import userReducer from './users/usersReducer';
 import biodiversityReducer from './biodiversity/biodiversityReducer';
 import favouritesReducer from './favourites/favouritesReducer';
+import permitsReducer from './configuration/permitsReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   form: formReducer,
   user: userReducer,
   biodiversity: biodiversityReducer,
+  permits: permitsReducer,
   favourites: favouritesReducer,
 });

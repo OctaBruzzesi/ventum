@@ -25,8 +25,6 @@ export const addFavourites = (newFavourite, user) => async (dispatch) => {
 };
 
 export const deleteFavourites = id => async (dispatch) => {
-  console.log('entro a action');
-  
   database.collection('favourites').doc(id).delete()
   .then(() => {    
     fetchFavourites();
