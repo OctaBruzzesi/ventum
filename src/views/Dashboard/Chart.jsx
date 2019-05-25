@@ -4,7 +4,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import moment from 'moment';
 import _ from 'underscore';
 import ChartistGraph from 'react-chartist';
-import Star from '@material-ui/icons/Star';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
 import Card from 'components/Card/Card';
@@ -17,6 +17,7 @@ import { getSectionName } from '../../utils/sections';
 import {
   monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes, averageTypes,
 } from '../../utils/charts';
+
 
 const Chart = ({
   data, sections, removeFavourites, classes,
@@ -160,24 +161,12 @@ const Chart = ({
     }
     return formatedValues;
   };
-  // const styleNewChart2 = !newChart2 ? { display: 'none' } : {};
-  // const styleNewChart3 = !newChart3 ? { display: 'none' } : {};
+  
   const styleChartDescription1 = {
     color: 'white',
     'font-weight': 'bold',
   };
-  // const styleChartDescription2 = {
-  //   color: 'red',
-  //   opacity: '0.7',
-  //   display: newChart2 || newChart3 ? '' : 'none',
-  //   'font-weight': 'bold',
-  // };
-  // const styleChartDescription3 = {
-  //   color: 'yellow',
-  //   opacity: '0.9',
-  //   display: newChart2 && newChart3 ? '' : 'none',
-  //   'font-weight': 'bold',
-  // };
+ 
   const getData = (section, selectedSection, value) => {
     const dataValues = [];
     _.mapObject(sections.water.data, (waterItem) => {
@@ -227,7 +216,13 @@ const Chart = ({
     'red',
     'yellow'
   ];
-  
+
+  const handleDeleteFavourites = () => {
+    const id = data.id;
+    console.log(id);
+    removeFavourites(id);
+  }
+
   const getPrimarySection = () => {
     const styleChart = {
       'color': 'white',
@@ -235,9 +230,23 @@ const Chart = ({
     } 
 
     return(
-      <p style={styleChart}>
-        Sección Primaria: {getSectionName(data.values[0].section)}
-      </p>);
+      <div>
+        <GridContainer
+          xs={12} md={12} lg={12}
+          justify="space-between"
+        >
+          <GridItem xs={6} md={6} lg={6}>
+            <p style={styleChart}>
+              Sección Primaria: {getSectionName(data.values[0].section)}
+            </p>
+          </GridItem>
+          <GridItem title="Eliminar de favoritos" xs={1} md={1} lg={1}>
+            <p>
+              <DeleteForeverIcon onClick={() => handleDeleteFavourites()}/>
+            </p>
+          </GridItem>
+        </GridContainer>
+      </div>);
   };
 
   const getChartDescription = () => {

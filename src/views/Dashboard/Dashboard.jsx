@@ -21,7 +21,7 @@ import { getBiodiversity } from 'redux/biodiversity/biodiversityReducer';
 import { fetchBiodiversity } from 'redux/biodiversity/biodiversityActions';
 import Chart from './Chart';
 import { getFavourites } from '../../redux/favourites/favouritesReducer';
-import { fetchFavourites } from '../../redux/favourites/favouritesActions';
+import { fetchFavourites, deleteFavourites } from '../../redux/favourites/favouritesActions';
 
 class Dashboard extends PureComponent {
   componentDidMount() {
@@ -31,8 +31,17 @@ class Dashboard extends PureComponent {
     this.props.fetchBiodiversity();
   }
 
+  componentDidUpdate() {
+    const { favourites } = this.props;
+    
+    if(favourites.deleteSuccess) {
+      this.props.fetchFavourites();
+    }
+  }
+
   render() {
-    const { favourites, water, classes } = this.props;
+    console.log('entro a render');
+    const { favourites, water, classes, deleteFavourites } = this.props;
     const sections = { water };
     return (
       <div>
@@ -43,6 +52,7 @@ class Dashboard extends PureComponent {
                 <Chart
                   data={item}
                   sections={sections}
+                  removeFavourites={deleteFavourites}
                 />
               </GridItem>
             ))
@@ -81,6 +91,7 @@ Dashboard.propTypes = {
   favourites: PropTypes.object.isRequired,
   water: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  deleteFavourites: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
   favourites: getFavourites(state),
@@ -93,6 +104,7 @@ const mapDispatchToProps = dispatch => ({
   fetchWater: () => dispatch(fetchWater()),
   fetchEnvironment: () => dispatch(fetchEnvironment()),
   fetchBiodiversity: () => dispatch(fetchBiodiversity()),
+  deleteFavourites: (id) => dispatch(deleteFavourites(id)),
 });
 export default compose(
   withStyles(dashboardStyle),
