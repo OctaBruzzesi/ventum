@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -7,8 +7,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { getSectionName } from '../../utils/sections';
-
 const styles = {
   select: {
     color: 'white',
@@ -16,7 +14,7 @@ const styles = {
   },
 };
 
-const Select = ({
+const SelectSection = ({
   label, items, onChange, value, disabled, classes, color,
 }) => (
   <div style={{ flexDirection: 'column', display: 'flex' }}>
@@ -31,14 +29,14 @@ const Select = ({
         <OutlinedInput labelWidth={0} disabled={disabled} />
       }
     >
-      {items.map(item => <MenuItem value={item} key={item}>{getSectionName(item)}</MenuItem>)}
+      {items.map(item => <MenuItem value={item.key} key={item.key}>{item.label}</MenuItem>)}
     </MaterialSelect>
   </div>
 );
 
-export default withStyles(styles)(Select);
+export default withStyles(styles)(SelectSection);
 
-Select.propTypes = {
+SelectSection.propTypes = {
   items: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
@@ -48,7 +46,7 @@ Select.propTypes = {
   value: PropTypes.string.isRequired,
 };
 
-Select.defaultProps = {
+SelectSection.defaultProps = {
   color: 'default',
   label: '',
   disabled: false,

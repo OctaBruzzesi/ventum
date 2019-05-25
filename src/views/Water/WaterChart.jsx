@@ -11,6 +11,7 @@ import Card from 'components/Card/Card';
 import CardHeader from 'components/Card/CardHeader';
 import CardBody from 'components/Card/CardBody';
 import Select from 'components/Select/Select';
+import SelectSection from 'components/Select/SelectSection';
 import Button from 'components/CustomButtons/Button';
 
 import dashboardStyle from 'assets/jss/material-dashboard-react/views/dashboardStyle';
@@ -321,7 +322,7 @@ const WaterChart = ({
   const getChartTextDescription1 = () => {
     const tipo = typeChart === chartTypes.line ? 'Línea 1 - ' : 'Barra 1 - ';
 
-    return `${tipo} Sección:  '${selectedSection}', Grupo: '${selectedGroup}' Valor:  '${selectedValue}'`;
+    return `${tipo} Grupo: '${getSectionName(selectedGroup)}' Valor:  '${getSectionName(selectedValue)}'`;
   };
 
   const getChartTextDescription2 = () => {
@@ -340,13 +341,13 @@ const WaterChart = ({
       valor = selectedValue3;
     }
 
-    return `${tipo} Sección:  '${section}', Grupo: '${group}' y Valor:  '${valor}'`;
+    return `${tipo} Grupo: '${getSectionName(group)}' y Valor:  '${getSectionName(valor)}'`;
   };
 
   const getChartTextDescription3 = () => {
     const tipo = typeChart === chartTypes.line ? 'Línea 3 - ' : 'Barra 3 - ';
 
-    return `${tipo} Sección:  '${selectedSection3}', '${selectedGroup}' y Valor:  '${selectedValue3}'`;
+    return `${tipo} '${getSectionName(selectedGroup3)}' y Valor:  '${getSectionName(selectedValue3)}'`;
   };
 
   const getDescriptionCharts = () => (
@@ -480,8 +481,8 @@ const WaterChart = ({
           <CardBody>
             <GridContainer>
               <GridItem md={3}>
-                <Select
-                  items={sections.map(section => section.key)}
+                <SelectSection
+                  items={sections}
                   label="Sección"
                   disabled
                   onChange={e => selectSection(e.target.value)}
@@ -518,8 +519,8 @@ const WaterChart = ({
             <div style={styleNewChart2}>
               <GridContainer>
                 <GridItem md={3}>
-                  <Select
-                    items={sections.map(section => section.key)}
+                  <SelectSection
+                    items={sections}
                     label="Sección"
                     onChange={(e) => {
                       selectSection2(e.target.value);
@@ -563,8 +564,8 @@ const WaterChart = ({
             <div style={styleNewChart3}>
               <GridContainer>
                 <GridItem md={3}>
-                  <Select
-                    items={sections.map(section => section.key)}
+                  <SelectSection
+                    items={sections}
                     label="Sección"
                     onChange={(e) => {
                       selectSection3(e.target.value);
