@@ -15,6 +15,10 @@ import CardFooter from 'components/Card/CardFooter';
 import dashboardStyle from 'assets/jss/material-dashboard-react/views/dashboardStyle';
 import { getWater } from 'redux/water/waterReducer';
 import { fetchWater } from 'redux/water/waterActions';
+import { getEnvironment } from 'redux/environment/environmentReducer';
+import { fetchEnvironment } from 'redux/environment/environmentActions';
+import { getBiodiversity } from 'redux/biodiversity/biodiversityReducer';
+import { fetchBiodiversity } from 'redux/biodiversity/biodiversityActions';
 import Chart from './Chart';
 import { getFavourites } from '../../redux/favourites/favouritesReducer';
 import { fetchFavourites } from '../../redux/favourites/favouritesActions';
@@ -23,6 +27,8 @@ class Dashboard extends PureComponent {
   componentDidMount() {
     this.props.fetchFavourites();
     this.props.fetchWater();
+    this.props.fetchEnvironment();
+    this.props.fetchBiodiversity();
   }
 
   render() {
@@ -79,10 +85,14 @@ Dashboard.propTypes = {
 const mapStateToProps = state => ({
   favourites: getFavourites(state),
   water: getWater(state),
+  environment: getEnvironment(state),
+  biodiversity: getBiodiversity(state),
 });
 const mapDispatchToProps = dispatch => ({
   fetchFavourites: () => dispatch(fetchFavourites()),
   fetchWater: () => dispatch(fetchWater()),
+  fetchEnvironment: () => dispatch(fetchEnvironment()),
+  fetchBiodiversity: () => dispatch(fetchBiodiversity()),
 });
 export default compose(
   withStyles(dashboardStyle),

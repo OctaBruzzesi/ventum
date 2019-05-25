@@ -36,6 +36,7 @@ const firebaseAuth = app.auth();
 const databaseRef = app.database().ref();
 const water = databaseRef.child('water');
 const environment = databaseRef.child('environment');
+const biodiversity = databaseRef.child('biodiversity');
 const user = databaseRef.child('users');
 
 const database = app.firestore();
@@ -45,6 +46,7 @@ export {
   firebaseAuth,
   water,
   environment,
+  biodiversity,
   user,
   database,
 };
