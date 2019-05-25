@@ -30,6 +30,7 @@ export const fetchFavourites = () => async (dispatch) => {
           collectionList.push({ ...document.data(), id: document.id });
         }
       });
+      
       dispatch(fetchFavouritesSuccess(collectionList));
     });
 };
