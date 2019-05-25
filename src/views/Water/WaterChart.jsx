@@ -363,6 +363,7 @@ const WaterChart = ({ water, user, addFavourites, classes }) => {
     }
 
     addFavourites({
+      typeChart: typeChart,
       period: selectedPeriod,
       user: user.email,
       values,
