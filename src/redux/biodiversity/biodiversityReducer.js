@@ -1,9 +1,9 @@
 import _ from 'underscore';
 
 import {
-  ENVIRONMENT_FETCH,
-  ADD_ENVIRONMENT_FORM,
-  ENVIRONMENT_ERROR,
+  BIODIVERSITY_FETCH,
+  ADD_BIODIVERSITY_FORM,
+  BIODIVERSITY_ERROR,
 } from '../types';
 
 const initialState = {
@@ -12,23 +12,23 @@ const initialState = {
   form: {},
 };
 
-const getEnvironment = state => state.environment;
+const getBiodiversity = state => state.biodiversity;
 
-export { getEnvironment };
+export { getBiodiversity };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ENVIRONMENT_FETCH:
+    case BIODIVERSITY_FETCH:
       return {
         ...state,
         data: action.payload,
       };
-    case ADD_ENVIRONMENT_FORM:
+    case ADD_BIODIVERSITY_FORM:
       return {
         ...state,
         form: _.extend({}, state.form, action.payload),
       };
-    case ENVIRONMENT_ERROR:
+    case BIODIVERSITY_ERROR:
       return {
         ...state,
         error: action.payload,

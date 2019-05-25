@@ -24,4 +24,33 @@ const getSectionName = (name) => {
   return e.charAt(0).toUpperCase() + e.slice(1);
 };
 
-export { getDynamicFields, getSectionName, getDynamicSections };
+const sections = [
+  {
+    key: 'water',
+    label: 'Agua',
+  },
+  {
+    key: 'environment',
+    label: 'Impacto Ambiental',
+  },
+  {
+    key: 'soil',
+    label: 'Tierra y Suelo',
+  },
+  {
+    key: 'biodiversity',
+    label: 'Biodiversidad',
+  },
+  {
+    key: 'climate',
+    label: 'Clima',
+  },
+  {
+    key: 'production',
+    label: 'Produccion y Consumo Sustentable',
+  },
+];
+
+export {
+  getDynamicFields, getSectionName, sections, getDynamicSections,
+};
