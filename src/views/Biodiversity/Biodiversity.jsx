@@ -31,7 +31,7 @@ import { fetchDynamicForm as fetchProductionForm, fetchProduction } from 'redux/
 import { getClimate } from 'redux/climate/climateReducer';
 import { fetchDynamicForm as fetchClimateForm, fetchClimate } from 'redux/climate/climateActions';
 
-import EnvironmentChart from './EnvironmentChart';
+import BiodiversityChart from './BiodiversityChart';
 
 const styles = {
   cardCategoryWhite: {
@@ -63,7 +63,7 @@ const styles = {
   },
 };
 
-class Environment extends Component {  
+class Biodiversity extends Component {  
   constructor(props) {
     super(props);
 
@@ -102,31 +102,31 @@ class Environment extends Component {
     return '';
   }
 
-  getEnvironmentTable() {
-    const { environment } = this.props;
+  getBiodiversityTable() {
+    const { biodiversity } = this.props;
     const { filterUser, filterProvince, filterCity } = this.state;
-    let environmentCollection = environment.data;
+    let biodiversityCollection = biodiversity.data;
 
     if (filterUser !== '') {
-      environmentCollection = environmentCollection.filter(
+      biodiversityCollection = biodiversityCollection.filter(
         item => item.user && (item.user.name.toLowerCase().startsWith(filterUser.toLowerCase())
           || item.user.lastName.toLowerCase().startsWith(filterUser.toLowerCase()))
       );
     }
 
     if (filterProvince !== '') {
-      environmentCollection = environmentCollection.filter(
+      biodiversityCollection = biodiversityCollection.filter(
         item => item.location.province.toLowerCase().startsWith(filterProvince.toLowerCase())
       );
     }
 
     if (filterCity !== '') {
-      environmentCollection = environmentCollection.filter(
+      biodiversityCollection = biodiversityCollection.filter(
         item => item.location.city.toLowerCase().startsWith(filterCity.toLowerCase())
       );
     }
 
-    return environmentCollection.map(item => [
+    return biodiversityCollection.map(item => [
       String(item.id),
       item.notes,
       item.location.province,
@@ -147,7 +147,7 @@ class Environment extends Component {
     return (
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
-          <EnvironmentChart water={water} environment={environment} biodiversity={biodiversity} soil={soil} production={production} climate={climate} user={user} addFavourites={this.addFavourites} />
+          <BiodiversityChart water={water} environment={environment} biodiversity={biodiversity} soil={soil} production={production} climate={climate} user={user} addFavourites={this.addFavourites} />
         </GridItem>
 
         <GridItem xs={12} sm={3} md={3}>
@@ -188,24 +188,24 @@ class Environment extends Component {
         </GridItem>
         <GridItem xs={12} sm={3} md={3} />
         <GridItem xs={12} sm={3} md={3}>
-          <Link to="/environment/new">
+          <Link to="/biodiversity/new">
             <Button color="primary">Nuevo Registro</Button>
           </Link>
         </GridItem>
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Muestras de Medio Ambiente</h4>
+              <h4 className={classes.cardTitleWhite}>Muestras de Biodiversidad</h4>
               <p className={classes.cardCategoryWhite}>
-                Medio Ambiente
+                Biodiversidad
               </p>
             </CardHeader>
             <CardBody>
               <Table
-                onClick={item => history.push(`/environment/${item[0]}`)}
+                onClick={item => history.push(`/biodiversity/${item[0]}`)}
                 tableHeaderColor="primary"
                 tableHead={['ID', 'Notas', 'Provincia', 'Ciudad', 'Usuario', 'Fecha']}
-                tableData={this.getEnvironmentTable()}
+                tableData={this.getBiodiversityTable()}
               />
             </CardBody>
           </Card>
@@ -226,10 +226,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchEnvironment: () => dispatch(fetchEnvironment()),
+  fetchWater: () => dispatch(fetchWater()),
   addFavourites: (newFavourite, user) => dispatch(addFavourites(newFavourite, user)),
   fetchDynamicForm: () => dispatch(fetchDynamicForm()),
-  fetchWater: () => dispatch(fetchWater()),
+  fetchEnvironment: () => dispatch(fetchEnvironment()),
   fetchEnvironmentForm: () => dispatch(fetchEnvironmentForm()),
   fetchBiodiversity: () => dispatch(fetchBiodiversity()),
   fetchBiodiversityForm: () => dispatch(fetchBiodiversityForm()),
@@ -244,13 +244,13 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   withStyles(styles),
   connect(mapStateToProps, mapDispatchToProps),
-)(Environment);
+)(Biodiversity);
 
-Environment.propTypes = {
-  environment: PropTypes.object.isRequired,
+Biodiversity.propTypes = {
+  biodiversity: PropTypes.object.isRequired,
   fetchDynamicForm: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
-  fetchEnvironment: PropTypes.func.isRequired,
+  fetchBiodiversity: PropTypes.func.isRequired,
   addFavourites: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };

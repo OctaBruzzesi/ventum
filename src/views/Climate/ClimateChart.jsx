@@ -21,20 +21,20 @@ import {
   monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes, averageTypes,
 } from '../../utils/charts';
 
-const EnvironmentChart = ({
+const ClimateChart = ({
   water, environment, biodiversity, soil, production, climate, user, addFavourites, classes,
 }) => {
-  const [selectedValue, selectValue] = useState('dioxidoDeCarbono');
-  const [selectedGroup, selectGroup] = useState('contaminacionDelAire');
-  const [selectedSection, selectSection] = useState('environment');
+  const [selectedValue, selectValue] = useState('porcentajeDeHumedad');
+  const [selectedGroup, selectGroup] = useState('humedad');
+  const [selectedSection, selectSection] = useState('climate');
 
-  const [selectedValue2, selectValue2] = useState('minasExplotadas');
-  const [selectedGroup2, selectGroup2] = useState('explotacionDeRecursosNaturales');
-  const [selectedSection2, selectSection2] = useState('environment');
+  const [selectedValue2, selectValue2] = useState('temperatura');
+  const [selectedGroup2, selectGroup2] = useState('temperatura');
+  const [selectedSection2, selectSection2] = useState('climate');
 
-  const [selectedValue3, selectValue3] = useState('explotacionMineralesNoFerrosos');
-  const [selectedGroup3, selectGroup3] = useState('explotacionDeRecursosNaturales');
-  const [selectedSection3, selectSection3] = useState('environment');
+  const [selectedValue3, selectValue3] = useState('sensacionTerminca');
+  const [selectedGroup3, selectGroup3] = useState('temperatura');
+  const [selectedSection3, selectSection3] = useState('climate');
 
   const [newChart2, updNewChart2] = useState(false);
   const [newChart3, updNewChart3] = useState(false);
@@ -46,7 +46,7 @@ const EnvironmentChart = ({
 
   const [typeChart, setTypeChart] = useState(chartTypes.line);
 
-  const getEnvironmentValuesOrderedByYear = (values) => {
+  const getClimateValuesOrderedByYear = (values) => {
     const formatedValues = [
       0,
       0,
@@ -89,7 +89,7 @@ const EnvironmentChart = ({
     return formatedValues;
   };
 
-  const getEnvironmentValuesOrderedByTrimester = (values) => {
+  const getClimateValuesOrderedByTrimester = (values) => {
     const formatedValues = [
       0,
       0,
@@ -159,7 +159,7 @@ const EnvironmentChart = ({
     return formatedValues;
   };
 
-  const getEnvironmentValuesOrderedByMonth = (values) => {
+  const getClimateValuesOrderedByMonth = (values) => {
     const formatedValues = [
       0,
       0,
@@ -245,26 +245,25 @@ const EnvironmentChart = ({
   };
 
   const getData = (pSelectedGroup, pSelectedSection, pSelectedValue) => {
-    const environmentDataValues = [];
-    _.mapObject(getSection(pSelectedSection).data, (environmentItem) => {
-      console.log(environmentItem);
-      if (environmentItem[pSelectedGroup] && environmentItem[pSelectedGroup][pSelectedValue]) {
-        environmentDataValues.push({
-          date: environmentItem.date,
-          value: environmentItem[pSelectedGroup][pSelectedValue],
+    const climateDataValues = [];
+    _.mapObject(getSection(pSelectedSection).data, (climateItem) => {
+      if (climateItem[pSelectedGroup] && climateItem[pSelectedGroup][pSelectedValue]) {
+        climateDataValues.push({
+          date: climateItem.date,
+          value: climateItem[pSelectedGroup][pSelectedValue],
         });
       }
     });
 
     switch (selectedPeriod) {
       case 'Años':
-        return getEnvironmentValuesOrderedByYear(environmentDataValues);
+        return getClimateValuesOrderedByYear(climateDataValues);
       case 'Trimestres':
-        return getEnvironmentValuesOrderedByTrimester(environmentDataValues);
+        return getClimateValuesOrderedByTrimester(climateDataValues);
       case 'Meses':
-        return getEnvironmentValuesOrderedByMonth(environmentDataValues);
+        return getClimateValuesOrderedByMonth(climateDataValues);
       default:
-        getEnvironmentValuesOrderedByMonth(environmentDataValues);
+        getClimateValuesOrderedByMonth(climateDataValues);
     }
   };
 
@@ -419,12 +418,12 @@ const EnvironmentChart = ({
       case 'climate':
         return climate;
       default:
-        return environment;
+        return climate;
     }
   };
 
   return (
-    !_.isEmpty(environment) && !_.isEmpty(environment.form)
+    !_.isEmpty(climate) && !_.isEmpty(climate.form)
       ? (
         <Card chart>
           <CardHeader color="success">
@@ -531,7 +530,6 @@ const EnvironmentChart = ({
                     label="Sección"
                     onChange={(e) => {
                       selectSection2(e.target.value);
-                      console.log(getSection(e.target.value), e.target.value);
                       const keys = Object.keys(getSection(e.target.value).form);
                       selectGroup2(getSection(e.target.value).form[keys[0]]);
                     }}
@@ -619,10 +617,10 @@ const EnvironmentChart = ({
   );
 };
 
-EnvironmentChart.propTypes = {
-  environment: PropTypes.object.isRequired,
+ClimateChart.propTypes = {
+  climate: PropTypes.object.isRequired,
   addFavourites: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(dashboardStyle)(EnvironmentChart);
+export default withStyles(dashboardStyle)(ClimateChart);

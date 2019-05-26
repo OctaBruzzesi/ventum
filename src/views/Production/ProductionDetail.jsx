@@ -38,24 +38,24 @@ const styles = {
   },
 };
 
-const EnvironmentDetail = (props) => {
+const ProductionDetail = (props) => {
   const { classes, match } = props;
   const [id, setId] = useState('');
-  const [environment, setEnvironment] = useState({});
+  const [production, setProduction] = useState({});
 
   const [inputDisabled, setDisable] = useState(true);
 
   useEffect(() => {
     const { id } = match.params;
     setId(id);
-    getItem('environment', id).then(newEnvironment => setEnvironment(newEnvironment));
+    getItem('production', id).then(newProduction => setProduction(newProduction));
   }, []);
 
   const renderDynamicFields = () => {
     const filterFields = ['id', 'user', 'location', 'date', 'notes'];
     const dynamicFields = [];
 
-    _.mapObject(environment, (item, key) => {
+    _.mapObject(production, (item, key) => {
       if (!_.contains(filterFields, key)) {
         dynamicFields.push(<h4>{getSectionName(key)}</h4>);
         _.mapObject(item, (value, name) => dynamicFields.push(
@@ -71,13 +71,13 @@ const EnvironmentDetail = (props) => {
       <GridContainer>
         <GridItem xs={12} sm={12} md={8}>
           <Card>
-            {!_.isEmpty(environment)
+            {!_.isEmpty(production)
               ? (
                 <Fragment>
                   <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Muestra de Medio Ambiente</h4>
+                    <h4 className={classes.cardTitleWhite}>Muestra de Produccion y Consumo Sustentable</h4>
                     <p className={classes.cardCategoryWhite}>
-                      Realizada {moment(environment.date).format('DD-MM-YYYY HH:mm')}
+                      Realizada {moment(production.date).format('DD-MM-YYYY HH:mm')}
                     </p>
                   </CardHeader>
                   <CardBody>
@@ -85,20 +85,20 @@ const EnvironmentDetail = (props) => {
                       <GridItem xs={12} sm={12} md={5}>
                         <h4>Lugar</h4>
                         <p>
-                          {environment.location.city}, {environment.location.province}
+                          {production.location.city}, {production.location.province}
                         </p>
                       </GridItem>
                       <GridItem xs={12} sm={12} md={3}>
                         <h4>Notas</h4>
-                        {environment.notes}
+                        {production.notes}
                       </GridItem>
                       <GridItem xs={12} sm={12} md={4}>
                         <Link
                           to={{
-                            pathname: '/environment/update',
+                            pathname: '/production/update',
                             state: {
                               id,
-                              environment,
+                              production,
                             },
                           }}
                         >
@@ -119,10 +119,10 @@ const EnvironmentDetail = (props) => {
         <GridItem xs={12} sm={12} md={4}>
           <Card profile>
             <CardBody profile>
-              {environment.user && (
+              {production.user && (
                 <Fragment>
-                  <h6 className={classes.cardCategory}>{environment.user.role}</h6>
-                  <h4 className={classes.cardTitle}>{`${environment.user.name} ${environment.user.lastName}`}</h4>
+                  <h6 className={classes.cardCategory}>{production.user.role}</h6>
+                  <h4 className={classes.cardTitle}>{`${production.user.name} ${production.user.lastName}`}</h4>
                 </Fragment>
               )}
             </CardBody>
@@ -133,9 +133,9 @@ const EnvironmentDetail = (props) => {
   );
 };
 
-EnvironmentDetail.propTypes = {
+ProductionDetail.propTypes = {
   classes: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EnvironmentDetail);
+export default withStyles(styles)(ProductionDetail);

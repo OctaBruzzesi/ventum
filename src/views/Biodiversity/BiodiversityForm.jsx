@@ -33,7 +33,7 @@ const styles = {
   },
 };
 
-const WaterForm = (props) => {
+const BiodiversityForm = (props) => {
   const [modalValues, setModalValues] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
@@ -283,7 +283,7 @@ const WaterForm = (props) => {
   );
 };
 
-WaterForm.propTypes = {
+BiodiversityForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   addSection: PropTypes.func.isRequired,
   addField: PropTypes.func.isRequired,
@@ -293,14 +293,14 @@ WaterForm.propTypes = {
   onFormSubmit: PropTypes.func.isRequired,
 };
 
-WaterForm.defaultProps = {
+BiodiversityForm.defaultProps = {
   dynamicForm: {},
 };
 
 export default compose(
   reduxForm({
-    form: 'WaterNewForm',
+    form: 'BiodiversityNewForm',
   }),
   withRouter,
   withStyles(styles),
-)(WaterForm);
+)(BiodiversityForm);

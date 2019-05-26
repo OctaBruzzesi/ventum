@@ -1,23 +1,23 @@
-import { water, database } from '../../firebase/firebase';
+import { climate, database } from '../../firebase/firebase';
 import { getArrayFromCollection, getObjectFromCollection } from '../../helpers/firebaseHelper';
 import { convertSection } from '../../utils/sections';
-import { WATER_FETCH, ADD_WATER_FORM, EDIT_WATER_SUCCESS } from '../types';
+import { CLIMATE_FETCH, ADD_CLIMATE_FORM, EDIT_CLIMATE_SUCCESS } from '../types';
 
-const addWaterForm = form => ({
-  type: ADD_WATER_FORM,
+const addClimateForm = form => ({
+  type: ADD_CLIMATE_FORM,
   payload: form,
 });
 
 const editSuccess = () => ({
-  type: EDIT_WATER_SUCCESS,
+  type: EDIT_CLIMATE_SUCCESS,
 });
 
-export const addWater = (newWater, user) => async (dispatch) => {
+export const addClimate = (newClimate, user) => async (dispatch) => {
   const {
     name, lastName, email, role,
   } = user;
-  database.collection('water').doc().set({
-    ...newWater,
+  database.collection('climate').doc().set({
+    ...newClimate,
     user: {
       name,
       lastName,
@@ -27,14 +27,14 @@ export const addWater = (newWater, user) => async (dispatch) => {
   });
 };
 
-export const editWater = (id, newWater, user) => async (dispatch) => {
+export const editClimate = (id, newClimate, user) => async (dispatch) => {
   const {
     name, lastName, email, role,
   } = user;
 
-  database.collection('water/').doc(id)
+  database.collection('climate/').doc(id)
     .update({
-      ...newWater,
+      ...newClimate,
       user: {
         name,
         lastName,
@@ -51,28 +51,28 @@ export const editWater = (id, newWater, user) => async (dispatch) => {
 };
 
 export const fetchDynamicForm = () => async (dispatch) => {
-  database.collection('waterForm').get()
+  database.collection('climateForm').get()
     .then((data) => {
       const formatedData = getObjectFromCollection(data);
-      dispatch(addWaterForm(formatedData));
+      dispatch(addClimateForm(formatedData));
     })
     .catch(e => console.log(e));
 };
 
 export const addSection = (label, key) => async (dispatch) => {
-  database.collection('waterForm').doc(convertSection(key)).set({
+  database.collection('climateForm').doc(convertSection(key)).set({
     fields: [],
     label,
   }).then(dispatch(fetchDynamicForm()));
 };
 
 export const addField = (section, key, type) => async (dispatch) => {
-  database.collection('waterForm').get()
+  database.collection('climateForm').get()
     .then((data) => {
       const formatedData = getObjectFromCollection(data);
       const { fields } = formatedData[section];
       const newFields = fields.concat({ key: convertSection(key), type });
-      database.collection('waterForm').doc(section).update({
+      database.collection('climateForm').doc(section).update({
         fields: newFields,
       }).then(dispatch(fetchDynamicForm()))
         .catch(e => console.log(e));
@@ -81,19 +81,19 @@ export const addField = (section, key, type) => async (dispatch) => {
 };
 
 export const completeToDo = completeToDoId => async (dispatch) => {
-  water.child(completeToDoId).remove();
+  climate.child(completeToDoId).remove();
 };
 
-export const waterSuccess = collection => ({
-  type: WATER_FETCH,
+export const climateSuccess = collection => ({
+  type: CLIMATE_FETCH,
   payload: collection,
 });
 
-export const fetchWater = () => async (dispatch) => {
-  database.collection('water').get()
+export const fetchClimate = () => async (dispatch) => {
+  database.collection('climate').get()
     .then((data) => {
       const collectionList = [];
       data.forEach(document => collectionList.push({ ...document.data(), id: document.id }));
-      dispatch(waterSuccess(collectionList));
+      dispatch(climateSuccess(collectionList));
     });
 };
