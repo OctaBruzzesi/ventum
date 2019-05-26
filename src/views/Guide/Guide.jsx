@@ -1,9 +1,6 @@
 import React from 'react';
-import { Document } from 'react-pdf';
 
 const guide = require('../../assets/guide.pdf');
-
-console.log(guide);
 
 const Guide = () => (
   <embed

@@ -37,6 +37,9 @@ const databaseRef = app.database().ref();
 const water = databaseRef.child('water');
 const environment = databaseRef.child('environment');
 const biodiversity = databaseRef.child('biodiversity');
+const soil = databaseRef.child('soil');
+const production = databaseRef.child('production');
+const climate = databaseRef.child('climate');
 const user = databaseRef.child('users');
 
 const database = app.firestore();
@@ -47,6 +50,9 @@ export {
   water,
   environment,
   biodiversity,
+  soil,
+  production,
+  climate,
   user,
   database,
 };

@@ -25,7 +25,7 @@ const convertSection = s => s.replace(
 ).replace(/\s+/g, '');
 
 const getSectionName = (name) => {
-  if (name) {
+  if (typeof name === 'string') {
     const e = name.replace(/([A-Z])/g, ' $1');
     return e.charAt(0).toUpperCase() + e.slice(1);
   }

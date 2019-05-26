@@ -75,7 +75,7 @@ const EnvironmentDetail = (props) => {
               ? (
                 <Fragment>
                   <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Muestra de Agua</h4>
+                    <h4 className={classes.cardTitleWhite}>Muestra de Medio Ambiente</h4>
                     <p className={classes.cardCategoryWhite}>
                       Realizada {moment(environment.date).format('DD-MM-YYYY HH:mm')}
                     </p>

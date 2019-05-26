@@ -18,8 +18,18 @@ import Button from 'components/CustomButtons/Button';
 
 import { addFavourites } from 'redux/favourites/favouritesActions';
 import { getUser } from 'redux/users/usersReducer';
+import { getWater } from 'redux/water/waterReducer';
+import { fetchDynamicForm, fetchWater } from 'redux/water/waterActions';
 import { getEnvironment } from 'redux/environment/environmentReducer';
-import { fetchDynamicForm, fetchEnvironment } from 'redux/environment/environmentActions';
+import { fetchDynamicForm as fetchEnvironmentForm, fetchEnvironment } from 'redux/environment/environmentActions';
+import { getBiodiversity } from 'redux/biodiversity/biodiversityReducer';
+import { fetchDynamicForm as fetchBiodiversityForm, fetchBiodiversity } from 'redux/biodiversity/biodiversityActions';
+import { getSoil } from 'redux/soil/soilReducer';
+import { fetchDynamicForm as fetchSoilForm, fetchSoil } from 'redux/soil/soilActions';
+import { getProduction } from 'redux/production/productionReducer';
+import { fetchDynamicForm as fetchProductionForm, fetchProduction } from 'redux/production/productionActions';
+import { getClimate } from 'redux/climate/climateReducer';
+import { fetchDynamicForm as fetchClimateForm, fetchClimate } from 'redux/climate/climateActions';
 
 import EnvironmentChart from './EnvironmentChart';
 
@@ -68,7 +78,17 @@ class Environment extends Component {
 
   componentDidMount() {
     this.props.fetchDynamicForm();
+    this.props.fetchWater();
     this.props.fetchEnvironment();
+    this.props.fetchEnvironmentForm();
+    this.props.fetchBiodiversity();
+    this.props.fetchBiodiversityForm();
+    this.props.fetchSoil();
+    this.props.fetchSoilForm();
+    this.props.fetchProduction();
+    this.props.fetchProductionForm();
+    this.props.fetchClimate();
+    this.props.fetchClimateForm();
   }
 
   onChangeText(event, value) {
@@ -122,12 +142,12 @@ class Environment extends Component {
   }
 
   render() {
-    const { classes, user, history, environment } = this.props;
+    const { classes, user, environment, biodiversity, soil, production, climate, history, water } = this.props;
 
     return (
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
-          <EnvironmentChart environment={environment} user={user} addFavourites={this.addFavourites} />
+          <EnvironmentChart water={water} environment={environment} biodiversity={biodiversity} soil={soil} production={production} climate={climate} user={user} addFavourites={this.addFavourites} />
         </GridItem>
 
         <GridItem xs={12} sm={3} md={3}>
@@ -175,9 +195,9 @@ class Environment extends Component {
         <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Muestras de Agua</h4>
+              <h4 className={classes.cardTitleWhite}>Muestras de Medio Ambiente</h4>
               <p className={classes.cardCategoryWhite}>
-                Agua
+                Medio Ambiente
               </p>
             </CardHeader>
             <CardBody>
@@ -197,13 +217,28 @@ class Environment extends Component {
 
 const mapStateToProps = state => ({
   user: getUser(state),
+  water: getWater(state),
   environment: getEnvironment(state),
+  biodiversity: getBiodiversity(state),
+  soil: getSoil(state),
+  production: getProduction(state),
+  climate: getClimate(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchEnvironment: () => dispatch(fetchEnvironment()),
   addFavourites: (newFavourite, user) => dispatch(addFavourites(newFavourite, user)),
   fetchDynamicForm: () => dispatch(fetchDynamicForm()),
+  fetchWater: () => dispatch(fetchWater()),
+  fetchEnvironmentForm: () => dispatch(fetchEnvironmentForm()),
+  fetchBiodiversity: () => dispatch(fetchBiodiversity()),
+  fetchBiodiversityForm: () => dispatch(fetchBiodiversityForm()),
+  fetchSoil: () => dispatch(fetchSoil()),
+  fetchSoilForm: () => dispatch(fetchSoilForm()),
+  fetchProduction: () => dispatch(fetchProduction()),
+  fetchProductionForm: () => dispatch(fetchProductionForm()),
+  fetchClimate: () => dispatch(fetchClimate()),
+  fetchClimateForm: () => dispatch(fetchClimateForm()),
 });
 
 export default compose(

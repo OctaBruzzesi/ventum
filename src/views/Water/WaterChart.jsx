@@ -22,7 +22,7 @@ import {
 } from '../../utils/charts';
 
 const WaterChart = ({
-  water, environment, biodiversity, user, addFavourites, classes,
+  water, environment, biodiversity, soil, production, climate, user, addFavourites, classes,
 }) => {
   const [selectedValue, selectValue] = useState('nitrato');
   const [selectedGroup, selectGroup] = useState('artificalMinerals');
@@ -411,6 +411,12 @@ const WaterChart = ({
         return environment;
       case 'biodiveristy':
         return biodiversity;
+      case 'soil':
+        return soil;
+      case 'production':
+        return production;
+      case 'climate':
+        return climate;
       default:
         return water;
     }

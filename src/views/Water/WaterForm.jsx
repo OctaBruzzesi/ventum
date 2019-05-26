@@ -173,13 +173,11 @@ const WaterForm = (props) => {
 
             <GridItem md={12}>
               <div className={classes.formItem}>
-                {/* TODO: refactor */}
                 <Field
                   name="notes"
                   validate={[required]}
                   component={InputText}
                   className={classes.formItem}
-                  type="text"
                   label="Notas"
                 />
               </div>
@@ -219,7 +217,7 @@ const WaterForm = (props) => {
         open={modalOpen}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">Agregar Grupo</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Grupo de datos que se relacionan entre sí.
