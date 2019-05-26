@@ -21,6 +21,7 @@ import CardBody from 'components/Card/CardBody';
 import { InputText, Select } from 'components/Form';
 import { required, number, email } from '../../utils/validations';
 import provinces from '../../utils/provinces';
+import { getSectionName } from '../../utils/sections';
 
 const styles = {
   formTitleSection: {
@@ -44,8 +45,8 @@ const EnvironmentForm = (props) => {
   const [modalFieldValues, setModalFieldValues] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
-      fieldName: '',
       fieldKey: '',
+      fieldType: '',
     },
   );
 
@@ -64,9 +65,9 @@ const EnvironmentForm = (props) => {
   };
 
   const addField = () => {
-    props.addField(sectionSelected, modalFieldValues.fieldName, modalFieldValues.fieldKey);
+    props.addField(sectionSelected, modalFieldValues.fieldKey, modalFieldValues.fieldType);
     handleModalFieldOpen(!modalFieldOpen);
-    setModalFieldValues({ fieldName: '', fieldKey: '' });
+    setModalFieldValues({ fieldKey: '', fieldType: '' });
   };
 
   const handleSectionEdit = (section) => {
@@ -92,7 +93,7 @@ const EnvironmentForm = (props) => {
     _.mapObject(dynamicForm, (form, key) => {
       dynamicFields.push(
         <GridItem md={12} key={key}>
-          <h3 className={classes.formTitleSection}>{form.label}</h3>
+          <h3 className={classes.formTitleSection}>{getSectionName(key)}</h3>
         </GridItem>,
       );
       _.map(form.fields, (item) => {
@@ -101,8 +102,8 @@ const EnvironmentForm = (props) => {
             <Field
               name={`${key}.${item.key}`}
               component={InputText}
-              type="number"
-              label={item.label}
+              type={item.type}
+              label={getSectionName(item.key)}
             />
           </GridItem>,
         );
@@ -146,7 +147,6 @@ const EnvironmentForm = (props) => {
                 name="location.city"
                 component={InputText}
                 validate={[required]}
-                type="text"
                 label="Ciudad/Lugar"
               />
             </GridItem>
@@ -155,7 +155,6 @@ const EnvironmentForm = (props) => {
                 name="date"
                 component={InputText}
                 validate={[required]}
-                type="datetime-local"
                 label="Fecha de la muestra"
               />
             </GridItem>
@@ -180,7 +179,6 @@ const EnvironmentForm = (props) => {
                   validate={[required]}
                   component={InputText}
                   className={classes.formItem}
-                  type="text"
                   label="Notas"
                 />
               </div>
@@ -220,22 +218,14 @@ const EnvironmentForm = (props) => {
         open={modalOpen}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">Agregar Grupo</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Una sección es un grupo de datos que se relacionan entre sí.
+            Grupo de datos que se relacionan entre sí.
             Por ejemplo: dentro de la sección Residuos Naturales
             se encontrarán los datos Resiuos de Benceno y
             Residuos de Carbono.
           </DialogContentText>
-          <TextField
-            label="Nombre"
-            name="sectionName"
-            onChange={handleModalInput}
-            id="sectionName"
-            value={modalValues.sectionName}
-            fullWidth
-          />
           <TextField
             label="Key"
             name="sectionKey"
@@ -259,28 +249,25 @@ const EnvironmentForm = (props) => {
         open={modalFieldOpen}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">Agregar Campo</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Una sección es un grupo de datos que se relacionan entre sí.
-            Por ejemplo: dentro de la sección Residuos Naturales
-            se encontrarán los datos Resiuos de Benceno y
-            Residuos de Carbono.
+            Campo de un valor de un grupo de datos.
           </DialogContentText>
           <TextField
             label="Nombre"
-            name="fieldName"
-            onChange={handleModalFieldsInput}
-            id="fieldName"
-            value={modalFieldValues.fieldName}
-            fullWidth
-          />
-          <TextField
-            label="Key"
             name="fieldKey"
             onChange={handleModalFieldsInput}
             id="fieldKey"
             value={modalFieldValues.fieldKey}
+            fullWidth
+          />
+          <TextField
+            label="Unidad"
+            name="fieldType"
+            onChange={handleModalFieldsInput}
+            id="fieldType"
+            value={modalFieldValues.fieldType}
             fullWidth
           />
         </DialogContent>

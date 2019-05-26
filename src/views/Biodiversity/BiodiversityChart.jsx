@@ -21,20 +21,20 @@ import {
   monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes, averageTypes,
 } from '../../utils/charts';
 
-const EnvironmentChart = ({
+const BiodiversityChart = ({
   water, environment, biodiversity, soil, production, climate, user, addFavourites, classes,
 }) => {
-  const [selectedValue, selectValue] = useState('dioxidoDeCarbono');
-  const [selectedGroup, selectGroup] = useState('contaminacionDelAire');
-  const [selectedSection, selectSection] = useState('environment');
+  const [selectedValue, selectValue] = useState('numeroDeJaguares');
+  const [selectedGroup, selectGroup] = useState('preservacionDeEspecies');
+  const [selectedSection, selectSection] = useState('biodiversity');
 
-  const [selectedValue2, selectValue2] = useState('minasExplotadas');
-  const [selectedGroup2, selectGroup2] = useState('explotacionDeRecursosNaturales');
-  const [selectedSection2, selectSection2] = useState('environment');
+  const [selectedValue2, selectValue2] = useState('diversificacion');
+  const [selectedGroup2, selectGroup2] = useState('diversificacionGenetica');
+  const [selectedSection2, selectSection2] = useState('biodiversity');
 
-  const [selectedValue3, selectValue3] = useState('explotacionMineralesNoFerrosos');
-  const [selectedGroup3, selectGroup3] = useState('explotacionDeRecursosNaturales');
-  const [selectedSection3, selectSection3] = useState('environment');
+  const [selectedValue3, selectValue3] = useState('heterocigasis');
+  const [selectedGroup3, selectGroup3] = useState('diversificacionGenetica');
+  const [selectedSection3, selectSection3] = useState('biodiversity');
 
   const [newChart2, updNewChart2] = useState(false);
   const [newChart3, updNewChart3] = useState(false);
@@ -46,7 +46,7 @@ const EnvironmentChart = ({
 
   const [typeChart, setTypeChart] = useState(chartTypes.line);
 
-  const getEnvironmentValuesOrderedByYear = (values) => {
+  const getBiodiversityValuesOrderedByYear = (values) => {
     const formatedValues = [
       0,
       0,
@@ -89,7 +89,7 @@ const EnvironmentChart = ({
     return formatedValues;
   };
 
-  const getEnvironmentValuesOrderedByTrimester = (values) => {
+  const getBiodiversityValuesOrderedByTrimester = (values) => {
     const formatedValues = [
       0,
       0,
@@ -159,7 +159,7 @@ const EnvironmentChart = ({
     return formatedValues;
   };
 
-  const getEnvironmentValuesOrderedByMonth = (values) => {
+  const getBiodiversityValuesOrderedByMonth = (values) => {
     const formatedValues = [
       0,
       0,
@@ -245,26 +245,25 @@ const EnvironmentChart = ({
   };
 
   const getData = (pSelectedGroup, pSelectedSection, pSelectedValue) => {
-    const environmentDataValues = [];
-    _.mapObject(getSection(pSelectedSection).data, (environmentItem) => {
-      console.log(environmentItem);
-      if (environmentItem[pSelectedGroup] && environmentItem[pSelectedGroup][pSelectedValue]) {
-        environmentDataValues.push({
-          date: environmentItem.date,
-          value: environmentItem[pSelectedGroup][pSelectedValue],
+    const biodiversityDataValues = [];
+    _.mapObject(getSection(pSelectedSection).data, (biodiversityItem) => {
+      if (biodiversityItem[pSelectedGroup] && biodiversityItem[pSelectedGroup][pSelectedValue]) {
+        biodiversityDataValues.push({
+          date: biodiversityItem.date,
+          value: biodiversityItem[pSelectedGroup][pSelectedValue],
         });
       }
     });
 
     switch (selectedPeriod) {
       case 'Años':
-        return getEnvironmentValuesOrderedByYear(environmentDataValues);
+        return getBiodiversityValuesOrderedByYear(biodiversityDataValues);
       case 'Trimestres':
-        return getEnvironmentValuesOrderedByTrimester(environmentDataValues);
+        return getBiodiversityValuesOrderedByTrimester(biodiversityDataValues);
       case 'Meses':
-        return getEnvironmentValuesOrderedByMonth(environmentDataValues);
+        return getBiodiversityValuesOrderedByMonth(biodiversityDataValues);
       default:
-        getEnvironmentValuesOrderedByMonth(environmentDataValues);
+        getBiodiversityValuesOrderedByMonth(biodiversityDataValues);
     }
   };
 
@@ -419,12 +418,12 @@ const EnvironmentChart = ({
       case 'climate':
         return climate;
       default:
-        return environment;
+        return biodiversity;
     }
   };
 
   return (
-    !_.isEmpty(environment) && !_.isEmpty(environment.form)
+    !_.isEmpty(biodiversity) && !_.isEmpty(biodiversity.form)
       ? (
         <Card chart>
           <CardHeader color="success">
@@ -531,7 +530,6 @@ const EnvironmentChart = ({
                     label="Sección"
                     onChange={(e) => {
                       selectSection2(e.target.value);
-                      console.log(getSection(e.target.value), e.target.value);
                       const keys = Object.keys(getSection(e.target.value).form);
                       selectGroup2(getSection(e.target.value).form[keys[0]]);
                     }}
@@ -619,10 +617,10 @@ const EnvironmentChart = ({
   );
 };
 
-EnvironmentChart.propTypes = {
-  environment: PropTypes.object.isRequired,
+BiodiversityChart.propTypes = {
+  biodiversity: PropTypes.object.isRequired,
   addFavourites: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(dashboardStyle)(EnvironmentChart);
+export default withStyles(dashboardStyle)(BiodiversityChart);

@@ -25,6 +25,12 @@ import { getEnvironment } from 'redux/environment/environmentReducer';
 import { fetchDynamicForm as fetchEnvironmentForm, fetchEnvironment } from 'redux/environment/environmentActions';
 import { getBiodiversity } from 'redux/biodiversity/biodiversityReducer';
 import { fetchDynamicForm as fetchBiodiversityForm, fetchBiodiversity } from 'redux/biodiversity/biodiversityActions';
+import { getSoil } from 'redux/soil/soilReducer';
+import { fetchDynamicForm as fetchSoilForm, fetchSoil } from 'redux/soil/soilActions';
+import { getProduction } from 'redux/production/productionReducer';
+import { fetchDynamicForm as fetchProductionForm, fetchProduction } from 'redux/production/productionActions';
+import { getClimate } from 'redux/climate/climateReducer';
+import { fetchDynamicForm as fetchClimateForm, fetchClimate } from 'redux/climate/climateActions';
 
 import WaterChart from './WaterChart';
 
@@ -78,8 +84,12 @@ class Water extends Component {
     this.props.fetchEnvironmentForm();
     this.props.fetchBiodiversity();
     this.props.fetchBiodiversityForm();
-
-    
+    this.props.fetchSoil();
+    this.props.fetchSoilForm();
+    this.props.fetchProduction();
+    this.props.fetchProductionForm();
+    this.props.fetchClimate();
+    this.props.fetchClimateForm();
   }
 
   onChangeText(event, value) {
@@ -133,12 +143,12 @@ class Water extends Component {
   }
 
   render() {
-    const { classes, user, environment, biodiversity, history, water } = this.props;
+    const { classes, user, environment, biodiversity, soil, production, climate, history, water } = this.props;
 
     return (
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
-          <WaterChart water={water} environment={environment} biodiversity={biodiversity} user={user} addFavourites={this.addFavourites} />
+          <WaterChart water={water} environment={environment} biodiversity={biodiversity} soil={soil} production={production} climate={climate} user={user} addFavourites={this.addFavourites} />
         </GridItem>
 
         <GridItem xs={12} sm={3} md={3}>
@@ -211,6 +221,9 @@ const mapStateToProps = state => ({
   water: getWater(state),
   environment: getEnvironment(state),
   biodiversity: getBiodiversity(state),
+  soil: getSoil(state),
+  production: getProduction(state),
+  climate: getClimate(state),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -221,6 +234,12 @@ const mapDispatchToProps = dispatch => ({
   fetchEnvironmentForm: () => dispatch(fetchEnvironmentForm()),
   fetchBiodiversity: () => dispatch(fetchBiodiversity()),
   fetchBiodiversityForm: () => dispatch(fetchBiodiversityForm()),
+  fetchSoil: () => dispatch(fetchSoil()),
+  fetchSoilForm: () => dispatch(fetchSoilForm()),
+  fetchProduction: () => dispatch(fetchProduction()),
+  fetchProductionForm: () => dispatch(fetchProductionForm()),
+  fetchClimate: () => dispatch(fetchClimate()),
+  fetchClimateForm: () => dispatch(fetchClimateForm()),
 });
 
 export default compose(

@@ -1,5 +1,6 @@
 import { environment, database } from '../../firebase/firebase';
 import { getArrayFromCollection, getObjectFromCollection } from '../../helpers/firebaseHelper';
+import { convertSection } from '../../utils/sections';
 import { ENVIRONMENT_FETCH, ADD_ENVIRONMENT_FORM, EDIT_ENVIRONMENT_SUCCESS } from '../types';
 
 const addEnvironmentForm = form => ({
@@ -59,24 +60,28 @@ export const fetchDynamicForm = () => async (dispatch) => {
 };
 
 export const addSection = (label, key) => async (dispatch) => {
-  database.collection('environmentForm').doc(key).set({
+  database.collection('environmentForm').doc(convertSection(key)).set({
     fields: [],
     label,
   }).then(dispatch(fetchDynamicForm()));
 };
 
-export const addField = (section, label, key) => async (dispatch) => {
+export const addField = (section, key, type) => async (dispatch) => {
   database.collection('environmentForm').get()
     .then((data) => {
       const formatedData = getObjectFromCollection(data);
       const { fields } = formatedData[section];
-      const newFields = fields.concat({ label, key, type: 'number ' });
+      const newFields = fields.concat({ key: convertSection(key), type });
       database.collection('environmentForm').doc(section).update({
         fields: newFields,
       }).then(dispatch(fetchDynamicForm()))
         .catch(e => console.log(e));
     })
     .catch(e => console.log(e));
+};
+
+export const completeToDo = completeToDoId => async (dispatch) => {
+  environment.child(completeToDoId).remove();
 };
 
 export const environmentSuccess = collection => ({
@@ -92,9 +97,3 @@ export const fetchEnvironment = () => async (dispatch) => {
       dispatch(environmentSuccess(collectionList));
     });
 };
-
-// {
-//   key: 'eee',
-//   label: 'eesss',
-//   type: 'number',
-// }

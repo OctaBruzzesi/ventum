@@ -38,24 +38,24 @@ const styles = {
   },
 };
 
-const EnvironmentDetail = (props) => {
+const BiodiversityDetail = (props) => {
   const { classes, match } = props;
   const [id, setId] = useState('');
-  const [environment, setEnvironment] = useState({});
+  const [biodiversity, setBiodiversity] = useState({});
 
   const [inputDisabled, setDisable] = useState(true);
 
   useEffect(() => {
     const { id } = match.params;
     setId(id);
-    getItem('environment', id).then(newEnvironment => setEnvironment(newEnvironment));
+    getItem('biodiversity', id).then(newBiodiversity => setBiodiversity(newBiodiversity));
   }, []);
 
   const renderDynamicFields = () => {
     const filterFields = ['id', 'user', 'location', 'date', 'notes'];
     const dynamicFields = [];
 
-    _.mapObject(environment, (item, key) => {
+    _.mapObject(biodiversity, (item, key) => {
       if (!_.contains(filterFields, key)) {
         dynamicFields.push(<h4>{getSectionName(key)}</h4>);
         _.mapObject(item, (value, name) => dynamicFields.push(
@@ -71,13 +71,13 @@ const EnvironmentDetail = (props) => {
       <GridContainer>
         <GridItem xs={12} sm={12} md={8}>
           <Card>
-            {!_.isEmpty(environment)
+            {!_.isEmpty(biodiversity)
               ? (
                 <Fragment>
                   <CardHeader color="primary">
-                    <h4 className={classes.cardTitleWhite}>Muestra de Medio Ambiente</h4>
+                    <h4 className={classes.cardTitleWhite}>Muestra de Biodiversidad</h4>
                     <p className={classes.cardCategoryWhite}>
-                      Realizada {moment(environment.date).format('DD-MM-YYYY HH:mm')}
+                      Realizada {moment(biodiversity.date).format('DD-MM-YYYY HH:mm')}
                     </p>
                   </CardHeader>
                   <CardBody>
@@ -85,20 +85,20 @@ const EnvironmentDetail = (props) => {
                       <GridItem xs={12} sm={12} md={5}>
                         <h4>Lugar</h4>
                         <p>
-                          {environment.location.city}, {environment.location.province}
+                          {biodiversity.location.city}, {biodiversity.location.province}
                         </p>
                       </GridItem>
                       <GridItem xs={12} sm={12} md={3}>
                         <h4>Notas</h4>
-                        {environment.notes}
+                        {biodiversity.notes}
                       </GridItem>
                       <GridItem xs={12} sm={12} md={4}>
                         <Link
                           to={{
-                            pathname: '/environment/update',
+                            pathname: '/biodiversity/update',
                             state: {
                               id,
-                              environment,
+                              biodiversity,
                             },
                           }}
                         >
@@ -119,10 +119,10 @@ const EnvironmentDetail = (props) => {
         <GridItem xs={12} sm={12} md={4}>
           <Card profile>
             <CardBody profile>
-              {environment.user && (
+              {biodiversity.user && (
                 <Fragment>
-                  <h6 className={classes.cardCategory}>{environment.user.role}</h6>
-                  <h4 className={classes.cardTitle}>{`${environment.user.name} ${environment.user.lastName}`}</h4>
+                  <h6 className={classes.cardCategory}>{biodiversity.user.role}</h6>
+                  <h4 className={classes.cardTitle}>{`${biodiversity.user.name} ${biodiversity.user.lastName}`}</h4>
                 </Fragment>
               )}
             </CardBody>
@@ -133,9 +133,9 @@ const EnvironmentDetail = (props) => {
   );
 };
 
-EnvironmentDetail.propTypes = {
+BiodiversityDetail.propTypes = {
   classes: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EnvironmentDetail);
+export default withStyles(styles)(BiodiversityDetail);
