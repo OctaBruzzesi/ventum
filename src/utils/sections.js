@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import { unwatchFile } from 'fs';
 
 const filterFields = ['id', 'location', 'date', 'notes'];
 
@@ -32,6 +33,18 @@ const getSectionName = (name) => {
   return '';
 };
 
+const translateSections = (section) => {
+  let returnValue = section;
+  
+  sections.forEach(item => {
+    if(section === item.key) {
+      returnValue = item.label;
+    }
+  });
+
+  return returnValue;
+}
+
 const sections = [
   {
     key: 'water',
@@ -60,5 +73,5 @@ const sections = [
 ];
 
 export {
-  getDynamicFields, getSectionName, sections, convertSection, getDynamicSections,
+  getDynamicFields, getSectionName, sections, convertSection, getDynamicSections, translateSections,
 };
