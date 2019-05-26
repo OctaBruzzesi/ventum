@@ -85,6 +85,7 @@ class Dashboard extends PureComponent {
     );
   }
 }
+
 Dashboard.propTypes = {
   fetchFavourites: PropTypes.func.isRequired,
   favourites: PropTypes.object.isRequired,

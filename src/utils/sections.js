@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import { unwatchFile } from 'fs';
 
 const filterFields = ['id', 'location', 'date', 'notes'];
 
@@ -19,10 +20,46 @@ const getDynamicSections = (data) => {
   return sections;
 };
 
+const getLabelFromJson = (json) => {
+  const keys = Object.keys(json);
+  let label = '';
+
+  if(keys.includes('label')) {
+    label = json.label;
+  } else {
+    label = json.fields[0].label;
+  }
+  
+  console.log('label ', label);
+  return label;
+}
+
 const getSectionName = (name) => {
-  const e = name.replace(/([A-Z])/g, ' $1');
+  let nameValue = '';
+  const typeName = typeof(name);
+
+  if(typeName === 'string') {
+    nameValue = name;
+  } else {
+    const label = getLabelFromJson(name);
+    nameValue = label.toString();
+  }
+
+  const e = nameValue.replace(/([A-Z])/g, ' $1');
   return e.charAt(0).toUpperCase() + e.slice(1);
 };
+
+const translateSections = (section) => {
+  let returnValue = section;
+  
+  sections.forEach(item => {
+    if(section === item.key) {
+      returnValue = item.label;
+    }
+  });
+
+  return returnValue;
+}
 
 const sections = [
   {
@@ -52,5 +89,5 @@ const sections = [
 ];
 
 export {
-  getDynamicFields, getSectionName, sections, getDynamicSections,
+  getDynamicFields, getSectionName, sections, getDynamicSections, translateSections
 };
