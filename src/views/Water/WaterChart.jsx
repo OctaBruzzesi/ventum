@@ -25,15 +25,15 @@ const WaterChart = ({
   water, environment, biodiversity, soil, production, climate, user, addFavourites, classes,
 }) => {
   const [selectedValue, selectValue] = useState('nitrato');
-  const [selectedGroup, selectGroup] = useState('artificalMinerals');
+  const [selectedGroup, selectGroup] = useState('mineralesArtificiales');
   const [selectedSection, selectSection] = useState('water');
 
-  const [selectedValue2, selectValue2] = useState('hidrogen');
-  const [selectedGroup2, selectGroup2] = useState('artificalMinerals');
+  const [selectedValue2, selectValue2] = useState('hidrogeno');
+  const [selectedGroup2, selectGroup2] = useState('mineralesArtificiales');
   const [selectedSection2, selectSection2] = useState('water');
 
-  const [selectedValue3, selectValue3] = useState('sulfurum');
-  const [selectedGroup3, selectGroup3] = useState('artificalMinerals');
+  const [selectedValue3, selectValue3] = useState('sulfuro');
+  const [selectedGroup3, selectGroup3] = useState('mineralesArtificiales');
   const [selectedSection3, selectSection3] = useState('water');
 
   const [newChart2, updNewChart2] = useState(false);
@@ -427,7 +427,7 @@ const WaterChart = ({
     !_.isEmpty(water) && !_.isEmpty(water.form)
       ? (
         <Card chart>
-          <CardHeader color="success">
+          <CardHeader color="info">
             <GridContainer>
               <GridItem md={4}>
                 <Select

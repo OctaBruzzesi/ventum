@@ -426,7 +426,7 @@ const SoilChart = ({
     !_.isEmpty(soil) && !_.isEmpty(soil.form)
       ? (
         <Card chart>
-          <CardHeader color="success">
+          <CardHeader color="warning">
             <GridContainer>
               <GridItem md={4}>
                 <Select

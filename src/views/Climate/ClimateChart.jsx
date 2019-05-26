@@ -426,7 +426,7 @@ const ClimateChart = ({
     !_.isEmpty(climate) && !_.isEmpty(climate.form)
       ? (
         <Card chart>
-          <CardHeader color="success">
+          <CardHeader color="warning">
             <GridContainer>
               <GridItem md={4}>
                 <Select

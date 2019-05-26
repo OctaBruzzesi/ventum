@@ -426,7 +426,7 @@ const BiodiversityChart = ({
     !_.isEmpty(biodiversity) && !_.isEmpty(biodiversity.form)
       ? (
         <Card chart>
-          <CardHeader color="success">
+          <CardHeader color="primary">
             <GridContainer>
               <GridItem md={4}>
                 <Select
