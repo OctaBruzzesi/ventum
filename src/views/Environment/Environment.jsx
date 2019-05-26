@@ -18,6 +18,7 @@ import Button from 'components/CustomButtons/Button';
 
 import { addFavourites } from 'redux/favourites/favouritesActions';
 import { getUser } from 'redux/users/usersReducer';
+import { getDisplayStyleByPermits } from 'redux/users/usersActions';
 import { getWater } from 'redux/water/waterReducer';
 import { fetchDynamicForm, fetchWater } from 'redux/water/waterActions';
 import { getEnvironment } from 'redux/environment/environmentReducer';
@@ -187,7 +188,7 @@ class Environment extends Component {
           />
         </GridItem>
         <GridItem xs={12} sm={3} md={3} />
-        <GridItem xs={12} sm={3} md={3}>
+        <GridItem xs={12} sm={3} md={3} style={getDisplayStyleByPermits()}>
           <Link to="/environment/new">
             <Button color="primary">Nuevo Registro</Button>
           </Link>

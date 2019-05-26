@@ -15,6 +15,23 @@ const setCurrentUser = user => ({
   payload: user,
 });
 
+export const getDisplayStyleAdmin = () => {
+  /* Devuelve el objeto Style
+   * Esta pensado para cuando el elemento a ocultar NO tiene un style
+   *
+   * SOLO VALIDA SI ES ADMIN
+   */
+
+  const user = localStorage.getItem('user');
+  const userJSON = JSON.parse(user);
+  const admin = userJSON.admin;
+
+  const display = admin ? '' : 'none';
+  return {
+    'display': `${display}`,
+  };  
+}
+
 export const getDisplayStyleByPermits = () => {
   /* Devuelve el objeto Style
    * Esta pensado para cuando el elemento a ocultar NO tiene un style

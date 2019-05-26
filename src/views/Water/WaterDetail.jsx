@@ -66,6 +66,7 @@ const WaterDetail = (props) => {
     return dynamicFields;
   };
 
+  console.log('wateruser ', water.user);
   return (
     <div>
       <GridContainer>
