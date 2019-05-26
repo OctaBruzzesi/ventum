@@ -34,7 +34,6 @@ class Dashboard extends PureComponent {
   }
 
   render() {
-    console.log('entro a render');
     const { favourites, water, classes, deleteFavourites } = this.props;
     const sections = { water };
     return (
