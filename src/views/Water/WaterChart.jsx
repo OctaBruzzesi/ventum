@@ -16,7 +16,7 @@ import Button from 'components/CustomButtons/Button';
 
 import dashboardStyle from 'assets/jss/material-dashboard-react/views/dashboardStyle';
 
-import { getDynamicSections, sections, getSectionName } from '../../utils/sections';
+import { getDynamicSections, sections, getSectionName, translateSections } from '../../utils/sections';
 import {
   monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes, averageTypes,
 } from '../../utils/charts';
@@ -322,7 +322,7 @@ const WaterChart = ({
   const getChartTextDescription1 = () => {
     const tipo = typeChart === chartTypes.line ? 'Línea 1 - ' : 'Barra 1 - ';
 
-    return `${tipo} Grupo: '${getSectionName(selectedGroup)}' Valor:  '${getSectionName(selectedValue)}'`;
+    return `${tipo} Sección: '${translateSections(selectedSection)}' -- Grupo: '${getSectionName(selectedGroup)}' -- Valor:  '${getSectionName(selectedValue)}'`;
   };
 
   const getChartTextDescription2 = () => {
@@ -341,13 +341,14 @@ const WaterChart = ({
       valor = selectedValue3;
     }
 
-    return `${tipo} Grupo: '${getSectionName(group)}' y Valor:  '${getSectionName(valor)}'`;
+    return `${tipo} Sección: '${translateSections(section)}' -- Grupo: '${getSectionName(group)}' -- Valor:  '${getSectionName(valor)}'`;
   };
 
   const getChartTextDescription3 = () => {
     const tipo = typeChart === chartTypes.line ? 'Línea 3 - ' : 'Barra 3 - ';
+    
 
-    return `${tipo} '${getSectionName(selectedGroup3)}' y Valor:  '${getSectionName(selectedValue3)}'`;
+    return `${tipo} Sección: '${translateSections(selectedSection3)}' -- '${getSectionName(selectedGroup3)}' -- Valor:  '${getSectionName(selectedValue3)}'`;
   };
 
   const getDescriptionCharts = () => (

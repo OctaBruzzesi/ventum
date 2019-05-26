@@ -13,7 +13,7 @@ import CardBody from 'components/Card/CardBody';
 import Select from 'components/Select/Select';
 import Button from 'components/CustomButtons/Button';
 import dashboardStyle from 'assets/jss/material-dashboard-react/views/dashboardStyle';
-import { getSectionName } from '../../utils/sections';
+import { getSectionName, translateSections } from '../../utils/sections';
 import {
   monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes, averageTypes,
 } from '../../utils/charts';
@@ -219,7 +219,6 @@ const Chart = ({
 
   const handleDeleteFavourites = () => {
     const id = data.id;
-    console.log(id);
     removeFavourites(id);
   }
 
@@ -237,7 +236,7 @@ const Chart = ({
         >
           <GridItem xs={6} md={6} lg={6}>
             <p style={styleChart}>
-              Sección Primaria: {getSectionName(data.values[0].section)}
+              Sección Primaria: {getSectionName(translateSections(data.values[0].section))}
             </p>
           </GridItem>
           <GridItem title="Eliminar de favoritos" xs={1} md={1} lg={1}>
@@ -263,8 +262,10 @@ const Chart = ({
           cont++;
           return (
             <p style={style}>
-              Sección: {getSectionName(item.selectedSection)} 
-              {' --- '}  
+              Sección: {getSectionName(translateSections(item.section))}
+              {' -- '}
+              Grupo: {getSectionName(item.selectedSection)} 
+              {' -- '}  
               Valor: {getSectionName(item.value)}
             </p>
           );
@@ -310,7 +311,7 @@ const Chart = ({
               <GridItem md={12}>
                 {getChartComponent()}
               </GridItem>
-              <GridItem md={6}>
+              <GridItem md={12}>
                 {getChartDescription()}
               </GridItem>
               <GridItem md={4} />
