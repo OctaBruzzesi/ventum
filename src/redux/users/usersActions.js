@@ -15,6 +15,36 @@ const setCurrentUser = user => ({
   payload: user,
 });
 
+export const getDisplayStyleByPermits = () => {
+  /* Devuelve el objeto Style
+   * Esta pensado para cuando el elemento a ocultar NO tiene un style
+   */
+
+  const user = localStorage.getItem('user');
+  const userJSON = JSON.parse(user);
+  const worker = userJSON.worker;
+  const admin = userJSON.admin;
+
+  const display = worker || admin ? '' : 'none';
+  return {
+    'display': `${display}`,
+  };  
+}
+
+export const getDisplayCssPropByPermits = () => {
+  /* Devuelve sólo el atributo CSS
+   * Esta pensado para cuando el elemento a ocultar ya tiene un style
+   */
+
+  const user = localStorage.getItem('user');
+  const userJSON = JSON.parse(user);
+  const worker = userJSON.worker;
+  const admin = userJSON.admin;
+
+  const display = worker || admin ? '' : 'none';
+  return display;  
+}
+
 const userError = () => ({
   type: USER_ERROR,
 });
