@@ -15,6 +15,7 @@ import Water from 'views/Water/Water';
 import WaterNew from 'views/Water/WaterNew';
 import WaterUpdate from 'views/Water/WaterUpdate';
 import WaterDetail from 'views/Water/WaterDetail';
+import Guide from 'views/Guide/Guide';
 import Environment from 'views/Environment/Environment';
 import EnvironmentNew from 'views/Environment/EnvironmentNew';
 
@@ -106,6 +107,14 @@ const dashboardRoutes = [
     visible: true,
     icon: Unarchive,
     component: TableList,
+  },
+  {
+    path: '/guide',
+    sidebarName: 'Guia de Usuario',
+    navbarName: 'Guia de Usuario',
+    visible: true,
+    icon: Unarchive,
+    component: Guide,
   },
   {
     redirect: true, path: '/', to: '/dashboard', navbarName: 'Redirect',
