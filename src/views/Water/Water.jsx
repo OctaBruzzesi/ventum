@@ -20,6 +20,10 @@ import { addFavourites } from 'redux/favourites/favouritesActions';
 import { getUser } from 'redux/users/usersReducer';
 import { getWater } from 'redux/water/waterReducer';
 import { fetchDynamicForm, fetchWater } from 'redux/water/waterActions';
+import { getEnvironment } from 'redux/environment/environmentReducer';
+import { fetchDynamicForm as fetchEnvironmentForm, fetchEnvironment } from 'redux/environment/environmentActions';
+import { getBiodiversity } from 'redux/biodiversity/biodiversityReducer';
+import { fetchDynamicForm as fetchBiodiversityForm, fetchBiodiversity } from 'redux/biodiversity/biodiversityActions';
 
 import WaterChart from './WaterChart';
 
@@ -69,6 +73,10 @@ class Water extends Component {
   componentDidMount() {
     this.props.fetchDynamicForm();
     this.props.fetchWater();
+    this.props.fetchEnvironment();
+    this.props.fetchEnvironmentForm();
+    this.props.fetchBiodiversity();
+    this.props.fetchBiodiversityForm();
   }
 
   onChangeText(event, value) {
@@ -122,12 +130,12 @@ class Water extends Component {
   }
 
   render() {
-    const { classes, user, history, water } = this.props;
+    const { classes, user, environment, biodiversity, history, water } = this.props;
 
     return (
       <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
-          <WaterChart water={water} user={user} addFavourites={this.addFavourites} />
+          <WaterChart water={water} environment={environment} biodiversity={biodiversity} user={user} addFavourites={this.addFavourites} />
         </GridItem>
 
         <GridItem xs={12} sm={3} md={3}>
@@ -198,12 +206,18 @@ class Water extends Component {
 const mapStateToProps = state => ({
   user: getUser(state),
   water: getWater(state),
+  environment: getEnvironment(state),
+  biodiversity: getBiodiversity(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchWater: () => dispatch(fetchWater()),
   addFavourites: (newFavourite, user) => dispatch(addFavourites(newFavourite, user)),
   fetchDynamicForm: () => dispatch(fetchDynamicForm()),
+  fetchEnvironment: () => dispatch(fetchEnvironment()),
+  fetchEnvironmentForm: () => dispatch(fetchEnvironmentForm()),
+  fetchBiodiversity: () => dispatch(fetchBiodiversity()),
+  fetchBiodiversityForm: () => dispatch(fetchBiodiversityForm()),
 });
 
 export default compose(

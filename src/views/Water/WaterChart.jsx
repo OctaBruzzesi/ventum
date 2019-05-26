@@ -15,20 +15,25 @@ import Button from 'components/CustomButtons/Button';
 
 import dashboardStyle from 'assets/jss/material-dashboard-react/views/dashboardStyle';
 
-import { getDynamicSections } from '../../utils/sections';
+import { getDynamicSections, sections, getSectionName } from '../../utils/sections';
 import {
   monthsLabels, trimestersLabels, yearsLabels, animation, chartText, chartTypes, averageTypes,
 } from '../../utils/charts';
 
-const WaterChart = ({ water, user, addFavourites, classes }) => {
+const WaterChart = ({
+  water, environment, biodiversity, user, addFavourites, classes,
+}) => {
   const [selectedValue, selectValue] = useState('nitrato');
-  const [selectedSection, selectSection] = useState('artificalMinerals');
+  const [selectedGroup, selectGroup] = useState('artificalMinerals');
+  const [selectedSection, selectSection] = useState('water');
 
   const [selectedValue2, selectValue2] = useState('hidrogen');
-  const [selectedSection2, selectSection2] = useState('artificalMinerals');
+  const [selectedGroup2, selectGroup2] = useState('artificalMinerals');
+  const [selectedSection2, selectSection2] = useState('water');
 
   const [selectedValue3, selectValue3] = useState('sulfurum');
-  const [selectedSection3, selectSection3] = useState('artificalMinerals');
+  const [selectedGroup3, selectGroup3] = useState('artificalMinerals');
+  const [selectedSection3, selectSection3] = useState('water');
 
   const [newChart2, updNewChart2] = useState(false);
   const [newChart3, updNewChart3] = useState(false);
@@ -238,13 +243,13 @@ const WaterChart = ({ water, user, addFavourites, classes }) => {
     fontWeight: 'bold',
   };
 
-  const getData = (pSelectedSection, pSelectedValue) => {
+  const getData = (pSelectedGroup, pSelectedSection, pSelectedValue) => {
     const waterDataValues = [];
-    _.mapObject(water.data, (waterItem) => {
-      if (waterItem[pSelectedSection] && waterItem[pSelectedSection][pSelectedValue]) {
+    _.mapObject(getSection(pSelectedSection).data, (waterItem) => {
+      if (waterItem[pSelectedGroup] && waterItem[pSelectedGroup][pSelectedValue]) {
         waterDataValues.push({
           date: waterItem.date,
-          value: waterItem[pSelectedSection][pSelectedValue],
+          value: waterItem[pSelectedGroup][pSelectedValue],
         });
       }
     });
@@ -297,14 +302,14 @@ const WaterChart = ({ water, user, addFavourites, classes }) => {
     }
 
     const series = [];
-    series.push(getData(selectedSection, selectedValue));
+    series.push(getData(selectedGroup, selectedSection, selectedValue));
 
     if (newChart2) {
-      series.push(getData(selectedSection2, selectedValue2));
+      series.push(getData(selectedGroup2, selectedSection2, selectedValue2));
     }
 
     if (newChart3) {
-      series.push(getData(selectedSection3, selectedValue3));
+      series.push(getData(selectedGroup3, selectedSection3, selectedValue3));
     }
 
     formatedData.series = series;
@@ -316,29 +321,32 @@ const WaterChart = ({ water, user, addFavourites, classes }) => {
   const getChartTextDescription1 = () => {
     const tipo = typeChart === chartTypes.line ? 'Línea 1 - ' : 'Barra 1 - ';
 
-    return `${tipo} Sección:  '${selectedSection}' y Valor:  '${selectedValue}'`;
+    return `${tipo} Sección:  '${selectedSection}', Grupo: '${selectedGroup}' Valor:  '${selectedValue}'`;
   };
 
   const getChartTextDescription2 = () => {
     const tipo = typeChart === chartTypes.line ? 'Línea 2 - ' : 'Barra 2 - ';
     let section = '';
+    let group = '';
     let valor = '';
 
     if (newChart2) {
       section = selectedSection2;
+      group = selectedGroup2;
       valor = selectedValue2;
     } else if (!newChart2 && newChart3) {
       section = selectedSection3;
+      group = selectedGroup3;
       valor = selectedValue3;
     }
 
-    return `${tipo} Sección:  '${section}' y Valor:  '${valor}'`;
+    return `${tipo} Sección:  '${section}', Grupo: '${group}' y Valor:  '${valor}'`;
   };
 
   const getChartTextDescription3 = () => {
     const tipo = typeChart === chartTypes.line ? 'Línea 3 - ' : 'Barra 3 - ';
 
-    return `${tipo} Sección:  '${selectedSection3}' y Valor:  '${selectedValue3}'`;
+    return `${tipo} Sección:  '${selectedSection3}', '${selectedGroup}' y Valor:  '${selectedValue3}'`;
   };
 
   const getDescriptionCharts = () => (
@@ -352,18 +360,18 @@ const WaterChart = ({ water, user, addFavourites, classes }) => {
   const handleAddFavourites = () => {
     const values = [];
 
-    values.push({ section: 'water', selectedSection, value: selectedValue });
-    
+    values.push({ section: selectedSection, selectedSection: selectedGroup, value: selectedValue });
+
     if (newChart2) {
-      values.push({ section: 'water', selectedSection: selectedSection2, value: selectedValue2 });
+      values.push({ section: selectedSection2, selectedSection: selectedGroup2, value: selectedValue2 });
     }
 
     if (newChart3) {
-      values.push({ section: 'water', selectedSection: selectedSection3, value: selectedValue3 });
+      values.push({ section: selectedSection3, selectedSection: selectedGroup3, value: selectedValue3 });
     }
 
     addFavourites({
-      typeChart: typeChart,
+      typeChart,
       period: selectedPeriod,
       user: user.email,
       values,
@@ -392,6 +400,19 @@ const WaterChart = ({ water, user, addFavourites, classes }) => {
         />
       </div>
     );
+  };
+
+  const getSection = (e) => {
+    switch (e) {
+      case 'water':
+        return water;
+      case 'environment':
+        return environment;
+      case 'biodiveristy':
+        return biodiversity;
+      default:
+        return water;
+    }
   };
 
   return (
@@ -460,21 +481,29 @@ const WaterChart = ({ water, user, addFavourites, classes }) => {
             <GridContainer>
               <GridItem md={3}>
                 <Select
-                  items={Object.keys(water.form)}
+                  items={sections.map(section => section.key)}
                   label="Sección"
+                  disabled
                   onChange={e => selectSection(e.target.value)}
                   value={selectedSection}
                 />
               </GridItem>
               <GridItem md={3}>
                 <Select
-                  items={water.form[selectedSection].fields.map(item => item.key)}
+                  items={Object.keys(getSection(selectedSection).form)}
+                  label="Grupo"
+                  onChange={e => selectGroup(e.target.value)}
+                  value={selectedGroup}
+                />
+              </GridItem>
+              <GridItem md={3}>
+                <Select
+                  items={getSection(selectedSection).form[selectedGroup].fields.map(item => item.key)}
                   label="Valor"
                   onChange={e => selectValue(e.target.value)}
                   value={selectedValue}
                 />
               </GridItem>
-              <GridItem md={3} />
               <GridItem md={3}>
                 <Button
                   color={chartText.greenColor}
@@ -490,15 +519,31 @@ const WaterChart = ({ water, user, addFavourites, classes }) => {
               <GridContainer>
                 <GridItem md={3}>
                   <Select
-                    items={Object.keys(water.form)}
+                    items={sections.map(section => section.key)}
                     label="Sección"
-                    onChange={e => selectSection2(e.target.value)}
+                    onChange={(e) => {
+                      selectSection2(e.target.value);
+                      const keys = Object.keys(getSection(e.target.value).form);
+                      selectGroup2(getSection(e.target.value).form[keys[0]]);
+                    }}
                     value={selectedSection2}
                   />
                 </GridItem>
                 <GridItem md={3}>
                   <Select
-                    items={water.form[selectedSection2].fields.map(item => item.key)}
+                    items={Object.keys(getSection(selectedSection2).form)}
+                    label="Grupo"
+                    onChange={e => selectGroup2(e.target.value)}
+                    value={selectedGroup2}
+                  />
+                </GridItem>
+                <GridItem md={3}>
+                  <Select
+                    items={
+                      getSection(selectedSection2).form[selectedGroup2]
+                        ? getSection(selectedSection2).form[selectedGroup2].fields.map(item => item.key)
+                        : []
+                    }
                     label="Valor"
                     onChange={e => selectValue2(e.target.value)}
                     value={selectedValue2}
@@ -519,15 +564,31 @@ const WaterChart = ({ water, user, addFavourites, classes }) => {
               <GridContainer>
                 <GridItem md={3}>
                   <Select
-                    items={Object.keys(water.form)}
+                    items={sections.map(section => section.key)}
                     label="Sección"
-                    onChange={e => selectSection3(e.target.value)}
+                    onChange={(e) => {
+                      selectSection3(e.target.value);
+                      const keys = Object.keys(getSection(e.target.value).form);
+                      selectGroup3(getSection(e.target.value).form[keys[0]]);
+                    }}
                     value={selectedSection3}
                   />
                 </GridItem>
                 <GridItem md={3}>
                   <Select
-                    items={water.form[selectedSection3].fields.map(item => item.key)}
+                    items={Object.keys(getSection(selectedSection3).form)}
+                    label="Sección"
+                    onChange={e => selectGroup3(e.target.value)}
+                    value={selectedGroup3}
+                  />
+                </GridItem>
+                <GridItem md={3}>
+                  <Select
+                    items={
+                      getSection(selectedSection3).form[selectedGroup3]
+                        ? getSection(selectedSection3).form[selectedGroup3].fields.map(item => item.key)
+                        : []
+                    }
                     label="Valor"
                     onChange={e => selectValue3(e.target.value)}
                     value={selectedValue3}

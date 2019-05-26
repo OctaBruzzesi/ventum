@@ -15,7 +15,7 @@ const styles = {
 };
 
 const Select = ({
-  label, items, onChange, value, classes, color,
+  label, items, onChange, value, disabled, classes, color,
 }) => (
   <div style={{ flexDirection: 'column', display: 'flex' }}>
     <InputLabel style={{ fontSize: 12 }}>{label}</InputLabel>
@@ -26,7 +26,7 @@ const Select = ({
       value={value}
       label={label}
       input={
-        <OutlinedInput labelWidth={0} />
+        <OutlinedInput labelWidth={0} disabled={disabled} />
       }
     >
       {items.map(item => <MenuItem value={item} key={item}>{item}</MenuItem>)}
@@ -42,10 +42,12 @@ Select.propTypes = {
   classes: PropTypes.object.isRequired,
   label: PropTypes.string,
   color: PropTypes.string,
+  disabled: PropTypes.bool,
   value: PropTypes.string.isRequired,
 };
 
 Select.defaultProps = {
   color: 'default',
   label: '',
+  disabled: false,
 };
