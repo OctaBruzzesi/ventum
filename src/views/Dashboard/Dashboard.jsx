@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 // @material-ui/core
 import withStyles from '@material-ui/core/styles/withStyles';
+import moment from 'moment';
 // core components
 import GridItem from 'components/Grid/GridItem';
 import GridContainer from 'components/Grid/GridContainer';
@@ -19,6 +20,12 @@ import { getEnvironment } from 'redux/environment/environmentReducer';
 import { fetchEnvironment } from 'redux/environment/environmentActions';
 import { getBiodiversity } from 'redux/biodiversity/biodiversityReducer';
 import { fetchBiodiversity } from 'redux/biodiversity/biodiversityActions';
+import { getSoil } from 'redux/soil/soilReducer';
+import { fetchSoil } from 'redux/soil/soilActions';
+import { getProduction } from 'redux/production/productionReducer';
+import { fetchProduction } from 'redux/production/productionActions';
+import { getClimate } from 'redux/climate/climateReducer';
+import { fetchClimate } from 'redux/climate/climateActions';
 import Chart from './Chart';
 import { getFavourites } from '../../redux/favourites/favouritesReducer';
 import { fetchFavourites, deleteFavourites } from '../../redux/favourites/favouritesActions';
@@ -29,6 +36,9 @@ class Dashboard extends PureComponent {
     this.props.fetchWater();
     this.props.fetchEnvironment();
     this.props.fetchBiodiversity();
+    this.props.fetchSoil();
+    this.props.fetchProduction();
+    this.props.fetchClimate();
   }
 
   componentDidUpdate() {
@@ -37,6 +47,68 @@ class Dashboard extends PureComponent {
     if(favourites.deleteSuccess) {
       this.props.fetchFavourites();
     }
+  }
+
+  getUserName = (item) => {
+    if (item.user) {
+      return `${item.user.name} ${item.user.lastName}`;
+    }
+    return '';
+  }
+
+  getDashboardData = () => {
+    const { water, environment, biodiversity, soil, production, climate } = this.props;
+
+    let data = [];
+    let formatedData = [];
+
+    if (
+      water.data.length &&
+      environment.data.length &&
+      biodiversity.data.length &&
+      soil.data.length &&
+      production.data.length &&
+      climate.data.length
+    ) {
+      data = [
+        {
+          ...water.data[0],
+          section: 'Agua'
+        },
+        {
+          ...environment.data[0],
+          section: 'Ambiente'
+        },
+        {
+          ...biodiversity.data[0],
+          section: 'Biodiversidad'
+        },
+        {
+          ...soil.data[0],
+          section: 'Tierra y Suelo'
+        },
+        {
+          ...production.data[0],
+          section: 'Produccion'
+        },
+        {
+          ...climate.data[0],
+          section: 'Clima'
+        }
+        
+      ];
+      formatedData = data.map(item => [
+        String(item.id),
+        item.section,
+        item.notes,
+        item.location.province,
+        item.location.city,
+        this.getUserName(item),
+        moment(item.date).format('DD-MM-YYYY HH:mm'),
+      ]);
+    }
+
+    return formatedData;
   }
 
   render() {
@@ -69,13 +141,8 @@ class Dashboard extends PureComponent {
               <CardBody>
                 <Table
                   tableHeaderColor="warning"
-                  tableHead={['ID', 'Nombre', 'Rol', 'Zona', 'Fecha']}
-                  tableData={[
-                    ['1', 'Juan Perez', 'Agua', 'Mendoza', '11/02/19 15:00 hs'],
-                    ['2', 'Minerva Hooper', 'Suelo', 'Misiones', '15/02/19 16:00 hs'],
-                    ['3', 'Sage Rodriguez', 'Bosques', 'Chaco', '18/02/19 15:00 hs'],
-                    ['4', 'Philip Chaney', 'Producción y consumo sustentable', 'Santa Fe', '19/02/19 11:00 hs'],
-                  ]}
+                  tableHead={['ID', 'Seccion', 'Notas', 'Provincia', 'Ciudad', 'Usuario', 'Fecha']}
+                  tableData={this.getDashboardData()}
                 />
               </CardBody>
             </Card>
@@ -98,12 +165,18 @@ const mapStateToProps = state => ({
   water: getWater(state),
   environment: getEnvironment(state),
   biodiversity: getBiodiversity(state),
+  soil: getSoil(state),
+  production: getProduction(state),
+  climate: getClimate(state),
 });
 const mapDispatchToProps = dispatch => ({
   fetchFavourites: () => dispatch(fetchFavourites()),
   fetchWater: () => dispatch(fetchWater()),
   fetchEnvironment: () => dispatch(fetchEnvironment()),
   fetchBiodiversity: () => dispatch(fetchBiodiversity()),
+  fetchSoil: () => dispatch(fetchSoil()),
+  fetchProduction: () => dispatch(fetchProduction()),
+  fetchClimate: () => dispatch(fetchClimate()),
   deleteFavourites: (id) => dispatch(deleteFavourites(id)),
 });
 export default compose(
