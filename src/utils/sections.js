@@ -4,7 +4,6 @@ const filterFields = ['id', 'location', 'date', 'notes'];
 
 const getDynamicFields = (data) => {
   const newData = data.filter(item => _.isObject(item) && !_.contains(filterFields, item));
-  console.log(newData);
 };
 
 const getDynamicSections = (data) => {
@@ -19,9 +18,18 @@ const getDynamicSections = (data) => {
   return sections;
 };
 
+const convertSection = s => s.replace(
+  /(?:^\w|[A-Z]|\b\w)/g, (word, index) => (
+    index === 0 ? word.toLowerCase() : word.toUpperCase()
+  ),
+).replace(/\s+/g, '');
+
 const getSectionName = (name) => {
-  const e = name.replace(/([A-Z])/g, ' $1');
-  return e.charAt(0).toUpperCase() + e.slice(1);
+  if (name) {
+    const e = name.replace(/([A-Z])/g, ' $1');
+    return e.charAt(0).toUpperCase() + e.slice(1);
+  }
+  return '';
 };
 
 const sections = [
@@ -52,5 +60,5 @@ const sections = [
 ];
 
 export {
-  getDynamicFields, getSectionName, sections, getDynamicSections,
+  getDynamicFields, getSectionName, sections, convertSection, getDynamicSections,
 };

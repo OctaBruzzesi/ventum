@@ -6,16 +6,18 @@ import TextField from '@material-ui/core/TextField';
 const InputText = ({
   input, type, name, label, disabled, meta: { touched, error },
 }) => (
-  <TextField
-    {...input}
-    name={name}
-    disabled={disabled}
-    error={Boolean(touched && error)}
-    fullWidth
-    type={type}
-    label={label}
-    className={(touched && error ? 'error' : '')}
-  />
+  <div style={{ display: 'flex', flexDirection: 'row' }}>
+    <TextField
+      {...input}
+      name={name}
+      disabled={disabled}
+      error={Boolean(touched && error)}
+      fullWidth
+      label={label}
+      className={(touched && error ? 'error' : '')}
+    />
+    <p style={{ marginTop: '21px' }}>{type}</p>
+  </div>
 );
 
 export { InputText };
@@ -29,7 +31,7 @@ InputText.propTypes = {
 };
 
 InputText.defaultProps = {
-  type: 'primary',
+  type: '',
   name: '',
   label: '',
   disabled: false,

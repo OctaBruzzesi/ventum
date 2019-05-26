@@ -1,5 +1,6 @@
 import { water, database } from '../../firebase/firebase';
 import { getArrayFromCollection, getObjectFromCollection } from '../../helpers/firebaseHelper';
+import { convertSection } from '../../utils/sections';
 import { WATER_FETCH, ADD_WATER_FORM, EDIT_WATER_SUCCESS } from '../types';
 
 const addWaterForm = form => ({
@@ -40,8 +41,8 @@ export const editWater = (id, newWater, user) => async (dispatch) => {
         role,
         email,
       },
-    }).
-    then(() => {
+    })
+    .then(() => {
       dispatch(editSuccess());
     })
     .catch((error) => {
@@ -59,19 +60,18 @@ export const fetchDynamicForm = () => async (dispatch) => {
 };
 
 export const addSection = (label, key) => async (dispatch) => {
-  database.collection('waterForm').doc(key).set({
+  database.collection('waterForm').doc(convertSection(key)).set({
     fields: [],
     label,
   }).then(dispatch(fetchDynamicForm()));
 };
 
-export const addField = (section, label, key) => async (dispatch) => {
-  console.log(section, label, key);
+export const addField = (section, key, type) => async (dispatch) => {
   database.collection('waterForm').get()
     .then((data) => {
       const formatedData = getObjectFromCollection(data);
       const { fields } = formatedData[section];
-      const newFields = fields.concat({ label, key, type: 'number ' });
+      const newFields = fields.concat({ key: convertSection(key), type });
       database.collection('waterForm').doc(section).update({
         fields: newFields,
       }).then(dispatch(fetchDynamicForm()))
@@ -97,9 +97,3 @@ export const fetchWater = () => async (dispatch) => {
       dispatch(waterSuccess(collectionList));
     });
 };
-
-// {
-//   key: 'eee',
-//   label: 'eesss',
-//   type: 'number',
-// }
