@@ -120,7 +120,7 @@ const Chart = ({
       0,
       0,
     ];
-    if (data.calculationForm === averageTypes.sumatoria) {
+    if (data.averageType === averageTypes.sumatoria) {
       values.forEach((item) => {
         const value = formatedValues[moment(item.date).month()];
         if (moment(item.date).year() === Number(data.year)) {

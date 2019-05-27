@@ -376,6 +376,7 @@ const ClimateChart = ({
       period: selectedPeriod,
       user: user.email,
       values,
+      averageType: calculationForm,
       year: selectedPeriod === 'Meses' ? selectedYear : '',
     });
   };

@@ -375,6 +375,7 @@ const SoilChart = ({
       typeChart,
       period: selectedPeriod,
       user: user.email,
+      averageType: calculationForm,
       values,
       year: selectedPeriod === 'Meses' ? selectedYear : '',
     });

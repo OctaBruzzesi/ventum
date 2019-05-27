@@ -362,7 +362,7 @@ const WaterChart = ({
   const handleAddFavourites = () => {
     const values = [];
 
-    values.push({ section: selectedSection, selectedSection: selectedGroup, value: selectedValue });
+    values.push({ section: selectedSection, selectedSection: selectedGroup, averageType: calculationForm,value: selectedValue });
 
     if (newChart2) {
       values.push({ section: selectedSection2, selectedSection: selectedGroup2, value: selectedValue2 });
