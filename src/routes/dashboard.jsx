@@ -3,6 +3,8 @@ import React from 'react';
 import Dashboard from '@material-ui/icons/Dashboard';
 // import ContentPaste from '@material-ui/icons/ContentPaste';
 import BubbleChart from '@material-ui/icons/BubbleChart';
+import Cloud from '@material-ui/icons/Cloud';
+import Terrain from '@material-ui/icons/Terrain';
 import LocationOn from '@material-ui/icons/LocationOn';
 import Notifications from '@material-ui/icons/Notifications';
 import Unarchive from '@material-ui/icons/Unarchive';
@@ -147,7 +149,7 @@ const dashboardRoutes = [
     sidebarName: 'Tierra y Suelo',
     navbarName: 'Tierra y Suelo',
     visible: true,
-    icon: Pool,
+    icon: Terrain,
     component: Soil,
   },
   {
@@ -211,7 +213,7 @@ const dashboardRoutes = [
     sidebarName: 'Clima',
     navbarName: 'Clima',
     visible: true,
-    icon: Notifications,
+    icon: Cloud,
     component: Climate,
   },
   {

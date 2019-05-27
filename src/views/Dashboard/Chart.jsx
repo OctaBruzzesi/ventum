@@ -281,7 +281,6 @@ const Chart = ({
       return (
         <div>
           <ChartistGraph
-            style={{'background': 'red'}}
             className="ct-chart"
             data={getChartData()}
             type={chartTypes.bar}
