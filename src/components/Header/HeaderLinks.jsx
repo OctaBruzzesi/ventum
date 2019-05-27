@@ -26,7 +26,7 @@ import CustomInput from 'components/CustomInput/CustomInput';
 import Button from 'components/CustomButtons/Button';
 import headerLinksStyle from 'assets/jss/material-dashboard-react/components/headerLinksStyle';
 import { signOut } from '../../redux/auth/authActions';
-import { getDisplayStyleByPermits } from 'redux/users/usersActions';
+import { getDisplayStyleAdmin } from 'redux/users/usersActions';
 import PermisesForm from '../../views/Configuration/PermisesForm';
 
 class HeaderLinks extends React.Component {
@@ -261,7 +261,7 @@ class HeaderLinks extends React.Component {
                       <MenuItem
                         onClick={this.handleModalOpen}
                         className={classes.dropdownItem}
-                        style={getDisplayStyleByPermits()}
+                        style={getDisplayStyleAdmin()}
                       >
                         Configurar Permisos
                       </MenuItem>
