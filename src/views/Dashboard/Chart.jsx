@@ -61,7 +61,7 @@ const Chart = ({
       0,
       0,
     ];
-    if (true) {
+    if (data.calculationForm === averageTypes.sumatoria) {
       values.forEach((item) => {
         const yearValue = (moment(item.data).year() - 2016) * 4;
         const trimesterValue = Math.floor(moment(item.data).month() / 3);
@@ -120,7 +120,7 @@ const Chart = ({
       0,
       0,
     ];
-    if (true) {
+    if (data.calculationForm === averageTypes.sumatoria) {
       values.forEach((item) => {
         const value = formatedValues[moment(item.date).month()];
         if (moment(item.date).year() === Number(data.year)) {
@@ -145,7 +145,7 @@ const Chart = ({
       values.forEach((item) => {
         const index = moment(item.date).month();
         const value = formatedValues[index];
-        if (moment(item.date).year() === Number(data.selectedYear)) {
+        if (moment(item.date).year() === Number(data.year)) {
           formatedValues[index] = value + Number(item.value);
           counters[index] += 1;
         }
@@ -169,7 +169,7 @@ const Chart = ({
  
   const getData = (section, selectedSection, value) => {
     const dataValues = [];
-    _.mapObject(sections.water.data, (waterItem) => {
+    _.mapObject(sections[section].data, (waterItem) => {
       if (waterItem[selectedSection] && waterItem[selectedSection][value]) {
         dataValues.push({
           date: waterItem.date,
@@ -238,6 +238,7 @@ const Chart = ({
             <p style={styleChart}>
               Sección Primaria: {getSectionName(translateSections(data.values[0].section))}
             </p>
+            { data.year.length > 0 && `Año: ${data.year}` }
           </GridItem>
           <GridItem title="Eliminar de favoritos" xs={1} md={1} lg={1}>
             <p>
@@ -253,7 +254,7 @@ const Chart = ({
 
     return (
       <div>        
-        {data.values.map(item => {
+        {data.values.map((item) => {
           const style = {
             'color': `${colorsCharts[cont]}`,
             'font-weight': 'bold',

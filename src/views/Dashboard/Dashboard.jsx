@@ -73,27 +73,27 @@ class Dashboard extends PureComponent {
       data = [
         {
           ...water.data[0],
-          section: 'Agua'
+          section: 'Agua',
         },
         {
           ...environment.data[0],
-          section: 'Ambiente'
+          section: 'Ambiente',
         },
         {
           ...biodiversity.data[0],
-          section: 'Biodiversidad'
+          section: 'Biodiversidad',
         },
         {
           ...soil.data[0],
-          section: 'Tierra y Suelo'
+          section: 'Tierra y Suelo',
         },
         {
           ...production.data[0],
-          section: 'Produccion'
+          section: 'Produccion',
         },
         {
           ...climate.data[0],
-          section: 'Clima'
+          section: 'Clima',
         }
         
       ];
@@ -112,8 +112,8 @@ class Dashboard extends PureComponent {
   }
 
   render() {
-    const { favourites, water, classes, deleteFavourites } = this.props;
-    const sections = { water };
+    const { favourites, water, environment, biodiversity, soil, production, climate, classes, deleteFavourites } = this.props;
+    const sections = { water, environment, biodiversity, soil, production, climate };
     return (
       <div>
         <GridContainer>
@@ -177,7 +177,7 @@ const mapDispatchToProps = dispatch => ({
   fetchSoil: () => dispatch(fetchSoil()),
   fetchProduction: () => dispatch(fetchProduction()),
   fetchClimate: () => dispatch(fetchClimate()),
-  deleteFavourites: (id) => dispatch(deleteFavourites(id)),
+  deleteFavourites: id => dispatch(deleteFavourites(id)),
 });
 export default compose(
   withStyles(dashboardStyle),
