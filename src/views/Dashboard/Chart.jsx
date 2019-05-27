@@ -61,7 +61,7 @@ const Chart = ({
       0,
       0,
     ];
-    if (data.calculationForm === averageTypes.sumatoria) {
+    if (data.averageType === averageTypes.sumatoria) {
       values.forEach((item) => {
         const yearValue = (moment(item.data).year() - 2016) * 4;
         const trimesterValue = Math.floor(moment(item.data).month() / 3);
